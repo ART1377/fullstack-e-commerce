@@ -22,13 +22,8 @@ const HeroContent = ({ product }: Props) => {
   };
 
   return (
-    <motion.div
-      variants={contentVariants} // Use the defined variants
-      initial="hidden" // Initial state
-      animate="visible" // Animate to visible state
-      transition={{
-        duration: 0.5, // Duration of the animation
-      }}
+    <div
+     
       className="w-full flex flex-col gap-5 mt-[20%] sm:mt-[15%] md:w-6/12 md:mt-0 md:gap-8"
     >
       {" "}
@@ -88,7 +83,7 @@ const HeroContent = ({ product }: Props) => {
         </div>
       </div>
       <HeroButtons />
-    </motion.div>
+    </div>
   );
 };
 
