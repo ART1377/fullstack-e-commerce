@@ -16,25 +16,25 @@ const HeroImages = ({ products, current, changeSlide }: Props) => {
       case 0:
         return {
           hidden: { x: -200, y: -200, opacity: 0, scale: 0.6 }, // Top-left
-          visible: { x: [-200, 20, 0], y: 0, opacity: 1, scale: [0.6, 1.2, 1] },
+          visible: { x: [-200, 20, 0], y: 0, opacity: 1, scale: 1 },
           exit: { x: 200, y: -200, opacity: 0 }, // Move out to the right
         };
       case 1:
         return {
           hidden: { x: -200, y: 0, opacity: 0, scale: 0.6 }, // Center-left
-          visible: { x: [-200, 20, 0], y: 0, opacity: 1, scale: [0.6, 1.2, 1] },
+          visible: { x: [-200, 20, 0], y: 0, opacity: 1, scale: 1 },
           exit: { x: 200, y: 0, opacity: 0 }, // Move out to the right
         };
       case 2:
         return {
           hidden: { x: -200, y: 200, opacity: 0, scale: 0.6 }, // Bottom-left
-          visible: { x: [-200, 20, 0], y: 0, opacity: 1, scale: [0.6, 1.2, 1] },
+          visible: { x: [-200, 20, 0], y: 0, opacity: 1, scale: 1 },
           exit: { x: 200, y: 200, opacity: 0 }, // Move out to the right
         };
       default:
         return {
           hidden: { x: -200, opacity: 0, scale: 0.6 },
-          visible: { x: [-200, 20, 0], opacity: 1, scale: [0.6, 1.2, 1] },
+          visible: { x: [-200, 20, 0], opacity: 1, scale: 1 },
           exit: { x: 200, opacity: 0 },
         };
     }
