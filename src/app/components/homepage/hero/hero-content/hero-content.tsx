@@ -17,13 +17,18 @@ const HeroContent = ({ product }: Props) => {
 
   // animation
   const contentVariants = {
-    hidden: { opacity: 0, x: -200 }, // Start off-screen left and invisible
-    visible: { opacity: 1, x: 0 }, // End at normal position and visible
+    hidden: { opacity: 0 }, // Start off-screen left and invisible
+    visible: { opacity: 1 }, // End at normal position and visible
   };
 
   return (
-    <div
-     
+    <motion.div
+      variants={contentVariants} // Use the defined variants
+      initial="hidden" // Initial state
+      animate="visible" // Animate to visible state
+      transition={{
+        duration: 0.5, // Duration of the animation
+      }}
       className="w-full flex flex-col gap-5 mt-[20%] sm:mt-[15%] md:w-6/12 md:mt-0 md:gap-8"
     >
       {" "}
@@ -83,7 +88,7 @@ const HeroContent = ({ product }: Props) => {
         </div>
       </div>
       <HeroButtons />
-    </div>
+    </motion.div>
   );
 };
 

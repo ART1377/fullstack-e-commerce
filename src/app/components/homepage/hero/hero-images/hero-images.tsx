@@ -41,7 +41,7 @@ const HeroImages = ({ products, current, changeSlide }: Props) => {
   };
 
   return (
-    <div className="flex justify-between w-full mx-auto sm:max-w-[500px] md:w-6/12 md:mr-0 md:max-w-none">
+    <div className="flex justify-between w-[95%] mx-auto sm:max-w-[500px] md:w-6/12 md:mr-0 md:max-w-none">
       <Link
         href={`products/${products[current].id}`}
         className="w-1/2 aspect-square relative bg-primary-light rounded-full h-fit my-auto"
