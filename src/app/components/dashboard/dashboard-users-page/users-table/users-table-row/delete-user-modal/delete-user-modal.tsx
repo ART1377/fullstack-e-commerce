@@ -33,7 +33,7 @@ const DeleteUserModal = ({
           <small className="text-dark text-bodyMain">
             آیا از حذف کاربر با نام
             <span className="text-bodyMain mx-2 text-state-error">
-              " {selectedUserName} "
+              {`" ${selectedUserName} "`}
             </span>
             اطمینان دارید؟
           </small>

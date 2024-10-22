@@ -40,7 +40,7 @@ const DeleteProductModal = ({
           <small className="text-dark text-bodyMain">
             آیا از حذف محصول با نام
             <span className="text-bodyMain mx-2 text-state-error">
-              " {selectedProductName} "
+              {`" ${selectedProductName} "`}
             </span>
             اطمینان دارید؟
           </small>
