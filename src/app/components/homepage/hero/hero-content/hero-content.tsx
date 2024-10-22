@@ -30,9 +30,6 @@ const HeroContent = ({ product }: Props) => {
       exit="exit" // Animate out state
       transition={{
         duration: 0.5, // Duration of the animation
-        type: "spring", // Set animation type to spring
-        stiffness: 100, // Control the stiffness (higher value = less bounciness)
-        damping: 10, // Control how much it bounces (higher value = less bounce)
       }}
       className="w-full flex flex-col gap-5 mt-[20%] sm:mt-[15%] md:w-6/12 md:mt-0 md:gap-8"
     >
