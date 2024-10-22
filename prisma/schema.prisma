@@ -1,0 +1,219 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id            String          @id @default(cuid())
+  firstName     String
+  lastName      String
+  email         String         @unique
+  emailVerified DateTime?
+  password      String
+  image         String?
+  orders        Order[]        // No onDelete needed here
+  favorites     Favorite[]     // A user can have multiple favorite products
+  cart          Cart?          // A user has a cart
+  comments      Comment[]
+  accounts      Account[]
+  sessions      Session[]
+  // Optional for WebAuthn support
+  Authenticator Authenticator[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+ 
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade) // onDelete is here
+}
+ 
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade) // onDelete is here
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+ 
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+ 
+  @@unique([identifier, token])
+}
+ 
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade) // onDelete is here
+ 
+  @@id([userId, credentialID])
+}
+ 
+model Product {
+  id          String     @id @default(uuid())
+  title       String
+  model       String
+  brand       String
+  description String
+  price       Int        // Storing price in cents (e.g., 3500000 = 35,000.00)
+  category    String
+  rating      Float?
+  images      ProductImage[] // Relation to product images
+  // Relationships
+  stock       Stock[]    // Product stock variations
+  features    Feature[]  // Product features
+  favorites   Favorite[] // Users who favorited this product
+  comments    Comment[]  // Comments related to this product
+  orders      Order[]    @relation("ProductOrders") // Products in orders
+  cartItems   CartItem[]  // Product related to cart items
+  discount    Int?
+  isInDiscountSection     Boolean    @default(false)  // For discount section
+  isInHeroSection    Boolean    @default(false)  // Flag for hero section
+}
+
+model Feature {
+  id          String   @id @default(uuid())
+  title       String   
+  description String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade) // onDelete is here
+  productId   String
+}
+
+model ProductImage {
+  id        String   @id @default(uuid())
+  url       String   // URL of the image
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade) // onDelete is here
+  productId String
+}
+
+model Stock {
+  id       String  @id @default(uuid())
+  size     String  // Size of the product
+  quantity Int     // Stock quantity
+  product  Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+
+  color    Color?  @relation(fields: [colorId], references: [id], onDelete: Cascade) // Make it optional for now
+  colorId  String? // Optional
+}
+
+
+model Color {
+  id      String  @id @default(uuid())
+  title   String  // Name of the color
+  hex     String  // Hexadecimal color code
+  persian String  // Persian color code
+  
+  // Add relation to Stock
+  stocks  Stock[] // A color can be used by multiple Stock entries
+}
+
+
+model Favorite {
+  id        String  @id @default(uuid())
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade) // onDelete is here
+  userId    String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade) // onDelete is here
+  productId String
+
+  @@unique([userId, productId]) // Ensures a user can't favorite the same product multiple times
+}
+
+model Order {
+  id             String     @id @default(uuid())
+  discountAmount Int?       // Optional discount amount for the order
+  price          Int        // Total price of the order in cents
+  status         String     @default("pending") // Can be 'PENDING', 'DELIVERED', or 'RETURNED'
+  
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade) // onDelete is here
+  userId     String
+
+  products   Product[] @relation("ProductOrders")
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Cart {
+  id        String       @id @default(uuid())
+  createdAt DateTime     @default(now())
+  
+  // Relation to user
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade) // onDelete is here
+  userId    String @unique
+  
+  items     CartItem[]   // Items in the cart
+}
+
+
+model CartItem {
+  id        String   @id @default(uuid())
+  quantity  Int      // Quantity of the product
+  createdAt DateTime @default(now())
+
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade) // onDelete is here
+  productId String
+
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade) // onDelete is here
+  cartId    String
+
+  @@unique([productId, cartId]) // Ensure a unique combination of product and cart
+}
+
+
+
+model Comment {
+  id         String   @id @default(uuid())
+  title      String   // Title of the comment
+  description String  // Detailed description of the comment
+  createdAt  DateTime @default(now())
+  
+  // Author of the comment
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade) // onDelete is here
+  userId   String
+
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade) // onDelete is here
+  productId  String
+
+  // Parent comment (for replies)
+  parent     Comment? @relation("Comments", fields: [parentId], references: [id]) // No onDelete here
+  parentId   String?  // Nullable, because root comments don't have a parent
+
+  children   Comment[] @relation("Comments") // No onDelete here
+}
