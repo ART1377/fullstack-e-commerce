@@ -19,7 +19,6 @@ const HeroContent = ({ product }: Props) => {
   const contentVariants = {
     hidden: { opacity: 0, x: -200 }, // Start off-screen left and invisible
     visible: { opacity: 1, x: 0 }, // End at normal position and visible
-    exit: { opacity: 0, x: 200 }, // Exit off-screen right and invisible
   };
 
   return (
@@ -27,7 +26,6 @@ const HeroContent = ({ product }: Props) => {
       variants={contentVariants} // Use the defined variants
       initial="hidden" // Initial state
       animate="visible" // Animate to visible state
-      exit="exit" // Animate out state
       transition={{
         duration: 0.5, // Duration of the animation
       }}
