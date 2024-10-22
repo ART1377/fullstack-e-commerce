@@ -73,6 +73,8 @@ export default function Home() {
 
   // await db.color.deleteMany({});
 
+  
+
   // Check if colors are already in the database
   // const existingColors = await db.color.findMany({
   //   where: {

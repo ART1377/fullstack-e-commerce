@@ -31,7 +31,7 @@ const ProductsList = ({ products, totalItems }: Props) => {
             </div>
           </>
         ) : (
-          <p className="text-bodyMain text-state-error py-2 px-3 rounded-lg bg-state-error-200 m-4 text-center mb-3">
+          <p className="text-bodyMain text-state-error py-2 px-3 rounded-lg bg-state-error-200 text-center">
             محصولی یافت نشد
           </p>
         )}
