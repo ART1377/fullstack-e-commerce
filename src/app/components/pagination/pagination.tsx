@@ -34,7 +34,7 @@ const Pagination = ({ totalItems, itemsPerPage }: PaginationProps) => {
       // If page is already present, set the state
       setCurrentPage(parseInt(page));
     }
-  }, [searchParams]);
+  }, [pathName, router, searchParams]);
 
   const handlePageChange = (page: number) => {
     const queryParams = new URLSearchParams(searchParams.toString());

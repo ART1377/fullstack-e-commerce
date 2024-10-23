@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"; // Added useState
+import React, { useCallback, useEffect, useState } from "react"; // Added useState
 import Image from "next/image";
 import Link from "next/link";
 import HeartEmptyIcon from "@/app/icons/heart-empty-icon";
@@ -47,8 +47,8 @@ const ProductCard = ({ product }: Props) => {
   const cartItem = cartItems.find((item) => item.productId === id);
 
   // Function to find cart item based on product ID
-  const getCartItem = () =>
-    cartItems.find((item) => item.productId === product.id);
+  const getCartItem = useCallback(() =>
+    cartItems.find((item) => item.productId === id),[cartItems, id]);
 
   // Set initial quantity based on the cart item or default to 1
   const [quantity, setQuantity] = useState(getCartItem()?.quantity || 1);
@@ -57,13 +57,13 @@ const ProductCard = ({ product }: Props) => {
     if (session && session.user) {
       dispatch(fetchCart(userId)); // Fetch cart when user session is available
     }
-  }, [session, dispatch]);
+  }, [session, dispatch, userId]);
 
   // Effect to update quantity when cart items change
   useEffect(() => {
     const cartItem = getCartItem(); // Get updated cart item
     setQuantity(cartItem ? cartItem.quantity : 1); // Update quantity based on current cart item
-  }, [cartItems]); // Run this effect when cartItems change
+  }, [cartItems, getCartItem]); // Run this effect when cartItems change
 
 
   const handleAddToCart = () => {
