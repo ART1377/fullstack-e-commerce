@@ -27,7 +27,7 @@ const ProductPageContent = ({ product }: Props) => {
 
   useEffect(() => {
     setSelectedSize(sizes[0]);
-  }, [selectedColor]);
+  }, [selectedColor, sizes]);
   
   const handleColorSelection = (colorName: string) => {
     setSelectedColor(colorName);

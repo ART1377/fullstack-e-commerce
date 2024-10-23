@@ -61,7 +61,7 @@ const HeroImages = ({ products, current, changeSlide }: Props) => {
             fill
             style={{
               objectFit: "cover",
-              scale: "1.3",
+              scale: "1.2",
             }}
           />
         </motion.div>
@@ -91,7 +91,7 @@ const HeroImages = ({ products, current, changeSlide }: Props) => {
               fill
               style={{
                 objectFit: "cover",
-                scale: "1.3",
+                scale: "1.2",
               }}
             />
           </div>

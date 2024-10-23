@@ -34,7 +34,7 @@ const ProductPageContentImages = ({ images, title }: Props) => {
     return () => {
       clearInterval(setSlider);
     };
-  }, [current]);
+  }, [current, images.length]);
 
   // change slide onClick to small images
   const changeSlide = (value: number) => {
