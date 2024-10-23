@@ -44,12 +44,20 @@ export const getUniqueColors = (stockItems: Stock[]): Color[] => {
   return Array.from(colorMap.values());
 };
 
+export const getUniqueSizes = (stockItems: Stock[]): string[] => {
+  const sizes = stockItems.map((stockItem) => stockItem.size);
+
+  const uniqueArray = sizes.filter((value, index, self) => {
+    return self.indexOf(value) === index;
+  });
+  return uniqueArray;
+};
+
 // Function to get all sizes for a specific color
 export const getSizesForColor = (
   stockItems: Stock[],
   colorPersian: string
 ): string[] => {
-
   // Filter the stock items for the specified color
   const sizes = stockItems
     .filter((stockItem) => stockItem.color?.persian === colorPersian)
@@ -58,4 +66,3 @@ export const getSizesForColor = (
   // Return unique sizes by converting to Set and back to array
   return Array.from(new Set(sizes));
 };
-

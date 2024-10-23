@@ -5,6 +5,7 @@ import { formatPrice, getUniqueColors } from "@/app/lib/functions";
 import HeroButtons from "./../hero-buttons/hero-buttons";
 import { motion } from "framer-motion"; // Import motion
 import { colors } from "@/app/data/data";
+import Price from "@/app/components/price/price";
 
 type Props = {
   product: Product;
@@ -64,10 +65,16 @@ const HeroContent = ({ product }: Props) => {
           <div className="w-5/12 text-dark text-bodyMain md:text-lg lg:text-[20px]">
             قیمت
           </div>
-          <div className="w-7/12 text-primary-main text-bodyMain md:text-xl">
+
+          {/* <div className="w-7/12 text-primary-main text-bodyMain md:text-xl">
             {formatPrice(product.price)}
             <span className="mr-1">تومان</span>
-          </div>
+          </div> */}
+          <Price
+            discountPercentage={product.discount}
+            price={product.price}
+            size="large"
+          />
         </div>
         <div className="w-full flex">
           <div className="w-5/12 text-dark text-bodyMain md:text-lg lg:text-[20px]">

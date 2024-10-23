@@ -95,7 +95,7 @@ const ProductPageContentImages = ({ images, title }: Props) => {
           return (
             <div
               key={image.id}
-              onClick={() => changeSlide(index)}
+              onMouseEnter={() => changeSlide(index)}
               className={`cursor-pointer w-1/3 aspect-square relative rounded-xl overflow-hidden custom-transition hover:opacity-60 xs:w-full md:w-1/3 md:aspect-auto md:min-h-[130px] lg:w-full lg:h-full lg:max-h-[calc(33%-5px)] ${
                 index === current && "border-4 border-customGray-300"
               }`}

@@ -6,7 +6,7 @@ import {
   getFilteredProducts,
   getProductById,
 } from "@/app/actions/product-action";
-
+import { Product } from "../../../../../../next-type-models";
 
 type Props = {
   params: {
@@ -44,12 +44,12 @@ const ProductPage = async ({ params: { id } }: Props) => {
 
 export default ProductPage;
 
-// Generate static paths (using the list of product IDs)
-export async function generateStaticParams() {
-  // Fetch all product IDs to generate paths for each
-  const { products } = await getFilteredProducts({}); // Assumed function that fetches all product IDs
+// // Generate static paths (using the list of product IDs)
+// export async function generateStaticParams() {
+//   // Fetch all product IDs to generate paths for each
+//   const { products } = await getFilteredProducts({}); // Assumed function that fetches all product IDs
 
-  return products.map((product: { id: string }) => ({
-    params: { id: product.id },
-  }));
-}
+//   return products.map((product: Product) => ({
+//     id: product.id,
+//   }));
+// }
