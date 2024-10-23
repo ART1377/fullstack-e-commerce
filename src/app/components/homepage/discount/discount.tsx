@@ -1,13 +1,13 @@
 import React from "react";
 import Image from "next/image";
 import DiscountSlider from "./discount-slider/discount-slider";
-import { getFilteredProducts } from "@/app/actions/product-action";
+import { getAllProducts } from "@/app/actions/product-action";
 
 type Props = {};
 
 const Discount = async (props: Props) => {
   // need change
-  const { products } = await getFilteredProducts({});
+  const { products } = await getAllProducts();
 
   return (
     <section id="discount" className="mt-[450px] blgxl:mt-[500px]">
@@ -26,7 +26,6 @@ const Discount = async (props: Props) => {
             />
           </div>
         </div>
-
         <DiscountSlider products={products} />
       </div>
     </section>

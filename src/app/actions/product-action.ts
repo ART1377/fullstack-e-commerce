@@ -418,7 +418,6 @@ export async function getFilteredProducts({
   const skip = pageQuery && limit ? (pageQuery - 1) * limit : undefined;
   const searchQueryLowerCase = searchQuery ? searchQuery.toLowerCase() : "";
 
-
   try {
     // First, count all the products that match the filters
     const totalCount = await db.product.count({
@@ -537,6 +536,33 @@ export async function deleteProductById(
     // Handle any errors that occur during the query
     return {
       error: "خطایی رخ داده است",
+    };
+  }
+}
+
+export async function getAllProducts(): Promise<GetProductsState> {
+  try {
+    // Fetch the actual products (with pagination and sorting)
+    const products = await db.product.findMany({
+      include: {
+        images: true, // Include all fields from the ProductImage model
+        stock: {
+          include: {
+            color: true, // Include all fields from the ProductColor model
+          },
+        },
+      },
+    });
+
+    // Return the products and pagination info
+    return {
+      success: true,
+      products,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: "خطایی در دریافت محصولات رخ داده است.",
     };
   }
 }

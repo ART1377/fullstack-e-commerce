@@ -38,5 +38,6 @@ export const useCurrentSession = () => {
     // use the pathname to force a re-render when the user navigates to a new page
   }, [retrieveSession, session, pathName]);
 
+
   return { session, status };
 };

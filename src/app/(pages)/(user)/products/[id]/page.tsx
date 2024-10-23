@@ -2,10 +2,7 @@ import React from "react";
 import ProductPageContent from "@/app/components/product-page-content/product-page-content";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import {
-  getFilteredProducts,
-  getProductById,
-} from "@/app/actions/product-action";
+import * as actions from "@/app/actions/product-action";
 import { Product } from "../../../../../../next-type-models";
 
 type Props = {
@@ -17,7 +14,7 @@ type Props = {
 export async function generateMetadata({
   params: { id },
 }: Props): Promise<Metadata> {
-  const { product } = await getProductById(id);
+  const { product } = await actions.getProductById(id);
 
   if (!product) {
     return {
@@ -33,9 +30,10 @@ export async function generateMetadata({
 }
 
 const ProductPage = async ({ params: { id } }: Props) => {
-  const { products } = await getFilteredProducts({});
+  // need change - get related products
+  const { products } = await actions.getAllProducts();
 
-  const { product } = await getProductById(id);
+  const { product } = await actions.getProductById(id);
   if (!product) {
     notFound();
   }
@@ -44,12 +42,12 @@ const ProductPage = async ({ params: { id } }: Props) => {
 
 export default ProductPage;
 
-// // Generate static paths (using the list of product IDs)
-// export async function generateStaticParams() {
-//   // Fetch all product IDs to generate paths for each
-//   const { products } = await getFilteredProducts({}); // Assumed function that fetches all product IDs
+// Generate static paths (using the list of product IDs)
+export async function generateStaticParams() {
+  // Fetch all product IDs to generate paths for each
+  const { products } = await actions.getAllProducts();
 
-//   return products.map((product: Product) => ({
-//     id: product.id,
-//   }));
-// }
+  return products.map((product: Product) => ({
+    id: product.id,
+  }));
+}

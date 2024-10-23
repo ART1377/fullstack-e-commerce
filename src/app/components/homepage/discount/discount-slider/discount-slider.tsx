@@ -43,7 +43,7 @@ const DiscountSlider = ({products}: Props) => {
           })}
         </Swiper>
       </div>
-      <div className="flex gap-2 rounded-full bg-primary-200 p-2 absolute -top-20 right-2 lg:gap-5 lg:px-5 lg:py-4 lg:-top-24">
+      <div className="flex gap-2 rounded-full p-2 absolute -top-20 right-2 lg:gap-5 lg:px-5 lg:py-4 lg:-top-24">
         <button
           className={`slider-button discount-prev custom-shape bg-primary-main text-white flex-center size-7 cursor-pointer custom-transition hover:bg-primary-light sm:size-8 lg:size-10`}
         >

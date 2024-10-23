@@ -68,7 +68,7 @@ const HeaderProfile = (props: Props) => {
   // Custom signOut and refresh page
   const handleSignOut = async () => {
     await actions.handleSighOut();
-    window.location.reload()
+    // window.location.reload()
   };
 
   return (
