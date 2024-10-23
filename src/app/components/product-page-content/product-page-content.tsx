@@ -10,25 +10,25 @@ import { Product } from "../../../../next-type-models";
 
 type Props = {
   product: Product;
+  relatedProducts: Product[];
 };
 
-const ProductPageContent = ({ product }: Props) => {
-  const { stock, images, title,description,comments,features } = product;
+const ProductPageContent = ({ product, relatedProducts }: Props) => {
+  const { stock, images, title, description, comments, features } = product;
 
   const uniqueColors = getUniqueColors(stock!);
-  
+
   const [selectedColor, setSelectedColor] = useState<string>(
     uniqueColors?.[0].persian!
   );
   const [selectedSize, setSelectedSize] = useState<string>(stock?.[0].size!);
-  
-  
+
   const sizes = getSizesForColor(stock!, selectedColor);
 
   useEffect(() => {
     setSelectedSize(sizes[0]);
   }, [selectedColor, sizes]);
-  
+
   const handleColorSelection = (colorName: string) => {
     setSelectedColor(colorName);
   };
@@ -36,12 +36,11 @@ const ProductPageContent = ({ product }: Props) => {
     setSelectedSize(size);
   };
 
-
   return (
     <section className="w-full mt-4 sm:mt-10">
       <div className="flex flex-col gap-7 md:flex-row">
         {/* images */}
-        <ProductPageContentImages images={images!} title={title} />
+        <ProductPageContentImages images={images?.slice(0,3)!} title={title} />
         {/* content - information */}
         <ProductPageContentInformation
           product={product!}
@@ -56,7 +55,7 @@ const ProductPageContent = ({ product }: Props) => {
         commentItems={comments!}
         features={features!}
       />
-      <ProductPageContentRelatedProducts />
+      <ProductPageContentRelatedProducts relatedProducts={relatedProducts} />
     </section>
   );
 };

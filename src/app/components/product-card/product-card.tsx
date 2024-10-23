@@ -113,8 +113,8 @@ const ProductCard = ({ product }: Props) => {
     }
   };
 
-  console.log(cartItems);
 
+  
 
   return (
     <div className="w-full min-w-[200px] bg-white rounded-2xl shadow-md custom-transition hover:shadow-none p-3 flex flex-col gap-2 group">

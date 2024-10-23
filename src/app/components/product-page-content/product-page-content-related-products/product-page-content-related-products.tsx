@@ -5,11 +5,9 @@ import { Product } from "../../../../../next-type-models";
 import { getFilteredProducts } from "@/app/actions/product-action";
 
 type Props = {
+  relatedProducts: Product[];
 };
-const ProductPageContentRelatedProducts = async (props: Props) => {
-  // need change
-  const { products } = await getFilteredProducts({});
-  
+const ProductPageContentRelatedProducts = ({ relatedProducts }: Props) => {
   return (
     <section className="mt-28 md:mt-32 w-full">
       {/* title */}
@@ -17,7 +15,7 @@ const ProductPageContentRelatedProducts = async (props: Props) => {
         <h3>محصولات مرتبط</h3>
       </Title>
       {/* slider */}
-      <ProductPageContentRelatedProductsSlider products={products} />
+      <ProductPageContentRelatedProductsSlider products={relatedProducts} />
     </section>
   );
 };

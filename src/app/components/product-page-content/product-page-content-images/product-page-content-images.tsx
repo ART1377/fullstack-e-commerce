@@ -14,13 +14,13 @@ type Props = {
 const ProductPageContentImages = ({ images, title }: Props) => {
   const [current, setCurrent] = useState<number>(0);
 
-
   // to change slide each 5 second
   useEffect(() => {
-    const lastElementIndex = Math.min(images.length, 2);
+    const lastElementIndex = Math.min(images.length - 1, 2);
+    console.log(lastElementIndex);
 
     const setSlider = setInterval(() => {
-      if (lastElementIndex == 1) {
+      if (lastElementIndex == 0) {
         return;
       }
       setCurrent((prev) => {
@@ -43,7 +43,7 @@ const ProductPageContentImages = ({ images, title }: Props) => {
 
   // slider arrows click handler
   const handleArrowClick = (value: string) => {
-    const lastElementIndex = Math.min(images.length, 2);
+    const lastElementIndex = Math.min(images.length - 1, 2);
     if (value == "prev") {
       if (current === 0) {
         setCurrent(lastElementIndex);
@@ -60,7 +60,6 @@ const ProductPageContentImages = ({ images, title }: Props) => {
     }
   };
 
-  
   return (
     <div className="w-full flex flex-col gap-y-5 gap-x-2 xs:flex-row-reverse md:w-1/2 md:flex-col lg:flex-row-reverse">
       {/* big image */}
@@ -91,13 +90,13 @@ const ProductPageContentImages = ({ images, title }: Props) => {
         </div>
       </div>
       {/* small images */}
-      <div className="w-full flex gap-2 justify-between xs:flex-col xs:w-[25%] md:w-full md:flex-row lg:flex-col lg:w-[25%]">
+      <div className="w-full flex gap-2 xs:flex-col xs:w-[25%] md:w-full md:flex-row lg:flex-col lg:w-[25%]">
         {images.slice(0, 3).map((image: ProductImage, index: number) => {
           return (
             <div
               key={image.id}
               onClick={() => changeSlide(index)}
-              className={`cursor-pointer w-1/3 aspect-square relative rounded-xl overflow-hidden custom-transition hover:opacity-60 xs:w-full md:w-1/3 md:aspect-auto md:min-h-[130px] lg:w-full ${
+              className={`cursor-pointer w-1/3 aspect-square relative rounded-xl overflow-hidden custom-transition hover:opacity-60 xs:w-full md:w-1/3 md:aspect-auto md:min-h-[130px] lg:w-full lg:h-full lg:max-h-[calc(33%-5px)] ${
                 index === current && "border-4 border-customGray-300"
               }`}
             >

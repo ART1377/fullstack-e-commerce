@@ -37,7 +37,7 @@ const ProductPageContentInformation = ({
   const sizes = getSizesForColor(stock!, selectedColor);
 
   const quantityOfStock = stock?.find((stock) => {
-    return stock.colorId === selectedColor && stock.size === selectedSize;
+    return stock.color?.persian === selectedColor && stock.size === selectedSize;
   })?.quantity;
 
   const totalQuantity = stock?.reduce(
@@ -45,7 +45,6 @@ const ProductPageContentInformation = ({
     0
   );
 
-  console.log(sizes);
 
   return (
     <div className="w-full md:w-1/2 flex flex-col lg:justify-between">
