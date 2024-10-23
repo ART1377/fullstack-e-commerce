@@ -126,15 +126,27 @@ model ProductImage {
   productId String
 }
 
+// model Stock {
+//   id       String  @id @default(uuid())
+//   size     String  // Size of the product
+//   quantity Int     // Stock quantity
+//   product  Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+//   productId String
+
+//   color    Color?  @relation(fields: [colorId], references: [id], onDelete: Cascade) // Make it optional for now
+//   colorId  String? // Optional
+// }
 model Stock {
-  id       String  @id @default(uuid())
-  size     String  // Size of the product
-  quantity Int     // Stock quantity
-  product  Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id       String     @id @default(uuid())
+  size     String     // Size of the product
+  quantity Int        // Stock quantity
+  product  Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
 
-  color    Color?  @relation(fields: [colorId], references: [id], onDelete: Cascade) // Make it optional for now
-  colorId  String? // Optional
+  color    Color?     @relation(fields: [colorId], references: [id], onDelete: Cascade) // Make it optional for now
+  colorId  String?    // Optional
+
+  cartItems CartItem[] // New relation to CartItem - One stock item can be in multiple cart items
 }
 
 
@@ -186,18 +198,34 @@ model Cart {
 }
 
 
+// model CartItem {
+//   id        String   @id @default(uuid())
+//   quantity  Int      // Quantity of the product
+//   createdAt DateTime @default(now())
+
+//   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade) // onDelete is here
+//   productId String
+
+//   cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade) // onDelete is here
+//   cartId    String
+
+//   @@unique([productId, cartId]) // Ensure a unique combination of product and cart
+// }
 model CartItem {
   id        String   @id @default(uuid())
-  quantity  Int      // Quantity of the product
+  quantity  Int      // Quantity of the stock item (variation)
   createdAt DateTime @default(now())
 
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade) // onDelete is here
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
 
-  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade) // onDelete is here
+  stock     Stock    @relation(fields: [stockId], references: [id], onDelete: Cascade) // Reference stock item (variation)
+  stockId   String
+
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId    String
 
-  @@unique([productId, cartId]) // Ensure a unique combination of product and cart
+  @@unique([stockId, cartId]) // Ensure a unique combination of stock item and cart
 }
 
 

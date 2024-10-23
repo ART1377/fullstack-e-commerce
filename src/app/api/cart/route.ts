@@ -29,18 +29,15 @@ export async function GET(req: Request) {
 }
 
 // POST: Add a product to the cart
-// POST: Add a product to the cart
-// POST: Add a product to the cart
+// POST: Add a product to the cart (with a specific stock item)
 export async function POST(req: Request) {
-  const { userId, productId, quantity } = await req.json();
+  const { userId, stockId, productId, quantity } = await req.json();
 
   try {
     // Check if cart exists for user
     let cart = await db.cart.findUnique({
       where: { userId },
-      include: {
-        items: true, // Ensure to include the items
-      },
+      include: { items: true },
     });
 
     if (!cart) {
@@ -51,34 +48,34 @@ export async function POST(req: Request) {
           items: {
             create: {
               productId,
+              stockId, // Include stockId when adding to the cart
               quantity,
             },
           },
         },
-        include: {
-          items: true, // Include items in the response
-        },
+        include: { items: true },
       });
     } else {
-      // Check if product already in cart
+      // Check if the specific stock item is already in the cart
       const cartItem = await db.cartItem.findUnique({
         where: {
-          productId_cartId: { productId, cartId: cart.id },
+          stockId_cartId: { stockId, cartId: cart.id },
         },
       });
 
       if (cartItem) {
-        // Update quantity if product is already in cart
+        // Update quantity if the stock item is already in the cart
         await db.cartItem.update({
           where: { id: cartItem.id },
           data: { quantity: cartItem.quantity + quantity },
         });
       } else {
-        // Add new product to cart
+        // Add new stock item (variation) to cart
         await db.cartItem.create({
           data: {
             cartId: cart.id,
             productId,
+            stockId, // Include stockId for the variation
             quantity,
           },
         });
@@ -87,9 +84,7 @@ export async function POST(req: Request) {
       // Fetch the updated cart
       cart = await db.cart.findUnique({
         where: { userId },
-        include: {
-          items: true, // Ensure items are included
-        },
+        include: { items: true },
       });
     }
 
@@ -102,6 +97,7 @@ export async function POST(req: Request) {
     );
   }
 }
+
 
 
 // PATCH: Update product quantity in cart (increment/decrement)

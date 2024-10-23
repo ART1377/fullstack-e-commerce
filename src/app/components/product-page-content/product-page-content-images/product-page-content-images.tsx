@@ -17,7 +17,6 @@ const ProductPageContentImages = ({ images, title }: Props) => {
   // to change slide each 5 second
   useEffect(() => {
     const lastElementIndex = Math.min(images.length - 1, 2);
-    console.log(lastElementIndex);
 
     const setSlider = setInterval(() => {
       if (lastElementIndex == 0) {

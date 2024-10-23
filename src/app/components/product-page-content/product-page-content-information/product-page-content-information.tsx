@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Rating from "../../rating/rating";
 import ChatIcon from "@/app/icons/chat-icon";
@@ -13,6 +15,10 @@ import AddToCartOperator from "../../add-to-cart-operator/add-to-cart-operator";
 import Stock from "../../stock/stock";
 import { getSizesForColor, getUniqueColors } from "@/app/lib/functions";
 import { Color, Product } from "../../../../../next-type-models";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks/hook";
+import { addToCart } from "@/app/redux/slices/cartSlice";
+import { useCurrentSession } from "@/app/hooks/useCurrentSession";
+import { redirect } from "next/navigation";
 
 type Props = {
   product: Product;
@@ -32,12 +38,20 @@ const ProductPageContentInformation = ({
   const { stock, description, price, rating, title, discount, comments } =
     product;
 
+  const dispatch = useAppDispatch();
+  const cartItems = useAppSelector((state) => state.cart.items);
+
+  const { session } = useCurrentSession();
+  const userId = session?.user?.id;
+
   const uniqueColors = getUniqueColors(stock!);
 
   const sizes = getSizesForColor(stock!, selectedColor);
 
   const quantityOfStock = stock?.find((stock) => {
-    return stock.color?.persian === selectedColor && stock.size === selectedSize;
+    return (
+      stock.color?.persian === selectedColor && stock.size === selectedSize
+    );
   })?.quantity;
 
   const totalQuantity = stock?.reduce(
@@ -45,6 +59,36 @@ const ProductPageContentInformation = ({
     0
   );
 
+  const selectedStockId = stock?.find((stockItem) => {
+    return (
+      stockItem.color?.persian === selectedColor &&
+      stockItem.size === selectedSize
+    );
+  })?.id;
+
+  const handleAddToCart = () => {
+    console.log("000000");
+    console.log(userId);
+    if (!session || !session.user || !userId) {
+      redirect("/auth/login");
+    } else {
+      if (!selectedStockId) {
+        alert("Please select a product variation");
+        return;
+      }
+
+      dispatch(
+        addToCart({
+          userId,
+          productId: product.id,
+          stockId: selectedStockId,
+          quantity: 1,
+        })
+      );
+    }
+  };
+
+  console.log(cartItems);
 
   return (
     <div className="w-full md:w-1/2 flex flex-col lg:justify-between">
@@ -137,6 +181,7 @@ const ProductPageContentInformation = ({
             color="primary-main"
             icon={<ShopIcon />}
             styles="w-full"
+            onClick={handleAddToCart}
           >
             افزودن به سبد خرید
           </Button>

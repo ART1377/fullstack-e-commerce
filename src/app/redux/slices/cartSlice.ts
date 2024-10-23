@@ -32,16 +32,18 @@ export const fetchCart = createAsyncThunk(
 );
 
 
-// Add product to cart
+// Add product to cart with specific stock item (variation)
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async ({
     userId,
     productId,
+    stockId, // Add stockId
     quantity,
   }: {
     userId: string;
     productId: string;
+    stockId: string; // Add stockId
     quantity: number;
   }) => {
     const response = await fetch(`/api/cart`, {
@@ -49,14 +51,15 @@ export const addToCart = createAsyncThunk(
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userId, productId, quantity }),
+      body: JSON.stringify({ userId, productId, stockId, quantity }), // Include stockId
     });
     if (!response.ok) {
       throw new Error("Failed to add to cart");
     }
-    return await response.json(); // This should return the created cart item
+    return await response.json();
   }
 );
+
 
 
 // Update cart item quantity
@@ -124,8 +127,7 @@ const cartSlice = createSlice({
       })
       .addCase(addToCart.fulfilled, (state, action) => {
         state.status = "succeeded";
-        // Assuming action.payload now contains the cart object with items
-        state.items = action.payload.cart.items; // Update the state with the new items
+        state.items = action.payload.cart.items; // Update with new items including stock
       })
       .addCase(addToCart.rejected, (state, action) => {
         state.status = "failed";
