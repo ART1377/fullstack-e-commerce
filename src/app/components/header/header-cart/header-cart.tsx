@@ -9,7 +9,7 @@ import Spinner from "../../spinner/spinner";
 type Props = {};
 
 const HeaderCart = (props: Props) => {
-  const status = useAppSelector((state) => state.cart.status);
+  const cartStatus = useAppSelector((state) => state.cart.status);
   const cartItems = useAppSelector((state) => state.cart.items);
   const totalQuantity = cartItems?.reduce(
     (acc, item) => acc + item.quantity!,
@@ -24,7 +24,7 @@ const HeaderCart = (props: Props) => {
       <CartIcon styles="size-6" />
 
       <div className="rounded-full size-6 flex-center bg-state-error text-white text-captionMain absolute -top-2.5 -right-2.5">
-        {status === "loading" ? <Spinner size={16} color="#fff" /> : totalQuantity}
+        {cartStatus === "loading" ? <Spinner size={16} color="#fff" /> : totalQuantity}
       </div>
     </Link>
   );

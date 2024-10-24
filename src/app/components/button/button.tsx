@@ -52,7 +52,7 @@ const Button = ({
     <button
       type={type}
       className={`${styles} ${sizeStyles} ${baseColorStyles} ${
-        !disabled && hoverStyles
+        !disabled && !loading && hoverStyles
       } ${iconStyles} ${shadowStyles} ${disabledStyles} custom-transition text-center flex-center outline hover:shadow-none`}
       onClick={onClick}
       disabled={disabled}

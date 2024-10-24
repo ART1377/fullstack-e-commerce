@@ -25,6 +25,7 @@ import PlusIcon from "@/app/icons/plus-icon";
 import MinusIcon from "@/app/icons/minus-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import toast from "react-hot-toast";
+import Spinner from "../../spinner/spinner";
 
 type Props = {
   product: Product;
@@ -46,14 +47,15 @@ const ProductPageContentInformation = ({
 
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector((state) => state.cart.items);
+  const cartStatus = useAppSelector((state) => state.cart.status);
   const { session } = useCurrentSession();
   const userId = session?.user?.id;
 
   const uniqueColors = getUniqueColors(stock!);
   const sizes = getSizesForColor(stock!, selectedColor);
 
-  // Initially get stock quantity for selected color and size
   const [quantityOfStock, setQuantityOfStock] = useState<number | null>(null);
+  const [cartItem, setCartItem] = useState<Partial<CartItem> | null>(null);
 
   const totalQuantity = stock?.reduce(
     (acc, stockItem) => acc + stockItem.quantity,
@@ -69,20 +71,23 @@ const ProductPageContentInformation = ({
 
   const selectedStockId = selectedStock?.id;
 
-  // Function to find cart item based on product ID, color, and size
-  const getCartItemForSelectedVariant = useCallback(() => {
-    return cartItems.find(
-      (item) =>
-        item.productId === id &&
-        item.stock?.color?.persian === selectedColor &&
-        item.stock?.size === selectedSize
-    ) as CartItem;
-  }, [cartItems, id, selectedColor, selectedSize]);
+  const [quantity, setQuantity] = useState(cartItem?.quantity || 1);
 
-  // Set initial quantity based on the cart item or default to 1
-  const [quantity, setQuantity] = useState(
-    getCartItemForSelectedVariant()?.quantity || 1
-  );
+  useEffect(() => {
+    if (session && session.user && userId) {
+      const cartItemData = cartItems.find(
+        (item) => item.productId === id && item.stockId === selectedStockId
+      );
+
+
+      if (cartItemData) {
+        setCartItem(cartItemData);
+        setQuantity(cartItemData.quantity!);
+      } else {
+        setCartItem(null);
+      }
+    }
+  }, [cartItems, id, selectedColor, selectedSize, selectedStockId, session, userId]);
 
   useEffect(() => {
     if (session && session.user && userId) {
@@ -90,27 +95,23 @@ const ProductPageContentInformation = ({
     }
   }, [session, dispatch, userId]);
 
-  // Effect to update quantityOfStock when selectedColor or selectedSize changes
   useEffect(() => {
     const stockItem = stock?.find(
       (item) =>
         item.color?.persian === selectedColor && item.size === selectedSize
     );
-    const cartItem = getCartItemForSelectedVariant();
-
     if (stockItem) {
       setQuantityOfStock(stockItem.quantity);
-      // If there's a cart item for this specific color/size variant, set the quantity to that cart item's quantity.
       if (cartItem) {
-        setQuantity(cartItem.quantity);
+        setQuantity(cartItem.quantity!);
       } else {
-        setQuantity(1); // Reset quantity to 1 if no such variant is in the cart.
+        setQuantity(1);
       }
     } else {
-      setQuantityOfStock(null); // No stock available for this variant
-      setQuantity(1); // Reset quantity if there's no stock
+      setQuantityOfStock(null);
+      setQuantity(1);
     }
-  }, [selectedColor, selectedSize, stock, getCartItemForSelectedVariant]);
+  }, [cartItem, selectedColor, selectedSize, stock]);
 
   const handleAddToCart = () => {
     if (!session || !session.user || !userId) {
@@ -121,17 +122,20 @@ const ProductPageContentInformation = ({
         return;
       }
 
-      // Check if the quantity in the cart is less than the available stock quantity
-      if (getCartItemForSelectedVariant() && quantity >= quantityOfStock!) {
+      if (cartItem && quantity >= quantityOfStock!) {
         toast.error(
           `حداکثر ${quantityOfStock} آیتم از این رنگ و سایز میتوان انتخاب کرد`
         );
         return;
       }
 
-      if (quantity > 1) {
+      // If item is in cart, remove it
+      if (cartItem) {
+        handleRemoveCartItem();
         return;
       }
+
+      // Add to cart
       dispatch(
         addToCart({
           userId,
@@ -145,10 +149,8 @@ const ProductPageContentInformation = ({
 
   const handleIncreaseQuantity = () => {
     if (session) {
-      const cartItem = getCartItemForSelectedVariant();
       const newQuantity = (cartItem?.quantity || 0) + 1;
 
-      // Prevent increasing the quantity beyond available stock
       if (newQuantity > quantityOfStock!) {
         toast.error(
           `حداکثر ${quantityOfStock} آیتم از این رنگ و سایز میتوان انتخاب کرد`
@@ -158,7 +160,7 @@ const ProductPageContentInformation = ({
 
       if (cartItem) {
         dispatch(
-          updateCartItem({ cartItemId: cartItem.id, quantity: newQuantity })
+          updateCartItem({ cartItemId: cartItem.id!, quantity: newQuantity })
         );
       }
     }
@@ -166,16 +168,15 @@ const ProductPageContentInformation = ({
 
   const handleDecreaseQuantity = () => {
     if (session && userId) {
-      const cartItem = getCartItemForSelectedVariant();
       if (cartItem) {
-        if (cartItem.quantity > 1) {
-          const newQuantity = cartItem.quantity - 1;
+        if (cartItem.quantity! > 1) {
+          const newQuantity = cartItem.quantity! - 1;
           dispatch(
-            updateCartItem({ cartItemId: cartItem.id, quantity: newQuantity })
+            updateCartItem({ cartItemId: cartItem.id!, quantity: newQuantity })
           );
         } else {
-          // Logic to remove item from cart if quantity is 1
-          dispatch(removeFromCart({ userId, cartItemId: cartItem.id }));
+          // Remove item if quantity is 1
+          dispatch(removeFromCart({ userId, cartItemId: cartItem.id! }));
         }
       }
     }
@@ -183,20 +184,16 @@ const ProductPageContentInformation = ({
 
   const handleRemoveCartItem = () => {
     if (session && userId) {
-      const cartItem = getCartItemForSelectedVariant();
       if (cartItem) {
-        dispatch(removeFromCart({ userId, cartItemId: cartItem.id }));
+        dispatch(removeFromCart({ userId, cartItemId: cartItem.id! }));
       }
     }
   };
 
   return (
     <div className="w-full md:w-1/2 flex flex-col lg:justify-between">
-      {/* stock */}
       <Stock quantity={totalQuantity!} />
-      {/* title */}
       <h1 className="my-3 text-dark text-bodyMainBold sm:text-h6">{title}</h1>
-      {/* rating - comment(count) - share / favorite buttons */}
       <div className="flex justify-between flex-wrap items-baseline gap-3 max-w-[450px]">
         {rating ? (
           <div className="flex items-center gap-1">
@@ -222,11 +219,9 @@ const ProductPageContentInformation = ({
           </OperationIcon>
         </div>
       </div>
-      {/* description */}
       <div className="line-clamp-2 text-bodySmall text-customGray-500 my-4">
         <h2>{description}</h2>
       </div>
-      {/* colors */}
       <div className="flex flex-col gap-1">
         <p className="text-bodyMain text-customGray-700">رنگ</p>
         <div className="flex gap-3">
@@ -243,7 +238,6 @@ const ProductPageContentInformation = ({
           })}
         </div>
       </div>
-      {/* sizes */}
       <div className="flex flex-col gap-1 mt-4">
         <p className="text-bodyMain text-customGray-700">سایز</p>
         <div className="flex gap-2">
@@ -261,14 +255,12 @@ const ProductPageContentInformation = ({
           })}
         </div>
       </div>
-      {/* quantity */}
       <div className="my-4 text-captionMain text-state-error">
         تعداد موجودی : {quantityOfStock}
       </div>
-      {/* price and button */}
       <div className="flex flex-col gap-3">
         <div className="flex justify-between items-end">
-          {!!getCartItemForSelectedVariant() ? (
+          {!!cartItem ? (
             <div className="flex items-center gap-1.5">
               <div
                 onClick={handleIncreaseQuantity}
@@ -276,7 +268,13 @@ const ProductPageContentInformation = ({
               >
                 <PlusIcon size={32} />
               </div>
-              <div className="text-bodyMain text-dark">{quantity}</div>
+              <div className="w-3 h-5 flex-center">
+                {cartStatus === "loading" ? (
+                  <Spinner size={12} color="#6e24a8" />
+                ) : (
+                  <div className="text-bodyMain text-dark">{quantity}</div>
+                )}
+              </div>
               <div
                 onClick={handleDecreaseQuantity}
                 className="custom-shape size-8 text-bodyMain text-white bg-primary-light flex-center custom-transition hover:opacity-60 cursor-pointer"
@@ -293,13 +291,16 @@ const ProductPageContentInformation = ({
           />
         </div>
         <div className="w-full">
-          {!!getCartItemForSelectedVariant() ? (
+          {!!cartItem ? (
             <Button
               size="large"
               color="state-error"
               icon={<DeleteIcon styles="size-6" />}
               styles="w-full"
               onClick={handleRemoveCartItem}
+              loading={
+                cartStatus === "loading" && <Spinner size={20} color="#fff" />
+              }
             >
               حذف از سبد خرید
             </Button>
@@ -310,6 +311,9 @@ const ProductPageContentInformation = ({
               icon={<ShopIcon />}
               styles="w-full"
               onClick={handleAddToCart}
+              loading={
+                cartStatus === "loading" && <Spinner size={20} color="#fff" />
+              }
             >
               افزودن به سبد خرید
             </Button>
