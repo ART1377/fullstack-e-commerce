@@ -14,15 +14,12 @@ export async function GET(req: Request) {
 
     return NextResponse.json({ success: true, favorites });
   } catch (error) {
-    console.error("Error fetching favorites:", error);
     return NextResponse.json(
-      { success: false, message: "Error fetching favorites" },
+      { success: false, message: "خطایی رخ داده است" },
       { status: 500 }
     );
   }
 }
-
-
 
 
 export async function POST(req: Request) {
@@ -38,9 +35,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, favorite });
   } catch (error) {
-    console.error("Error adding to favorites:", error);
     return NextResponse.json(
-      { success: false, message: "Error adding to favorites" },
+      { success: false, message: "خطایی رخ داده است" },
       { status: 500 }
     );
   }
@@ -59,9 +55,8 @@ export async function DELETE(req: Request) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error removing from favorites:", error);
     return NextResponse.json(
-      { success: false, message: "Error removing from favorites" },
+      { success: false, message: "خطایی رخ داده است" },
       { status: 500 }
     );
   }

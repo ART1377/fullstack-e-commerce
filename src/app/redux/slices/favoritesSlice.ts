@@ -26,7 +26,7 @@ export const fetchFavorites = createAsyncThunk(
   async (userId: string) => {
     const response = await fetch(`/api/favorites?userId=${userId}`);
     if (!response.ok) {
-      throw new Error("Failed to fetch favorites");
+      throw new Error("خطایی رخ داده است");
     }
     return await response.json();
   }
@@ -44,7 +44,7 @@ export const addToFavorites = createAsyncThunk(
       body: JSON.stringify({ userId, productId }),
     });
     if (!response.ok) {
-      throw new Error("Failed to add to favorites");
+      throw new Error("خطایی رخ داده است");
     }
     return await response.json();
   }
@@ -62,7 +62,7 @@ export const removeFromFavorites = createAsyncThunk(
       body: JSON.stringify({ userId, productId }),
     });
     if (!response.ok) {
-      throw new Error("Failed to remove from favorites");
+      throw new Error("خطایی رخ داده است");
     }
     return await response.json();
   }

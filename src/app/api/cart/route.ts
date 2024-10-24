@@ -32,9 +32,8 @@ export async function GET(req: Request) {
 
     return NextResponse.json({ success: true, cart });
   } catch (error) {
-    console.error("Error fetching cart:", error);
     return NextResponse.json(
-      { success: false, message: "Error fetching cart" },
+      { success: false, message: "خطایی رخ داده است" },
       { status: 500 }
     );
   }
@@ -101,9 +100,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, cart });
   } catch (error) {
-    console.error("Error adding to cart:", error);
     return NextResponse.json(
-      { success: false, message: "Error adding to cart" },
+      { success: false, message: "خطایی رخ داده است" },
       { status: 500 }
     );
   }
@@ -139,9 +137,8 @@ export async function PATCH(req: Request) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error updating cart:", error);
     return NextResponse.json(
-      { success: false, message: "Error updating cart" },
+      { success: false, message: "خطایی رخ داده است" },
       { status: 500 }
     );
   }
@@ -153,7 +150,7 @@ export async function DELETE(req: Request) {
 
   if (!cartItemId) {
     return NextResponse.json(
-      { success: false, message: "Cart item ID is required" },
+      { success: false, message: "خطایی رخ داده است" },
       { status: 400 }
     );
   }
@@ -165,9 +162,8 @@ export async function DELETE(req: Request) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error removing from cart:", error);
     return NextResponse.json(
-      { success: false, message: "Error removing from cart" },
+      { success: false, message: "خطایی رخ داده است" },
       { status: 500 }
     );
   }

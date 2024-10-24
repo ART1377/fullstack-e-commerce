@@ -22,7 +22,7 @@ export const fetchCart = createAsyncThunk(
   async (userId: string) => {
     const response = await fetch(`/api/cart?userId=${userId}`);
     if (!response.ok) {
-      throw new Error("Failed to fetch cart");
+      throw new Error("خطایی رخ داده است");
     }
     return await response.json(); // This should return an object that includes the cart items
   }
@@ -51,7 +51,7 @@ export const addToCart = createAsyncThunk(
       body: JSON.stringify({ userId, productId, stockId, quantity }), // Include stockId
     });
     if (!response.ok) {
-      throw new Error("Failed to add to cart");
+      throw new Error("خطایی رخ داده است");
     }
     return await response.json();
   }
@@ -77,7 +77,7 @@ export const updateCartItem = createAsyncThunk(
       body: JSON.stringify({ cartItemId, quantity }), // Send cartItemId instead of userId and productId
     });
     if (!response.ok) {
-      throw new Error("Failed to update cart item");
+      throw new Error("خطایی رخ داده است");
     }
     return await response.json();
   }
@@ -95,7 +95,7 @@ export const removeFromCart = createAsyncThunk(
       body: JSON.stringify({ cartItemId }), // Only send cartItemId
     });
     if (!response.ok) {
-      throw new Error("Failed to remove from cart");
+      throw new Error("خطایی رخ داده است");
     }
     return await response.json();
   }

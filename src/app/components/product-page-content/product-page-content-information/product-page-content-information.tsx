@@ -26,6 +26,12 @@ import MinusIcon from "@/app/icons/minus-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import toast from "react-hot-toast";
 import Spinner from "../../spinner/spinner";
+import {
+  addToFavorites,
+  fetchFavorites,
+  removeFromFavorites,
+} from "@/app/redux/slices/favoritesSlice";
+import HeartFillIcon from "@/app/icons/heart-fill-icon";
 
 type Props = {
   product: Product;
@@ -46,8 +52,14 @@ const ProductPageContentInformation = ({
     product;
 
   const dispatch = useAppDispatch();
+
   const cartItems = useAppSelector((state) => state.cart.items);
   const cartStatus = useAppSelector((state) => state.cart.status);
+
+  const favorites = useAppSelector((state) => state.favorites.items);
+  const favoritesStatus = useAppSelector((state) => state.favorites.status);
+  const isFavorite = favorites.some((favorite) => favorite.productId === id);
+
   const { session } = useCurrentSession();
   const userId = session?.user?.id;
 
@@ -79,7 +91,6 @@ const ProductPageContentInformation = ({
         (item) => item.productId === id && item.stockId === selectedStockId
       );
 
-
       if (cartItemData) {
         setCartItem(cartItemData);
         setQuantity(cartItemData.quantity!);
@@ -87,11 +98,20 @@ const ProductPageContentInformation = ({
         setCartItem(null);
       }
     }
-  }, [cartItems, id, selectedColor, selectedSize, selectedStockId, session, userId]);
+  }, [
+    cartItems,
+    id,
+    selectedColor,
+    selectedSize,
+    selectedStockId,
+    session,
+    userId,
+  ]);
 
   useEffect(() => {
     if (session && session.user && userId) {
       dispatch(fetchCart(userId)); // Fetch cart when user session is available
+      dispatch(fetchFavorites(userId)); // Fetch cart when user session is available
     }
   }, [session, dispatch, userId]);
 
@@ -115,7 +135,7 @@ const ProductPageContentInformation = ({
 
   const handleAddToCart = () => {
     if (!session || !session.user || !userId) {
-      redirect("/auth/login");
+      toast.error("ابتدا وارد سایت شوید");
     } else {
       if (!selectedStockId) {
         toast.error("لطفا یک رنگ و سایز انتخاب کنید !");
@@ -148,7 +168,9 @@ const ProductPageContentInformation = ({
   };
 
   const handleIncreaseQuantity = () => {
-    if (session) {
+    if (!session || !session.user || !userId) {
+      toast.error("ابتدا وارد سایت شوید");
+    } else {
       const newQuantity = (cartItem?.quantity || 0) + 1;
 
       if (newQuantity > quantityOfStock!) {
@@ -167,7 +189,9 @@ const ProductPageContentInformation = ({
   };
 
   const handleDecreaseQuantity = () => {
-    if (session && userId) {
+    if (!session || !session.user || !userId) {
+      toast.error("ابتدا وارد سایت شوید");
+    } else {
       if (cartItem) {
         if (cartItem.quantity! > 1) {
           const newQuantity = cartItem.quantity! - 1;
@@ -183,10 +207,38 @@ const ProductPageContentInformation = ({
   };
 
   const handleRemoveCartItem = () => {
-    if (session && userId) {
+    if (!session || !session.user || !userId) {
+      toast.error("ابتدا وارد سایت شوید");
+    } else {
       if (cartItem) {
         dispatch(removeFromCart({ userId, cartItemId: cartItem.id! }));
       }
+    }
+  };
+
+  // favorites operations
+  // Function to handle adding/removing from favorites
+  const handleAddFavorite = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent default link behavior
+
+    if (!session || !session.user || !userId) {
+      toast.error("ابتدا وارد سایت شوید");
+      return;
+    } else {
+      dispatch(addToFavorites({ userId, productId: id }));
+    }
+  };
+
+  const handleRemoveFavorite = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent default link behavior
+
+    if (!session || !session.user || !userId) {
+      toast.error("ابتدا وارد سایت شوید");
+      return;
+    } else {
+      dispatch(removeFromFavorites({ userId, productId: id })).then(() => {
+        dispatch(fetchFavorites(userId)); // Optionally re-fetch if needed
+      });
     }
   };
 
@@ -214,9 +266,18 @@ const ProductPageContentInformation = ({
           <OperationIcon color="success">
             <ShareIcon styles="size-5" />
           </OperationIcon>
-          <OperationIcon color="error">
-            <HeartEmptyIcon styles="size-6" />
-          </OperationIcon>
+
+          <div onClick={isFavorite ? handleRemoveFavorite : handleAddFavorite}>
+            <OperationIcon color={"error"}>
+              {favoritesStatus==='loading' ? (
+                <Spinner size={20} color="error" />
+              ) : isFavorite ? (
+                <HeartFillIcon styles="size-6" />
+              ) : (
+                <HeartEmptyIcon styles="size-6" />
+              )}
+            </OperationIcon>
+          </div>
         </div>
       </div>
       <div className="line-clamp-2 text-bodySmall text-customGray-500 my-4">
@@ -270,7 +331,7 @@ const ProductPageContentInformation = ({
               </div>
               <div className="w-3 h-5 flex-center">
                 {cartStatus === "loading" ? (
-                  <Spinner size={12} color="#6e24a8" />
+                  <Spinner size={12} color="primary-main" />
                 ) : (
                   <div className="text-bodyMain text-dark">{quantity}</div>
                 )}
@@ -299,7 +360,7 @@ const ProductPageContentInformation = ({
               styles="w-full"
               onClick={handleRemoveCartItem}
               loading={
-                cartStatus === "loading" && <Spinner size={20} color="#fff" />
+                cartStatus === "loading" && <Spinner size={20} color="white" />
               }
             >
               حذف از سبد خرید
@@ -312,7 +373,7 @@ const ProductPageContentInformation = ({
               styles="w-full"
               onClick={handleAddToCart}
               loading={
-                cartStatus === "loading" && <Spinner size={20} color="#fff" />
+                cartStatus === "loading" && <Spinner size={20} color="white" />
               }
             >
               افزودن به سبد خرید

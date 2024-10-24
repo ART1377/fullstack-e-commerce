@@ -1,29 +1,22 @@
-import React, { useCallback, useEffect, useState } from "react"; // Added useState
+import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import HeartEmptyIcon from "@/app/icons/heart-empty-icon";
-import ShopIcon from "@/app/icons/shop-icon";
 import { Color } from "../../../../next-type-d";
 import OperationIcon from "@/app/components/operation-icon/operation-icon";
 import Price from "../price/price";
-import MinusIcon from "@/app/icons/minus-icon";
-import PlusIcon from "@/app/icons/plus-icon";
-import { getUniqueColors, getUniqueSizes } from "@/app/lib/functions";
+import { getUniqueColors } from "@/app/lib/functions";
 import { Product } from "../../../../next-type-models";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks/hook"; //
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks/hook";
 import {
   addToFavorites,
   fetchFavorites,
   removeFromFavorites,
-} from "@/app/redux/slices/favoritesSlice"; // Adjust the import as necessary
+} from "@/app/redux/slices/favoritesSlice";
 import { useCurrentSession } from "@/app/hooks/useCurrentSession";
 import HeartFillIcon from "@/app/icons/heart-fill-icon";
-import {
-  addToCart,
-  fetchCart,
-  removeFromCart,
-  updateCartItem,
-} from "@/app/redux/slices/cartSlice";
+import toast from "react-hot-toast";
+import Spinner from "../spinner/spinner";
 
 type Props = {
   product: Product;
@@ -47,19 +40,47 @@ const ProductCard = ({ product }: Props) => {
     0
   );
 
+  // Local loading state for this specific card
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (session && session.user && userId) {
+      dispatch(fetchFavorites(userId)); // Fetch cart when user session is available
+    }
+  }, [session, dispatch, userId]);
+
   // Function to handle adding/removing from favorites
   const handleAddFavorite = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent default link behavior
-    if (session) {
-      dispatch(addToFavorites({ userId, productId: id }));
+
+    if (!session || !session.user) {
+      toast.error("ابتدا وارد سایت شوید");
+      return;
+    } else {
+      setLoading(true); // Start loading
+
+      dispatch(addToFavorites({ userId, productId: id })).finally(() => {
+        setLoading(false); // End loading after action
+      });
     }
   };
+
   const handleRemoveFavorite = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent default link behavior
-    if (session) {
-      dispatch(removeFromFavorites({ userId, productId: id })).then(() => {
-        dispatch(fetchFavorites(userId)); // Optionally re-fetch if needed
-      });
+
+    if (!session || !session.user) {
+      toast.error("ابتدا وارد سایت شوید");
+      return;
+    } else {
+      setLoading(true); // Start loading
+
+      dispatch(removeFromFavorites({ userId, productId: id }))
+        .then(() => {
+          dispatch(fetchFavorites(userId)); // Optionally re-fetch if needed
+        })
+        .finally(() => {
+          setLoading(false); // End loading after action
+        });
     }
   };
 
@@ -94,19 +115,20 @@ const ProductCard = ({ product }: Props) => {
               {brand}
             </small>
           </div>
-          {isFavorite ? (
-            <div onClick={handleRemoveFavorite}>
-              <OperationIcon color={"error"}>
+          <div
+            data-product-id={id}
+            onClick={isFavorite ? handleRemoveFavorite : handleAddFavorite}
+          >
+            <OperationIcon color={"error"}>
+              {loading ? (
+                <Spinner size={20} color="error" />
+              ) : isFavorite ? (
                 <HeartFillIcon styles="size-6" />
-              </OperationIcon>
-            </div>
-          ) : (
-            <div onClick={handleAddFavorite}>
-              <OperationIcon color={"error"}>
+              ) : (
                 <HeartEmptyIcon styles="size-6" />
-              </OperationIcon>
-            </div>
-          )}
+              )}
+            </OperationIcon>
+          </div>
         </div>
         {/* second row */}
         <div className="flex gap-1">
@@ -128,7 +150,9 @@ const ProductCard = ({ product }: Props) => {
 
         {/* third row */}
         <div className="flex flex-col justify-end gap-1 h-[70px]">
-          <Price price={price} discountPercentage={discount!} />
+          <div className="my-auto">
+            <Price price={price} discountPercentage={discount!} />
+          </div>
           <small className="text-bodySmall text-state-error">
             تعداد موجودی : {totalQuantity}
           </small>
