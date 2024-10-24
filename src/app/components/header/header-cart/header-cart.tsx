@@ -12,7 +12,7 @@ const HeaderCart = (props: Props) => {
   const status = useAppSelector((state) => state.cart.status);
   const cartItems = useAppSelector((state) => state.cart.items);
   const totalQuantity = cartItems?.reduce(
-    (acc, item) => acc + item.quantity,
+    (acc, item) => acc + item.quantity!,
     0
   );
 

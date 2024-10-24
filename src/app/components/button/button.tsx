@@ -15,6 +15,7 @@ type Props = {
   onClick?: () => void;
   type?: "button" | "reset" | "submit";
   disabled?: boolean;
+  loading?: React.ReactNode;
 };
 
 const Button = ({
@@ -27,6 +28,7 @@ const Button = ({
   onClick,
   type = "button",
   disabled = false,
+  loading,
 }: Props) => {
   const sizeStyles =
     size === "small"
@@ -55,8 +57,14 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
     >
-      <div className="-mt-1">{icon}</div>
-      {children}
+      {loading ? (
+        loading
+      ) : (
+        <>
+          <div className="-mt-1">{icon}</div>
+          {children}
+        </>
+      )}
     </button>
   );
 };
