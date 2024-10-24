@@ -11,7 +11,7 @@ import Price from "../../price/price";
 import Button from "../../button/button";
 import Stock from "../../stock/stock";
 import { getSizesForColor, getUniqueColors } from "@/app/lib/functions";
-import { Color, Product } from "../../../../../next-type-models";
+import { CartItem, Color, Product } from "../../../../../next-type-models";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks/hook";
 import {
   addToCart,
@@ -76,7 +76,7 @@ const ProductPageContentInformation = ({
         item.productId === id &&
         item.stock?.color?.persian === selectedColor &&
         item.stock?.size === selectedSize
-    );
+    ) as CartItem;
   }, [cartItems, id, selectedColor, selectedSize]);
 
   // Set initial quantity based on the cart item or default to 1
@@ -262,7 +262,7 @@ const ProductPageContentInformation = ({
         </div>
       </div>
       {/* quantity */}
-      <div className="mb-4 text-captionMain text-state-error">
+      <div className="my-4 text-captionMain text-state-error">
         تعداد موجودی : {quantityOfStock}
       </div>
       {/* price and button */}

@@ -4,8 +4,9 @@ import { CartItem } from "../../../../next-type-models";
 
 
 
+
 interface CartState {
-  items: CartItem[];
+  items: Partial<CartItem>[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
