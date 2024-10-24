@@ -87,6 +87,8 @@ export type CartItem = {
   productId: string;
   cart: Cart; // Relation to the cart
   cartId: string;
+  stock: Stock;
+  stockId: string;
 };
 
 export type Comment = {

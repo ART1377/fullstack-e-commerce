@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import * as actions from "@/app/actions/product-action";
 import { Product } from "../../../../../../next-type-models";
+import { db } from "@/app/db/db";
 
 type Props = {
   params: {
@@ -30,6 +31,7 @@ export async function generateMetadata({
 }
 
 const ProductPage = async ({ params: { id } }: Props) => {
+  // await db.cart.deleteMany()
   // need change - get related products
   const { products } = await actions.getAllProducts();
 

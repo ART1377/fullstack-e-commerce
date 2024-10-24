@@ -7,16 +7,28 @@ export async function GET(req: Request) {
   const userId = searchParams.get("userId");
 
   try {
+
+
     const cart = await db.cart.findUnique({
       where: { userId: userId! },
       include: {
         items: {
           include: {
             product: true,
+            stock: {
+              select: {
+                quantity: true,
+                size: true,
+                color: true,
+              },
+            },
           },
         },
       },
     });
+    if (!cart) {
+      throw new Error("Error fetching cart");
+    }
 
     return NextResponse.json({ success: true, cart });
   } catch (error) {
@@ -28,7 +40,6 @@ export async function GET(req: Request) {
   }
 }
 
-// POST: Add a product to the cart
 // POST: Add a product to the cart (with a specific stock item)
 export async function POST(req: Request) {
   const { userId, stockId, productId, quantity } = await req.json();
@@ -98,8 +109,6 @@ export async function POST(req: Request) {
   }
 }
 
-
-
 // PATCH: Update product quantity in cart (increment/decrement)
 export async function PATCH(req: Request) {
   const { cartItemId, quantity } = await req.json();
@@ -138,7 +147,6 @@ export async function PATCH(req: Request) {
   }
 }
 
-
 // DELETE: Remove product from cart
 export async function DELETE(req: Request) {
   const { cartItemId } = await req.json();
@@ -164,4 +172,3 @@ export async function DELETE(req: Request) {
     );
   }
 }
-

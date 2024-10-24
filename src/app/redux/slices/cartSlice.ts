@@ -1,12 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "@/app/redux/store";
+import { CartItem } from "../../../../next-type-models";
 
-// Define types
-interface CartItem {
-  id: string;
-  productId: string;
-  quantity: number;
-}
+
 
 interface CartState {
   items: CartItem[];

@@ -15,8 +15,8 @@ const MainLayout = ({ children }: Props) => {
     <SessionProvider>
       <Provider store={store}>
         {children}
-        <Toaster position="top-center" reverseOrder={false} />
       </Provider>
+        <Toaster position="top-center" reverseOrder={false} />
     </SessionProvider>
   );
 };
