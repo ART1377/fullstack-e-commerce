@@ -1,13 +1,12 @@
 import React from "react";
 import Title from "../../title/title";
 import NewestClothesSlider from "./newest-clothes-slider/newest-clothes-slider";
-import { getFilteredProducts } from "@/app/actions/product-actions/product-action";
+import * as actions from "@/app/actions/product-actions/product-action";
 
 type Props = {};
 
 const NewestClothes = async (props: Props) => {
-  // need change
-  const { products } = await getFilteredProducts({});
+  const { products } = await actions.getNewestClothes();
 
   return (
     <section className="mt-20 md:mt-28 w-full">

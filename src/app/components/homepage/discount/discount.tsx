@@ -1,13 +1,13 @@
 import React from "react";
 import Image from "next/image";
 import DiscountSlider from "./discount-slider/discount-slider";
-import { getAllProducts } from "@/app/actions/product-actions/product-action";
+import * as actions from '@/app/actions/product-actions/product-action'
 
 type Props = {};
 
 const Discount = async (props: Props) => {
-  // need change
-  const { products } = await getAllProducts();
+
+  const { products } = await actions.getNewestDiscountProducts();
 
   return (
     <section id="discount" className="mt-[450px] blgxl:mt-[500px]">

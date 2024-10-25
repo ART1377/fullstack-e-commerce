@@ -7,3 +7,4 @@ export { getProductById } from "./get-product-by-id-action";
 export { getNewestClothes } from "./get-newest-clothes-action";
 export { getNewestShoes } from "./get-newest-shoes-action";
 export { getNewestHeroProducts } from "./get-hero-products-actoin";
+export { getNewestDiscountProducts } from "./get-discount-products-actoin";

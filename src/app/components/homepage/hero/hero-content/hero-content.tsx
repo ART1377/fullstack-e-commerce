@@ -1,20 +1,31 @@
 import React from "react";
 import Link from "next/link";
-import type { Product, Color } from "../../../../../../next-type-d";
-import { formatPrice, getUniqueColors } from "@/app/lib/functions";
+import { getUniqueColors } from "@/app/lib/functions";
 import HeroButtons from "./../hero-buttons/hero-buttons";
 import { motion } from "framer-motion"; // Import motion
-import { colors } from "@/app/data/data";
 import Price from "@/app/components/price/price";
+import { Color, Product } from "../../../../../../next-type-models";
 
 type Props = {
   product: Product;
 };
 
 const HeroContent = ({ product }: Props) => {
-  // get unique colors
-  // need change - unique colors
-  const productColors: Color[] = colors.slice(3);
+  const {
+    title,
+    description,
+    id,
+    category,
+    brand,
+    model,
+    stock,
+    discount,
+    price,
+  } = product;
+
+
+  // Get unique colors
+  const uniqueColors = getUniqueColors(stock!);
 
   // animation
   const contentVariants = {
@@ -32,16 +43,15 @@ const HeroContent = ({ product }: Props) => {
       }}
       className="w-full flex flex-col gap-5 mt-[20%] sm:mt-[15%] md:w-6/12 md:mt-0 md:gap-8"
     >
-      {" "}
       <div>
         <Link
-          href={`products/${product.category}/${product.id}`}
+          href={`products/${category}/${id}`}
           className="h6 text-dark custom-transition hover:text-primary-main md:font-bold md:text-[24px] lg:text-[40px]"
         >
-          {product.title}
+          {title}
         </Link>
         <p className="mt-1 text-bodyMain text-customGray-600 line-clamp-2 md:line-clamp-3 md:text-base md:mt-2">
-          {product.description}
+          {description}
         </p>
       </div>
       <div className="flex flex-col gap-3 md:gap-4">
@@ -50,7 +60,7 @@ const HeroContent = ({ product }: Props) => {
             برند
           </div>
           <div className="w-7/12 text-primary-main text-bodyMain md:text-xl">
-            {product.brand}
+            {brand}
           </div>
         </div>
         <div className="w-full flex">
@@ -58,7 +68,7 @@ const HeroContent = ({ product }: Props) => {
             مدل
           </div>
           <div className="w-7/12 text-primary-main text-bodyMain md:text-xl">
-            {product.model}
+            {model}
           </div>
         </div>
         <div className="w-full flex">
@@ -71,8 +81,8 @@ const HeroContent = ({ product }: Props) => {
             <span className="mr-1">تومان</span>
           </div> */}
           <Price
-            discountPercentage={product.discount}
-            price={product.price}
+            discountPercentage={discount?discount:undefined}
+            price={price}
             size="large"
           />
         </div>
@@ -81,7 +91,7 @@ const HeroContent = ({ product }: Props) => {
             رنگ
           </div>
           <div className="w-7/12 flex gap-2">
-            {productColors.slice(0, 4).map((color: Color) => (
+            {uniqueColors.slice(0, 4).map((color: Color) => (
               <div
                 key={color.id}
                 style={{ backgroundColor: color.hex }}
@@ -94,7 +104,7 @@ const HeroContent = ({ product }: Props) => {
           </div>
         </div>
       </div>
-      <HeroButtons />
+      <HeroButtons productId={id} />
     </motion.div>
   );
 };

@@ -12,7 +12,7 @@ const NavbarToggle = ({ isNavbarOpen, setIsNavbarOpen }: Props) => {
       onClick={() => setIsNavbarOpen((prev) => !prev)}
       className="flex-center bg-customGray-100 rounded-full size-10 cursor-pointer hover:bg-customGray-200 custom-transition"
     >
-      <BurgerMenuIcon />
+      <BurgerMenuIcon styles="size-6" />
     </div>
   );
 };

@@ -8,11 +8,11 @@ interface GetProductsState {
   products?: any;
 }
 
-export async function getNewestShoes(): Promise<GetProductsState> {
+export async function getNewestDiscountProducts(): Promise<GetProductsState> {
   try {
     const products = await db.product.findMany({
       where: {
-        category: "کفش",
+        isInDiscountSection: true,
       },
       include: {
         images: true,
@@ -23,12 +23,12 @@ export async function getNewestShoes(): Promise<GetProductsState> {
         },
       },
       orderBy: {
-        createdAt: "desc", // Orders by the latest `createdAt`
+        createdAt: "desc",
       },
-      take: 10, // Limits the results to the newest 10 products
+      take: 10,
     });
     return { products, success: true };
   } catch (error) {
-    return { error:'خطایی رخ داده است', success: false };
+    return { error: "خطایی رخ داده است", success: false };
   }
 }

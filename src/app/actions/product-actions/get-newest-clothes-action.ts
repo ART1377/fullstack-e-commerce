@@ -14,6 +14,14 @@ export async function getNewestClothes(): Promise<GetProductsState> {
       where: {
         category: "پوشاک",
       },
+      include: {
+        images: true,
+        stock: {
+          include: {
+            color: true,
+          },
+        },
+      },
       orderBy: {
         createdAt: "desc", // Orders by the latest `createdAt`
       },

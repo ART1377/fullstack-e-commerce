@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { products } from "@/app/data/data";
 import Hero from "@/app/components/homepage/hero/hero";
 import Discount from "@/app/components/homepage/discount/discount";
 import Category from "@/app/components/homepage/category/category";
@@ -8,14 +7,15 @@ import NewestClothes from "@/app/components/homepage/newest-clothes/newest-cloth
 import Options from "@/app/components/homepage/options/options";
 import { Color } from "../../../../../next-type-d";
 import { db } from "@/app/db/db";
+import * as actions from "@/app/actions/product-actions/product-action";
 
 export const metadata: Metadata = {
   title: "هامتوسیتی - صفحه اصلی",
   description: "صفحه اصلی فروشگاه هامتوسیتی",
 };
 
-export default function Home() {
-    // await db.product.deleteMany({});
+export default async function Home() {
+  // await db.product.deleteMany({});
 
   // const colors = [
   //   {
@@ -70,10 +70,7 @@ export default function Home() {
   //   },
   // ];
 
-
   // await db.color.deleteMany({});
-
-  
 
   // Check if colors are already in the database
   // const existingColors = await db.color.findMany({
@@ -98,6 +95,9 @@ export default function Home() {
   //     data: newColors,
   //   });
   // }
+
+  // need change
+  const { products } = await actions.getAllProducts();
 
   return (
     <>

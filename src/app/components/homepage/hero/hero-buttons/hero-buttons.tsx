@@ -2,15 +2,25 @@ import React from "react";
 import Button from "../../../button/button";
 import ShopIcon from "@/app/icons/shop-icon";
 import HeartEmptyIcon from "@/app/icons/heart-empty-icon";
+import Link from "next/link";
+import BurgerMenuIcon from "@/app/icons/burger-menu-icon";
 
-type Props = {};
+type Props = {
+  productId: string;
+};
 
-const HeroButtons = (props: Props) => {
+const HeroButtons = ({ productId }: Props) => {
+
+
+
+  
   return (
     <div className="flex flex-col gap-3 w-full blgxl:flex-row blgxl:gap-4">
-      <Button color="primary-main" icon={<ShopIcon />}>
-        افزودن به سبد خرید
-      </Button>
+      <Link href={`/products/${productId}`}>
+        <Button color="primary-main" icon={<BurgerMenuIcon styles="size-6"/>}>
+          جزییات بیشتر
+        </Button>
+      </Link>
       <Button color="primary-main" icon={<HeartEmptyIcon />} outline>
         افزودن به علاقه مندی ها
       </Button>

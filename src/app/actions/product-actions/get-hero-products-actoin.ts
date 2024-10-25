@@ -14,6 +14,14 @@ export async function getNewestHeroProducts(): Promise<GetProductsState> {
       where: {
         isInHeroSection: true,
       },
+      include: {
+        images: true,
+        stock: {
+          include: {
+            color: true,
+          },
+        },
+      },
       orderBy: {
         createdAt: "desc",
       },
