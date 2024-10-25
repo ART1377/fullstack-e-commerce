@@ -3,12 +3,12 @@
 import React from "react";
 import Spinner from "@/app/components/spinner/spinner";
 import Image from "next/image";
-import { useCurrentSession } from "@/app/hooks/useCurrentSession";
+import { useSessionContext } from "@/app/context/useSessionContext";
 
 type Props = {};
 
 const DashboardHeaderProfile = (props: Props) => {
-  const { session, status } = useCurrentSession();
+  const { session, status } = useSessionContext();
 
   const user: any = session && session.user ? session.user : undefined;
 

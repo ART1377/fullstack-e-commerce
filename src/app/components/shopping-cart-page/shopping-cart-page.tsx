@@ -1,32 +1,56 @@
+"use client";
+
 import React from "react";
 import ShoppingCartPageHeader from "./shopping-cart-page-header/shopping-cart-page-header";
 import Checkout from "./checkout/checkout";
 import ShoppingCartPageItem from "./shopping-cart-page-item/shopping-cart-page-item";
-import { getFilteredProducts } from "@/app/actions/product-action";
-import { Product } from "../../../../next-type-models";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks/hook";
+import { calculateDiscountedPrice } from "@/app/lib/functions";
 
-type Props = {
-};
+type Props = {};
 
-const ShoppingCartPage = async (props: Props) => {
+const ShoppingCartPage = (props: Props) => {
   // need change
-  const { products,totalCount } = await getFilteredProducts({});
-  
+  const dispatch = useAppDispatch();
+  const { items: cartItems, status } = useAppSelector((state) => state.cart);
+
+  const totalQuantity = cartItems?.reduce(
+    (acc, item) => acc + item.quantity!,
+    0
+  );
+  const totalPrice = cartItems?.reduce(
+    (acc, item) => acc + item.product?.price!,
+    0
+  );
+  const totalDiscount = cartItems?.reduce(
+    (acc, item) =>
+      acc +
+      calculateDiscountedPrice(item.product?.price!, item.product?.discount!),
+    0
+  );
+
   return (
     <section className="w-full mt-4 sm:mt-10 flex flex-col gap-y-8 bmlg:flex-row-reverse">
       {/* cart items - header */}
       <div className="w-full flex flex-col gap-3 bmlg:w-[calc(100%-300px)]">
         {/* header */}
-        <ShoppingCartPageHeader productsCount={totalCount!} />
+        <ShoppingCartPageHeader totalQuantity={totalQuantity!} />
         {/* cart items */}
         <div className="flex flex-col gap-3">
-          {products.map((product: Product) => {
-            return <ShoppingCartPageItem key={product.id} product={product} />;
+          {cartItems.map((cartItem) => {
+            return (
+              <ShoppingCartPageItem key={cartItem.id} cartItem={cartItem} />
+            );
           })}
         </div>
       </div>
       {/* checkout */}
-      <Checkout productsCount={totalCount!} />
+      <Checkout
+        totalQuantity={totalQuantity!}
+        totalPrice={totalPrice}
+        totalDiscount={totalDiscount}
+        loading={status === "loading"}
+      />
     </section>
   );
 };

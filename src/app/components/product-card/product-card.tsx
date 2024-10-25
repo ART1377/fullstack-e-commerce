@@ -13,7 +13,7 @@ import {
   fetchFavorites,
   removeFromFavorites,
 } from "@/app/redux/slices/favoritesSlice";
-import { useCurrentSession } from "@/app/hooks/useCurrentSession";
+import { useSessionContext } from "@/app/context/useSessionContext";
 import HeartFillIcon from "@/app/icons/heart-fill-icon";
 import toast from "react-hot-toast";
 import Spinner from "../spinner/spinner";
@@ -24,7 +24,7 @@ type Props = {
 
 const ProductCard = ({ product }: Props) => {
   const dispatch = useAppDispatch();
-  const { session } = useCurrentSession();
+  const { session } = useSessionContext();
   const userId = session?.user?.id as string;
   const { id, title, brand, images, stock, price, discount } = product;
 

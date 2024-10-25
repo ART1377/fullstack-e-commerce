@@ -2,61 +2,79 @@ import { formatPrice } from "@/app/lib/functions";
 import React from "react";
 import Title from "../../title/title";
 import Button from "../../button/button";
+import Spinner from "../../spinner/spinner";
 
 type Props = {
-  productsCount: number;
+  totalQuantity: number;
+  totalPrice: number;
+  totalDiscount: number;
+  loading: boolean;
 };
 
-const Checkout = ({ productsCount }: Props) => {
+const Checkout = ({
+  totalQuantity,
+  totalPrice,
+  totalDiscount,
+  loading,
+}: Props) => {
   return (
     <div className="bg-white p-3 rounded-xl shadow w-[280px] h-fit mx-auto">
-      <Title>پرداخت</Title>
-      <div className="flex flex-col gap-5 mt-2 mb-7">
-        <div className="flex items-center justify-between">
-          <small className="text-bodySmall text-customGray-500">
-            تعداد کالا
-          </small>
-          <small className="text-bodyMain text-customGray-500">
-            {productsCount}
-          </small>
-        </div>
+      {loading ? (
+        <div className="h-[320px]">
 
-        <div className="flex items-center justify-between">
-          <small className="text-bodySmall text-customGray-500">قیمت</small>
-          <div className="text-bodyMain text-customGray-500 flex gap-1">
-            <span>{formatPrice(10400000)}</span>
-            <span>تومان</span>
+          <Spinner size={32} />
+        </div>
+      ) : (
+        <>
+          <Title>پرداخت</Title>
+          <div className="flex flex-col gap-5 mt-2 mb-7">
+            <div className="flex items-center justify-between">
+              <small className="text-bodySmall text-customGray-500">
+                تعداد کالا
+              </small>
+              <small className="text-bodyMain text-customGray-500">
+                {totalQuantity}
+              </small>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <small className="text-bodySmall text-customGray-500">قیمت</small>
+              <div className="text-bodyMain text-customGray-500 flex gap-1">
+                <span>{formatPrice(totalPrice)}</span>
+                <span>تومان</span>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <small className="text-bodySmall text-customGray-500">
+                سود شما از خرید
+              </small>
+              <div className="text-bodyMain text-state-success flex gap-1">
+                <span>{formatPrice(totalPrice - totalDiscount)}</span>
+                <span>تومان</span>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <small className="text-bodySmall text-customGray-500">
+                هزینه ارسال
+              </small>
+              <small className="text-bodyMain text-state-success">رایگان</small>
+            </div>
+
+            <div className="flex items-center justify-between border-t border-customGray-300 pt-3">
+              <small className="text-bodyMain text-dark">قیمت کل</small>
+              <div className="text-bodyMain text-dark flex gap-1">
+                <span>{formatPrice(totalDiscount)}</span>
+                <span>تومان</span>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <small className="text-bodySmall text-customGray-500">
-            سود شما از خرید
-          </small>
-          <div className="text-bodyMain text-state-success flex gap-1">
-            <span>{formatPrice(1040000)}</span>
-            <span>تومان</span>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <small className="text-bodySmall text-customGray-500">
-            هزینه ارسال
-          </small>
-          <small className="text-bodyMain text-state-success">رایگان</small>
-        </div>
-
-        <div className="flex items-center justify-between border-t border-customGray-300 pt-3">
-          <small className="text-bodyMain text-dark">قیمت کل</small>
-          <div className="text-bodyMain text-dark flex gap-1">
-            <span>{formatPrice(9000000)}</span>
-            <span>تومان</span>
-          </div>
-        </div>
-      </div>
-      <Button color="dark" styles="w-full" outline>
-        پرداخت
-      </Button>
+          <Button color="dark" styles="w-full" outline>
+            پرداخت
+          </Button>
+        </>
+      )}
     </div>
   );
 };

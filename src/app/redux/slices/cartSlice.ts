@@ -92,7 +92,25 @@ export const removeFromCart = createAsyncThunk(
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ cartItemId }), // Only send cartItemId
+      body: JSON.stringify({ userId, cartItemId }), // Only send cartItemId
+    });
+    if (!response.ok) {
+      throw new Error("خطایی رخ داده است");
+    }
+    return await response.json();
+  }
+);
+
+// delete whole cart  
+export const deleteCart = createAsyncThunk(
+  "cart/deleteCart",
+  async (userId: string) => {
+    const response = await fetch(`/api/cart`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId, deleteAll: true }), // Signal to delete all items
     });
     if (!response.ok) {
       throw new Error("خطایی رخ داده است");
@@ -158,6 +176,17 @@ const cartSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(removeFromCart.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message || null;
+      })
+      .addCase(deleteCart.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(deleteCart.fulfilled, (state) => {
+        state.status = "succeeded";
+        state.items = []; // Clear cart items from state
+      })
+      .addCase(deleteCart.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || null;
       });

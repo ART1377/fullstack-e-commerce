@@ -14,7 +14,14 @@ export async function GET(req: Request) {
       include: {
         items: {
           include: {
-            product: true,
+            product: {
+              select:{
+                title:true,
+                images:true,
+                price:true,
+                discount:true,
+              }
+            },
             stock: {
               select: {
                 quantity: true,
@@ -27,7 +34,7 @@ export async function GET(req: Request) {
       },
     });
     if (!cart) {
-      throw new Error("Error fetching cart");
+      throw new Error("خطایی رخ داده است");
     }
 
     return NextResponse.json({ success: true, cart });
@@ -118,7 +125,7 @@ export async function PATCH(req: Request) {
 
     if (!cartItem) {
       return NextResponse.json(
-        { success: false, message: "Cart item not found" },
+        { success: false, message: "خطایی رخ داده است" },
         { status: 404 }
       );
     }
@@ -145,10 +152,12 @@ export async function PATCH(req: Request) {
 }
 
 // DELETE: Remove product from cart
+// DELETE: Remove all products from the cart for a user
 export async function DELETE(req: Request) {
-  const { cartItemId } = await req.json();
+  const { userId, deleteAll = false, cartItemId } = await req.json();
 
-  if (!cartItemId) {
+
+  if (!userId) {
     return NextResponse.json(
       { success: false, message: "خطایی رخ داده است" },
       { status: 400 }
@@ -156,11 +165,27 @@ export async function DELETE(req: Request) {
   }
 
   try {
-    await db.cartItem.delete({
-      where: { id: cartItemId },
-    });
+    if (deleteAll) {
+      // Delete all cart items for the user
+      await db.cartItem.deleteMany({
+        where: { cart: { userId } },
+      });
+      return NextResponse.json({ success: true, message: "سبد خرید پاک شد" });
+    } else {
+      // This handles single item deletion (the original behavior)
+      if (!cartItemId) {
+        return NextResponse.json(
+          { success: false, message: "خطایی رخ داده است" },
+          { status: 400 }
+        );
+      }
 
-    return NextResponse.json({ success: true });
+      await db.cartItem.delete({
+        where: { id: cartItemId },
+      });
+
+      return NextResponse.json({ success: true });
+    }
   } catch (error) {
     return NextResponse.json(
       { success: false, message: "خطایی رخ داده است" },

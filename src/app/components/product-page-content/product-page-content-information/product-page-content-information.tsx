@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Rating from "../../rating/rating";
 import ChatIcon from "@/app/icons/chat-icon";
 import ShareIcon from "@/app/icons/share-icon";
@@ -19,8 +21,7 @@ import {
   removeFromCart,
   updateCartItem,
 } from "@/app/redux/slices/cartSlice";
-import { useCurrentSession } from "@/app/hooks/useCurrentSession";
-import { redirect } from "next/navigation";
+import { useSessionContext } from "@/app/context/useSessionContext";
 import PlusIcon from "@/app/icons/plus-icon";
 import MinusIcon from "@/app/icons/minus-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
@@ -60,7 +61,7 @@ const ProductPageContentInformation = ({
   const favoritesStatus = useAppSelector((state) => state.favorites.status);
   const isFavorite = favorites.some((favorite) => favorite.productId === id);
 
-  const { session } = useCurrentSession();
+  const { session } = useSessionContext();
   const userId = session?.user?.id;
 
   const uniqueColors = getUniqueColors(stock!);
@@ -242,6 +243,9 @@ const ProductPageContentInformation = ({
     }
   };
 
+
+
+  
   return (
     <div className="w-full md:w-1/2 flex flex-col lg:justify-between">
       <Stock quantity={totalQuantity!} />
@@ -269,7 +273,7 @@ const ProductPageContentInformation = ({
 
           <div onClick={isFavorite ? handleRemoveFavorite : handleAddFavorite}>
             <OperationIcon color={"error"}>
-              {favoritesStatus==='loading' ? (
+              {favoritesStatus === "loading" ? (
                 <Spinner size={20} color="error" />
               ) : isFavorite ? (
                 <HeartFillIcon styles="size-6" />

@@ -191,3 +191,28 @@ export type SearchQueries = {
   minPrice?: string;
   maxPrice?: string;
 };
+
+export interface ShoppingCartItem {
+  id: string;
+  quantity: number;
+  createdAt: string;
+  product: {
+    title: string;
+    images: {
+      id: string;
+      url: string;
+    }[];
+    price: number;
+    discount: number | null;
+  };
+  stock: {
+    quantity: number;
+    size: string;
+    color: {
+      id: string;
+      title: string;
+      hex: string;
+      persian: string;
+    } | null;
+  };
+}

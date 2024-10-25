@@ -54,6 +54,7 @@ export const addToFavorites = createAsyncThunk(
 export const removeFromFavorites = createAsyncThunk(
   "favorites/removeFromFavorites",
   async ({ userId, productId }: { userId: string; productId: string }) => {
+
     const response = await fetch("/api/favorites", {
       method: "DELETE",
       headers: {

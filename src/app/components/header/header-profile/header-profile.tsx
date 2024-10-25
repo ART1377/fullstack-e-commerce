@@ -8,11 +8,9 @@ import Spinner from "../../spinner/spinner";
 import ArrowBottomIcon from "@/app/icons/arrow-bottom-icon";
 import { motion, AnimatePresence } from "framer-motion";
 import LogoutIcon from "@/app/icons/logout-icon";
-import { useCurrentSession } from "@/app/hooks/useCurrentSession";
 import DashboardIcon from "@/app/icons/dashboard-icon";
-import * as actions from '@/app/actions/auth-actions'
-import { useFormState } from "react-dom";
-
+import * as actions from "@/app/actions/auth-actions";
+import { useSessionContext } from "@/app/context/useSessionContext";
 
 // dropdown animation
 const dropdownVariants = {
@@ -37,13 +35,11 @@ const dropdownVariants = {
 type Props = {};
 
 const HeaderProfile = (props: Props) => {
-
-
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  const { session, status } = useCurrentSession();
+  const { session,status } = useSessionContext();
 
   const user: any = session && session?.user ? session.user : undefined;
 
@@ -68,7 +64,7 @@ const HeaderProfile = (props: Props) => {
   // Custom signOut and refresh page
   const handleSignOut = async () => {
     await actions.handleSighOut();
-    // window.location.reload()
+    window.location.reload()
   };
 
   return (
