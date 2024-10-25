@@ -1,8 +1,9 @@
 import React from "react";
 import type { Metadata } from "next";
 import DashboardEditProductPage from "@/app/components/dashboard/dashboard-edit-product-page/dashboard-edit-product-page";
-import { getProductById } from "@/app/actions/product-action";
 import { notFound } from "next/navigation";
+import * as actions from '@/app/actions/product-action'
+import { Product } from "../../../../../../../next-type-models";
 
 type Props = {
   params: {
@@ -13,7 +14,7 @@ type Props = {
 export async function generateMetadata({
   params: { id },
 }: Props): Promise<Metadata> {
-  const { product } = await getProductById(id);
+  const { product } = await actions.getProductById(id);
 
   if (!product) {
     return {
@@ -29,7 +30,7 @@ export async function generateMetadata({
 }
 
 const EditProduct = async ({ params: { id } }: Props) => {
-  const { product } = await getProductById(id);
+  const { product } = await actions.getProductById(id);
   if (!product) {
     notFound();
   }
@@ -38,3 +39,14 @@ const EditProduct = async ({ params: { id } }: Props) => {
 };
 
 export default EditProduct;
+
+
+// Generate static paths (using the list of product IDs)
+export async function generateStaticParams() {
+  // Fetch all product IDs to generate paths for each
+  const { products } = await actions.getAllProducts();
+
+  return products.map((product: Product) => ({
+    id: product.id,
+  }));
+}
