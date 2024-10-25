@@ -161,9 +161,6 @@ const ShoppingCartPageItem = ({ cartItem }: Props) => {
     }
   };
 
-
-
-
   return (
     <div className="relative bg-white rounded-xl shadow p-3 flex gap-3 flex-col sm:flex-row lg:gap-6">
       {/* in stock */}
@@ -301,7 +298,7 @@ const ShoppingCartPageItem = ({ cartItem }: Props) => {
                 onClick={handleIncreaseQuantity}
                 className="custom-shape size-8 text-bodyMain text-white bg-primary-main flex-center custom-transition hover:opacity-60 cursor-pointer"
               >
-                <PlusIcon size={32} />
+                <PlusIcon />
               </div>
               <div className="w-3 h-5 flex-center">
                 {cartLoading ? (
@@ -314,7 +311,11 @@ const ShoppingCartPageItem = ({ cartItem }: Props) => {
                 onClick={handleDecreaseQuantity}
                 className="custom-shape size-8 text-bodyMain text-white bg-primary-light flex-center custom-transition hover:opacity-60 cursor-pointer"
               >
-                <MinusIcon size={32} />
+                {quantity! > 1 ? (
+                  <MinusIcon />
+                ) : (
+                  <DeleteIcon styles="size-6" />
+                )}
               </div>
             </div>
             <Price

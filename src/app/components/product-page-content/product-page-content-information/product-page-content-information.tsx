@@ -331,7 +331,7 @@ const ProductPageContentInformation = ({
                 onClick={handleIncreaseQuantity}
                 className="custom-shape size-8 text-bodyMain text-white bg-primary-main flex-center custom-transition hover:opacity-60 cursor-pointer"
               >
-                <PlusIcon size={32} />
+                <PlusIcon />
               </div>
               <div className="w-3 h-5 flex-center">
                 {cartStatus === "loading" ? (
@@ -344,7 +344,11 @@ const ProductPageContentInformation = ({
                 onClick={handleDecreaseQuantity}
                 className="custom-shape size-8 text-bodyMain text-white bg-primary-light flex-center custom-transition hover:opacity-60 cursor-pointer"
               >
-                <MinusIcon size={32} />
+                {quantity! > 1 ? (
+                  <MinusIcon />
+                ) : (
+                  <DeleteIcon styles="size-6" />
+                )}
               </div>
             </div>
           ) : (
