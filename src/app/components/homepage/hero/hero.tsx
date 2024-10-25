@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import HeroImages from "./hero-images/hero-images";
 import HeroContent from "./hero-content/hero-content";
-import { Product } from "../../../../../next-type-d";
+import { Product } from "../../../../../next-type-models";
 
 type Props = {
   products: Product[];
