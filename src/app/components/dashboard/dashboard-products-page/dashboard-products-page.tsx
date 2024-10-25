@@ -1,7 +1,7 @@
 import React from "react";
 import DashboardProductsPageHeader from "./dashboard-products-page-header/dashboard-products-page-header";
 import ProductsTable from "./products-table/products-table";
-import * as actions from "@/app/actions/product-action";
+import * as actions from "@/app/actions/product-actions/product-action";
 import { db } from "@/app/db/db";
 import { PAGE_LIMIT } from "@/app/lib/values";
 import { SearchQueries } from "../../../../../next-type-models";
@@ -9,8 +9,6 @@ import { SearchQueries } from "../../../../../next-type-models";
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
-
-
 
 const DashboardProductsPage = async ({ searchParams }: Props) => {
   const {
@@ -41,8 +39,6 @@ const DashboardProductsPage = async ({ searchParams }: Props) => {
 
   const allColors = await db.color.findMany({});
 
-
-  
   return (
     <section className="bg-white shadow rounded-xl pb-3">
       {/* header */}

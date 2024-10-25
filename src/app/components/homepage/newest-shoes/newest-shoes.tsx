@@ -1,7 +1,7 @@
 import React from "react";
 import Title from "../../title/title";
 import NewestShoesSlider from "./newest-shoes-slider/newest-shoes-slider";
-import { getFilteredProducts } from "@/app/actions/product-action";
+import { getFilteredProducts } from "@/app/actions/product-actions/product-action";
 
 type Props = {};
 

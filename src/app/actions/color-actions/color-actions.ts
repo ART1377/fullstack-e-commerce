@@ -1,0 +1,1 @@
+export {getAllColors} from './get-all-colors-action'

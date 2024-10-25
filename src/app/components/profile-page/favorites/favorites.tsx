@@ -2,7 +2,7 @@ import React from "react";
 import Title from "../../title/title";
 import ProfilePageFavoritesSlider from "./favorites-slider/favorites-slider";
 import { User } from "../../../../../next-type-d";
-import { getFilteredProducts } from "@/app/actions/product-action";
+import { getFilteredProducts } from "@/app/actions/product-actions/product-action";
 
 type Props = {
   user: User;

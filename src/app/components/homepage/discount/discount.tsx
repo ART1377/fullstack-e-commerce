@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import DiscountSlider from "./discount-slider/discount-slider";
-import { getAllProducts } from "@/app/actions/product-action";
+import { getAllProducts } from "@/app/actions/product-actions/product-action";
 
 type Props = {};
 

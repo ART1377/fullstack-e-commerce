@@ -3,7 +3,7 @@ import Modal from "@/app/components/modal/modal";
 import CloseIcon from "@/app/icons/close-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import React from "react";
-import * as actions from "@/app/actions/product-action";
+import * as actions from "@/app/actions/product-actions/product-action";
 
 type Props = {
   isDeleteModalOpen: boolean;

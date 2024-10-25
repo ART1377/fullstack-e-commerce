@@ -2,7 +2,7 @@ import React from "react";
 import DashboardUsersPageHeader from "./dashboard-users-page-header/dashboard-users-page-header";
 import UsersTable from "./users-table/users-table";
 import { SearchQueries } from "../../../../../next-type-models";
-import * as actions from "@/app/actions/user-actions";
+import * as actions from "@/app/actions/user-actions/user-actions";
 import { PAGE_LIMIT } from "@/app/lib/values";
 import { db } from "@/app/db/db";
 
@@ -29,7 +29,6 @@ const DashboardUsersPage = async ({ searchParams }: Props) => {
         : undefined,
     searchQuery: searchInput ? (searchInput as string) : "",
   });
-
 
   return (
     <section className="bg-white shadow rounded-xl pb-3">

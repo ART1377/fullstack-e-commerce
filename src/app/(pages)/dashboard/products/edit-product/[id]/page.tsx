@@ -2,7 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import DashboardEditProductPage from "@/app/components/dashboard/dashboard-edit-product-page/dashboard-edit-product-page";
 import { notFound } from "next/navigation";
-import * as actions from '@/app/actions/product-action'
+import * as actions from "@/app/actions/product-actions/product-action";
 import { Product } from "../../../../../../../next-type-models";
 
 type Props = {
@@ -39,7 +39,6 @@ const EditProduct = async ({ params: { id } }: Props) => {
 };
 
 export default EditProduct;
-
 
 // Generate static paths (using the list of product IDs)
 export async function generateStaticParams() {

@@ -4,7 +4,7 @@ import ProfilePageUserCard from "./user-card/user-card";
 import ProfilePageOrders from "./profile-page-orders/profile-page-orders";
 import { users } from "@/app/data/data";
 import { auth } from "@/app/auth";
-import * as actions from "@/app/actions/user-actions";
+import * as actions from "@/app/actions/user-actions/user-actions";
 import { redirect } from "next/navigation";
 
 type Props = {};
@@ -16,7 +16,6 @@ const ProfilePage = async (props: Props) => {
     redirect("/");
   }
   const { user } = await actions.getUserProfileInformation(session?.user?.id!);
-
 
   return (
     <section className="w-full mt-4 sm:mt-10 flex flex-col gap-y-8 md:flex-row">

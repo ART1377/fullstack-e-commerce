@@ -2,14 +2,14 @@ import React from "react";
 import Filters from "./filters/filters";
 import ProductsList from "./products-list/products-list";
 import { SearchQueries } from "../../../../next-type-models";
-import * as actions from "@/app/actions/product-action";
+import * as actions from "@/app/actions/product-actions/product-action";
 import { db } from "@/app/db/db";
 import { PAGE_LIMIT } from "@/app/lib/values";
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
-const ProductsPageContent =async ({ searchParams }: Props) => {
+const ProductsPageContent = async ({ searchParams }: Props) => {
   const {
     selectedCategory,
     colors,
@@ -43,7 +43,6 @@ const ProductsPageContent =async ({ searchParams }: Props) => {
       <Filters filterColors={allColors} />
       {/* products list */}
       <ProductsList totalItems={totalCount!} products={products!} />
-     
     </section>
   );
 };

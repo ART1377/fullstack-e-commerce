@@ -16,7 +16,7 @@ import Button from "@/app/components/button/button";
 import PlusIcon from "@/app/icons/plus-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import CloseIcon from "@/app/icons/close-icon";
-import * as actions from "@/app/actions/product-action";
+import * as actions from "@/app/actions/product-actions/product-action";
 import { useFormState } from "react-dom";
 import { z } from "zod";
 import Checkbox from "@/app/components/form/checkbox/checkbox";
@@ -66,9 +66,13 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
   const [discount, setDiscount] = useState<number>(
     product.discount ? product.discount : 0
   );
-  
-  const [isInDiscountSection, setIsInDiscountSection] = useState<boolean>(product.isInDiscountSection);
-  const [isInHeroSection, setIsInHeroSection] = useState<boolean>(product.isInHeroSection);
+
+  const [isInDiscountSection, setIsInDiscountSection] = useState<boolean>(
+    product.isInDiscountSection
+  );
+  const [isInHeroSection, setIsInHeroSection] = useState<boolean>(
+    product.isInHeroSection
+  );
 
   const [images, setImages] = useState<FileList | null>(null);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]); // New state for previews
@@ -225,8 +229,6 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
     setStockItems([]);
   };
 
-
-  
   // Handle images selection
   const handleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -293,17 +295,14 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
     setImages(null);
     setFeatures([]);
     setDescription("");
-    setIsInHeroSection(false)
-    setIsInDiscountSection(false)
+    setIsInHeroSection(false);
+    setIsInDiscountSection(false);
   };
 
   const getColorById = (colorId: string) => {
     const color = colors.find((color) => color.id === colorId);
     return color;
   };
-
-
-  
 
   return (
     <form action={action} className="flex flex-col gap-7 py-4 px-2 md:px-4">

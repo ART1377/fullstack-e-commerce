@@ -16,7 +16,7 @@ import Button from "@/app/components/button/button";
 import PlusIcon from "@/app/icons/plus-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import CloseIcon from "@/app/icons/close-icon";
-import * as actions from "@/app/actions/product-action";
+import * as actions from "@/app/actions/product-actions/product-action";
 import { useFormState } from "react-dom";
 import { z } from "zod";
 import Checkbox from "@/app/components/form/checkbox/checkbox";

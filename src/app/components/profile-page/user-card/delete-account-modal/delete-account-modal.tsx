@@ -5,7 +5,7 @@ import Button from "@/app/components/button/button";
 import Modal from "@/app/components/modal/modal";
 import CloseIcon from "@/app/icons/close-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
-import * as actions from "@/app/actions/auth-actions";
+import * as actions from "@/app/actions/auth-actions/auth-actions";
 import { useFormState } from "react-dom";
 
 type Props = {

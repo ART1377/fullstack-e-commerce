@@ -4,7 +4,7 @@ import React from "react";
 import Input from "../../../form/input/input";
 import Title from "../../../title/title";
 import Button from "../../../button/button";
-import * as actions from "@/app/actions/auth-actions";
+import * as actions from "@/app/actions/auth-actions/auth-actions";
 import Link from "next/link";
 import { useFormState } from "react-dom";
 

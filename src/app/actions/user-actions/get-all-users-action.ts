@@ -1,9 +1,7 @@
 "use server";
 
-import { db } from "../db/db";
-import * as auth from "@/app/auth";
-import { PAGE_LIMIT } from "../lib/values";
-import { User } from "../../../next-type-models";
+import { db } from "../../db/db";
+import { PAGE_LIMIT } from "../../lib/values";
 
 // get list of filtered users
 type Filters = {
@@ -97,29 +95,5 @@ export async function getAllUsers({
       success: false,
       error: "An error occurred while fetching users",
     };
-  }
-}
-
-interface GetUserByIdState {
-  success: boolean;
-  error?: string;
-  user?: any;
-}
-
-export async function getUserProfileInformation(
-  userId: string
-): Promise<GetUserByIdState> {
-  try {
-    const user = await db.user.findUnique({
-      where: { id: userId },
-      include: {
-        orders: true,
-        favorites: true,
-      },
-    });
-
-    return { success: true, user };
-  } catch (error) {
-    return { success: true, error: "خطایی رخ داده است" };
   }
 }

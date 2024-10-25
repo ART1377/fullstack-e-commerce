@@ -109,6 +109,8 @@ model Product {
   discount    Int?
   isInDiscountSection     Boolean    @default(false)  // For discount section
   isInHeroSection    Boolean    @default(false)  // Flag for hero section
+
+  createdAt  DateTime  @default(now())
 }
 
 model Feature {

@@ -9,7 +9,7 @@ import Image from "next/image";
 import PersonIcon from "@/app/icons/person-icon";
 import { User } from "../../../../../../next-type-models";
 import { useFormState } from "react-dom";
-import * as actions from '@/app/actions/auth-actions'
+import * as actions from "@/app/actions/auth-actions/auth-actions";
 
 type Props = {
   isEditModalOpen: boolean;
@@ -31,7 +31,6 @@ const EditAccountModal = ({
   const [image, setImage] = useState<string>("");
   const [cloudinaryImage, setCloudinaryImage] = useState<string>(user.image!);
 
-
   // Handle image selection
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -47,18 +46,12 @@ const EditAccountModal = ({
     }
   };
 
-    const [formState, action] = useFormState(
-      actions.updateUser.bind(
-        null,
-        cloudinaryImage
-      ),
-      {
-        errors: {},
-      }
-    );
-
-
-    
+  const [formState, action] = useFormState(
+    actions.updateUser.bind(null, cloudinaryImage),
+    {
+      errors: {},
+    }
+  );
 
   return (
     <Modal

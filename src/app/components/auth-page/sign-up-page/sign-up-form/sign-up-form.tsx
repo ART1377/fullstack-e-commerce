@@ -6,7 +6,7 @@ import Title from "../../../title/title";
 import Button from "../../../button/button";
 import Image from "next/image";
 import PersonIcon from "@/app/icons/person-icon";
-import * as actions from "@/app/actions/auth-actions";
+import * as actions from "@/app/actions/auth-actions/auth-actions";
 import Link from "next/link";
 import { useFormState } from "react-dom";
 

@@ -2,7 +2,7 @@ import React from "react";
 import Title from "../../title/title";
 import ProductPageContentRelatedProductsSlider from "./product-page-content-related-products-slider/product-page-content-related-products-slider";
 import { Product } from "../../../../../next-type-models";
-import { getFilteredProducts } from "@/app/actions/product-action";
+import { getFilteredProducts } from "@/app/actions/product-actions/product-action";
 
 type Props = {
   relatedProducts: Product[];

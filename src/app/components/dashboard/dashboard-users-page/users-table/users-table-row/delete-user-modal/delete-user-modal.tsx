@@ -3,7 +3,7 @@ import Modal from "@/app/components/modal/modal";
 import CloseIcon from "@/app/icons/close-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import React from "react";
-import * as actions from '@/app/actions/auth-actions'
+import * as actions from "@/app/actions/auth-actions/auth-actions";
 
 type Props = {
   isDeleteModalOpen: boolean;
@@ -18,7 +18,6 @@ const DeleteUserModal = ({
   selectedUserId,
   selectedUserName,
 }: Props) => {
-
   return (
     <Modal
       isOpen={isDeleteModalOpen}

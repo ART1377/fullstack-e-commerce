@@ -2,7 +2,7 @@ import React from "react";
 import ProductPageContent from "@/app/components/product-page-content/product-page-content";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import * as actions from "@/app/actions/product-action";
+import * as actions from "@/app/actions/product-actions/product-action";
 import { Product } from "../../../../../../next-type-models";
 import { db } from "@/app/db/db";
 

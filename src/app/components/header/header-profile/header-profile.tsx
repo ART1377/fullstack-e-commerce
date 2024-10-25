@@ -9,7 +9,7 @@ import ArrowBottomIcon from "@/app/icons/arrow-bottom-icon";
 import { motion, AnimatePresence } from "framer-motion";
 import LogoutIcon from "@/app/icons/logout-icon";
 import DashboardIcon from "@/app/icons/dashboard-icon";
-import * as actions from "@/app/actions/auth-actions";
+import * as actions from "@/app/actions/auth-actions/auth-actions";
 import { useSessionContext } from "@/app/context/useSessionContext";
 
 // dropdown animation
@@ -39,7 +39,7 @@ const HeaderProfile = (props: Props) => {
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  const { session,status } = useSessionContext();
+  const { session, status } = useSessionContext();
 
   const user: any = session && session?.user ? session.user : undefined;
 
@@ -64,7 +64,7 @@ const HeaderProfile = (props: Props) => {
   // Custom signOut and refresh page
   const handleSignOut = async () => {
     await actions.handleSighOut();
-    window.location.reload()
+    window.location.reload();
   };
 
   return (

@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "../db/db";
+import { db } from "../../db/db";
 
 export const getAllColors = async () => {
   try {

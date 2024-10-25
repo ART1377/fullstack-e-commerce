@@ -10,7 +10,7 @@ const UserLayout = ({children}: Props) => {
   return (
     <>
       <Header />
-      <main className="custom-container">{children}</main>
+      <main className="custom-container min-h-[calc(100vh-500px)]">{children}</main>
       <Footer />
     </>
   );
