@@ -4,7 +4,7 @@ type Props = {
   longDescription:string;
 };
 
-const ProductPageContentLongDescription = ({ longDescription }: Props) => {
+const ProductPageLongDescription = ({ longDescription }: Props) => {
   return (
     <div className="flex flex-col gap-10 text-dark text-bodyMain">
       <p className="leading-8">{longDescription}</p>
@@ -12,4 +12,4 @@ const ProductPageContentLongDescription = ({ longDescription }: Props) => {
   );
 };
 
-export default ProductPageContentLongDescription
+export default ProductPageLongDescription

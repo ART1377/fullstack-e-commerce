@@ -55,17 +55,17 @@ const footerItems: FooterItemType[] = [
 export const socialMediaItems: SocialItemType[] = [
   {
     title: "instagram",
-    path: "",
+    path: process.env.TELEGRAM_LINK!,
     icon: <InstagramIcon styles="size-8" />,
   },
   {
     title: "whatsapp",
-    path: "",
+    path: process.env.WHATSAPP_LINK!,
     icon: <Whatsapp styles="size-8" />,
   },
   {
     title: "telegram",
-    path: "",
+    path: process.env.TELEGRAM_LINK!,
     icon: <TelegramIcon styles="size-8" />,
   },
 ];

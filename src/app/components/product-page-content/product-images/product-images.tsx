@@ -11,7 +11,7 @@ type Props = {
   title: string;
 };
 
-const ProductPageContentImages = ({ images, title }: Props) => {
+const ProductImages = ({ images, title }: Props) => {
   const [current, setCurrent] = useState<number>(0);
 
   // to change slide each 5 second
@@ -117,4 +117,4 @@ const ProductPageContentImages = ({ images, title }: Props) => {
   );
 };
 
-export default ProductPageContentImages;
+export default ProductImages;

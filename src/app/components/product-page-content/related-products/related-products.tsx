@@ -1,13 +1,13 @@
 import React from "react";
 import Title from "../../title/title";
-import ProductPageContentRelatedProductsSlider from "./product-page-content-related-products-slider/product-page-content-related-products-slider";
+import ProductPageContentRelatedProductsSlider from "./related-products-slider/related-products-slider";
 import { Product } from "../../../../../next-type-models";
 import { getFilteredProducts } from "@/app/actions/product-actions/product-action";
 
 type Props = {
   relatedProducts: Product[];
 };
-const ProductPageContentRelatedProducts = ({ relatedProducts }: Props) => {
+const RelatedProducts = ({ relatedProducts }: Props) => {
   return (
     <section className="mt-28 md:mt-32 w-full">
       {/* title */}
@@ -20,4 +20,4 @@ const ProductPageContentRelatedProducts = ({ relatedProducts }: Props) => {
   );
 };
 
-export default ProductPageContentRelatedProducts;
+export default RelatedProducts;

@@ -1,20 +1,22 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ProductPageContentImages from "./product-page-content-images/product-page-content-images";
-import ProductPageContentInformation from "./product-page-content-information/product-page-content-information";
-import ProductPageContentTabs from "./product-page-content-tabs/product-page-content-tabs";
-import ProductPageContentRelatedProducts from "./product-page-content-related-products/product-page-content-related-products";
+import ProductPageContentImages from "./product-images/product-images";
+import ProductPageContentInformation from "./product-page-information/product-page-information";
+import ProductPageContentTabs from "./product-page-tabs/product-page-tabs";
+import ProductPageContentRelatedProducts from "./related-products/related-products";
 import { getSizesForColor, getUniqueColors } from "@/app/lib/functions";
 import { Product } from "../../../../next-type-models";
+import { CommentWithAuthor } from "@/app/actions/comment-actions/get-comments-action";
 
 type Props = {
   product: Product;
   relatedProducts: Product[];
+  comments: CommentWithAuthor[] | undefined;
 };
 
-const ProductPageContent = ({ product, relatedProducts }: Props) => {
-  const { stock, images, title, description, comments, features } = product;
+const ProductPageContent = ({ product, relatedProducts,comments }: Props) => {
+  const { stock, images, title, description, features } = product;
 
   const uniqueColors = getUniqueColors(stock!);
 
@@ -40,7 +42,7 @@ const ProductPageContent = ({ product, relatedProducts }: Props) => {
     <section className="w-full mt-4 sm:mt-10">
       <div className="flex flex-col gap-7 md:flex-row">
         {/* images */}
-        <ProductPageContentImages images={images?.slice(0,3)!} title={title} />
+        <ProductPageContentImages images={images?.slice(0, 3)!} title={title} />
         {/* content - information */}
         <ProductPageContentInformation
           product={product!}
@@ -48,14 +50,21 @@ const ProductPageContent = ({ product, relatedProducts }: Props) => {
           handleColorSelection={handleColorSelection}
           selectedSize={selectedSize}
           handleSizeSelection={handleSizeSelection}
+          commentsCount={
+            comments?.length != undefined && comments?.length > 0
+              ? comments?.length
+              : 0
+          }
         />
       </div>
       <ProductPageContentTabs
         description={description}
-        commentItems={comments!}
+        comments={comments!}
         features={features!}
       />
-      <ProductPageContentRelatedProducts relatedProducts={relatedProducts} />
+      {relatedProducts && (
+        <ProductPageContentRelatedProducts relatedProducts={relatedProducts} />
+      )}
     </section>
   );
 };

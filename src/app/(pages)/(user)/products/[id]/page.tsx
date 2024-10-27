@@ -4,12 +4,14 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import * as actions from "@/app/actions/product-actions/product-action";
 import { Product } from "../../../../../../next-type-models";
-import { db } from "@/app/db/db";
+import { getComments } from "@/app/actions/comment-actions/comment-actions";
+import { getSortOptionValue } from "@/app/lib/get-sort-option-value";
 
 type Props = {
   params: {
     id: string;
   };
+  searchParams: { sort?: string }; // Capture the sort parameter
 };
 
 export async function generateMetadata({
@@ -30,16 +32,29 @@ export async function generateMetadata({
   };
 }
 
-const ProductPage = async ({ params: { id } }: Props) => {
+const ProductPage = async ({ params: { id }, searchParams }: Props) => {
   // await db.cart.deleteMany()
   // need change - get related products
   const { products } = await actions.getAllProducts();
 
   const { product } = await actions.getProductById(id);
+
+  // Get comments based on the selected sort option
+  const sortOption =
+    (searchParams.sort && getSortOptionValue(searchParams.sort)) || "newest"; // Default to "newest" if not provided
+
+  const { comments } = await getComments(id, sortOption);
+
   if (!product) {
     notFound();
   }
-  return <ProductPageContent product={product} relatedProducts={products} />;
+  return (
+    <ProductPageContent
+      product={product}
+      relatedProducts={products}
+      comments={comments ? comments : undefined}
+    />
+  );
 };
 
 export default ProductPage;

@@ -7,7 +7,7 @@ type Props = {}
 
 const ContactUsSocialMedia = (props: Props) => {
   return (
-    <div className="bg-primary-main flex-center gap-5 rounded-2xl py-2 px-3 w-fit">
+    <div className="bg-primary-main flex-center gap-3 rounded-2xl py-1 px-2 w-fit">
       {socialMediaItems.map((media: SocialItemType) => {
         return <SocialMediaItem key={media.title} media={media} />;
       })}

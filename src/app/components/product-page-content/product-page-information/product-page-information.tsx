@@ -40,17 +40,18 @@ type Props = {
   selectedSize: string;
   handleColorSelection: (color: string) => void;
   handleSizeSelection: (size: string) => void;
+  commentsCount:number;
 };
 
-const ProductPageContentInformation = ({
+const ProductPageInformation = ({
   product,
   selectedColor,
   selectedSize,
   handleColorSelection,
   handleSizeSelection,
+  commentsCount,
 }: Props) => {
-  const { stock, description, price, rating, title, discount, comments, id } =
-    product;
+  const { stock, description, price, rating, title, discount, id } = product;
 
   const dispatch = useAppDispatch();
 
@@ -243,9 +244,6 @@ const ProductPageContentInformation = ({
     }
   };
 
-
-
-  
   return (
     <div className="w-full md:w-1/2 flex flex-col lg:justify-between">
       <Stock quantity={totalQuantity!} />
@@ -264,7 +262,7 @@ const ProductPageContentInformation = ({
         )}
         <div className="flex items-center gap-1 text-customGray-500 text-bodySmall">
           <ChatIcon styles="size-6 mb-1" />
-          <span>({comments?.length}) دیدگاه</span>
+          <span>({commentsCount}) دیدگاه</span>
         </div>
         <div className="flex gap-2">
           <OperationIcon color="success">
@@ -344,11 +342,7 @@ const ProductPageContentInformation = ({
                 onClick={handleDecreaseQuantity}
                 className="custom-shape size-8 text-bodyMain text-white bg-primary-light flex-center custom-transition hover:opacity-60 cursor-pointer"
               >
-                {quantity! > 1 ? (
-                  <MinusIcon />
-                ) : (
-                  <DeleteIcon styles="size-6" />
-                )}
+                {quantity! > 1 ? <MinusIcon /> : <DeleteIcon styles="size-6" />}
               </div>
             </div>
           ) : (
@@ -393,4 +387,4 @@ const ProductPageContentInformation = ({
   );
 };
 
-export default ProductPageContentInformation;
+export default ProductPageInformation;

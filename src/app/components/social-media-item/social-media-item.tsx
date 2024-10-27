@@ -11,6 +11,7 @@ const SocialMediaItem = ({ media }: Props) => {
     <Link
       className="size-10 flex-center rounded-full text-white custom-transition hover:bg-white hover:text-primary-main"
       href={media.path}
+      target="_blank"
     >
       {media.icon}
     </Link>

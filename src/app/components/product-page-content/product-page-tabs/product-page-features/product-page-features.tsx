@@ -5,7 +5,7 @@ type Props = {
   features:Feature[];
 };
 
-const ProductPageContentFeatures = ({ features }: Props) => {
+const ProductPageFeatures = ({ features }: Props) => {
   return (
     <div className="w-full flex flex-col gap-4">
       {features.map((feature: Feature, index: number) => {
@@ -29,4 +29,4 @@ const ProductPageContentFeatures = ({ features }: Props) => {
   );
 };
 
-export default ProductPageContentFeatures
+export default ProductPageFeatures

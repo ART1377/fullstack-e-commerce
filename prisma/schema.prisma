@@ -25,6 +25,7 @@ model User {
   favorites     Favorite[]     // A user can have multiple favorite products
   cart          Cart?          // A user has a cart
   comments      Comment[]
+  commentLikes  CommentLike[] // User can like or dislike multiple comments
   accounts      Account[]
   sessions      Session[]
   // Optional for WebAuthn support
@@ -128,16 +129,6 @@ model ProductImage {
   productId String
 }
 
-// model Stock {
-//   id       String  @id @default(uuid())
-//   size     String  // Size of the product
-//   quantity Int     // Stock quantity
-//   product  Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-//   productId String
-
-//   color    Color?  @relation(fields: [colorId], references: [id], onDelete: Cascade) // Make it optional for now
-//   colorId  String? // Optional
-// }
 model Stock {
   id       String     @id @default(uuid())
   size     String     // Size of the product
@@ -199,20 +190,6 @@ model Cart {
   items     CartItem[]   // Items in the cart
 }
 
-
-// model CartItem {
-//   id        String   @id @default(uuid())
-//   quantity  Int      // Quantity of the product
-//   createdAt DateTime @default(now())
-
-//   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade) // onDelete is here
-//   productId String
-
-//   cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade) // onDelete is here
-//   cartId    String
-
-//   @@unique([productId, cartId]) // Ensure a unique combination of product and cart
-// }
 model CartItem {
   id        String   @id @default(uuid())
   quantity  Int      // Quantity of the stock item (variation)
@@ -231,23 +208,36 @@ model CartItem {
 }
 
 
-
 model Comment {
-  id         String   @id @default(uuid())
-  title      String   // Title of the comment
-  description String  // Detailed description of the comment
-  createdAt  DateTime @default(now())
+  id          String       @id @default(uuid())
+  title       String       // Title of the comment
+  description String       // Detailed description of the comment
+  createdAt   DateTime     @default(now())
   
-  // Author of the comment
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade) // onDelete is here
-  userId   String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
 
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade) // onDelete is here
-  productId  String
+  product     Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId   String
 
-  // Parent comment (for replies)
-  parent     Comment? @relation("Comments", fields: [parentId], references: [id]) // No onDelete here
-  parentId   String?  // Nullable, because root comments don't have a parent
+  parent      Comment?     @relation("Comments", fields: [parentId], references: [id])
+  parentId    String?      
 
-  children   Comment[] @relation("Comments") // No onDelete here
+  children    Comment[]    @relation("Comments")
+  likes       CommentLike[] // Likes/dislikes related to this comment
+}
+
+model CommentLike {
+  id        String    @id @default(uuid())
+  isLike    Boolean   // true for like, false for dislike
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+
+  comment   Comment   @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String
+
+  createdAt DateTime  @default(now())
+
+  @@unique([userId, commentId]) // Ensures a user can't like/dislike the same comment multiple times
 }

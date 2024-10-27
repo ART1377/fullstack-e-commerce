@@ -18,7 +18,6 @@ export async function getProductById(
       include: {
         features: true, // Include the related features
         images: true, // Optionally include images if needed
-        comments: true,
         stock: {
           include: {
             color: true, // Include all fields from the ProductColor model

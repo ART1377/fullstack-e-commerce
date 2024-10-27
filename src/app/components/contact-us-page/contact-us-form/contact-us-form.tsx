@@ -9,8 +9,7 @@ import Title from "../../title/title";
 type Props = {};
 
 const ContactUsForm = (props: Props) => {
-  const [nameInput, setNameInput] = useState<string>("");
-  const [emailInput, setEmailInput] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
   const [messageInput, setMessageInput] = useState<string>("");
 
   return (
@@ -26,18 +25,11 @@ const ContactUsForm = (props: Props) => {
       </div>
       {/* inputs */}
       <Input
-        label="نام"
-        name="name"
+        label="موضوع"
+        name="title"
         type="text"
-        value={nameInput}
-        onChange={(e) => setNameInput(e.target.value)}
-      />
-      <Input
-        label="ایمیل"
-        name="email"
-        type="email"
-        value={emailInput}
-        onChange={(e) => setEmailInput(e.target.value)}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
       />
       <TextArea
         label="متن پیام"

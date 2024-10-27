@@ -1,26 +1,23 @@
 "use client";
 
 import React, { useState } from "react";
-import { comments } from "@/app/data/data";
-import ProductPageContentComments from "./product-page-content-comments/product-page-content-comments";
-import ProductPageContentFeatures from "./product-page-content-features/product-page-content-features";
+import ProductPageContentComments from "./product-page-comments/product-page-comments";
+import ProductPageContentFeatures from "./product-page-features/product-page-features";
 import TabItems from "../../tab-items/tab-items";
-import ProductPageContentLongDescription from "./product-page-content-long-description/product-page-content-long-description";
-import { Comment, Feature } from "../../../../../next-type-models";
+import ProductPageContentLongDescription from "./product-page-long-description/product-page-long-description";
+import { Feature } from "../../../../../next-type-models";
+import { CommentWithAuthor } from "@/app/actions/comment-actions/get-comments-action";
 
 const tabItems: string[] = ["معرفی", "مشخصات", "دیدگاه ها"];
 
-
 type Props = {
   description: string;
-  commentItems: Comment[];
+  comments: CommentWithAuthor[] | undefined;
   features: Feature[];
 };
 
-const ProductPageContentTabs = ({description,features,commentItems}: Props) => {
-  const [currentTab, setCurrentTab] = useState<string>(tabItems[0]);
-
-  const commentsCount = 20;
+const ProductPageTabs = ({ description, features, comments }: Props) => {
+  const [currentTab, setCurrentTab] = useState<string>(tabItems[2]);
 
   return (
     <div className="mt-10">
@@ -41,11 +38,15 @@ const ProductPageContentTabs = ({description,features,commentItems}: Props) => {
         // need change - add comments
         <ProductPageContentComments
           comments={comments}
-          commentsCount={commentsCount}
+          commentsCount={
+            comments?.length != undefined && comments?.length > 0
+              ? comments?.length
+              : 0
+          }
         />
       )}
     </div>
   );
 };
 
-export default ProductPageContentTabs;
+export default ProductPageTabs;
