@@ -26,6 +26,7 @@ const LikeDislikeOperations = ({
   const [userReaction, setUserReaction] = useState<"like" | "dislike" | null>(
     initialUserReaction
   );
+  const [loading, setLoading] = useState(false);
 
   const handleLike = async () => {
     if (!userId) {
@@ -38,6 +39,9 @@ const LikeDislikeOperations = ({
       return;
     }
 
+    setLoading(true);
+    const loadingToastId = toast.loading("در حال ثبت لایک...");
+
     try {
       const response = await actions.likeOrDislikeComment(
         commentId,
@@ -45,6 +49,7 @@ const LikeDislikeOperations = ({
         userId
       );
 
+      toast.dismiss(loadingToastId);
       if (response.success) {
         setLikeCount((prev) => prev + 1);
         if (userReaction === "dislike") setDislikeCount((prev) => prev - 1);
@@ -54,7 +59,10 @@ const LikeDislikeOperations = ({
         toast.error(response.errors || "خطایی رخ داده است");
       }
     } catch (error) {
+      toast.dismiss(loadingToastId);
       toast.error("خطایی رخ داده است");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,6 +77,9 @@ const LikeDislikeOperations = ({
       return;
     }
 
+    setLoading(true);
+    const loadingToastId = toast.loading("در حال ثبت دیسلایک...");
+
     try {
       const response = await actions.likeOrDislikeComment(
         commentId,
@@ -76,6 +87,7 @@ const LikeDislikeOperations = ({
         userId
       );
 
+      toast.dismiss(loadingToastId);
       if (response.success) {
         setDislikeCount((prev) => prev + 1);
         if (userReaction === "like") setLikeCount((prev) => prev - 1);
@@ -85,7 +97,10 @@ const LikeDislikeOperations = ({
         toast.error(response.errors || "خطایی رخ داده است");
       }
     } catch (error) {
+      toast.dismiss(loadingToastId);
       toast.error("خطایی رخ داده است");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -95,6 +110,9 @@ const LikeDislikeOperations = ({
       return;
     }
 
+    setLoading(true);
+    const loadingToastId = toast.loading("در حال حذف واکنش...");
+
     try {
       const response = await actions.removeLikeOrDislike(
         commentId,
@@ -102,6 +120,7 @@ const LikeDislikeOperations = ({
         userId
       );
 
+      toast.dismiss(loadingToastId);
       if (response.success) {
         if (userReaction === "like") {
           setLikeCount((prev) => prev - 1);
@@ -114,7 +133,10 @@ const LikeDislikeOperations = ({
         toast.error(response.errors || "خطایی رخ داده است");
       }
     } catch (error) {
+      toast.dismiss(loadingToastId);
       toast.error("خطایی رخ داده است");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -122,10 +144,16 @@ const LikeDislikeOperations = ({
     <div className="flex gap-2 text-bodySmall text-customGray-500">
       <div className="flex items-end gap-0.5">
         <div
-          onClick={userReaction === "like" ? handleRemoveReaction : handleLike}
+          onClick={
+            loading
+              ? undefined
+              : userReaction === "like"
+              ? handleRemoveReaction
+              : handleLike
+          }
           className={`like-dislike cursor-pointer custom-transition ${
             userReaction === "like" ? "text-dark" : ""
-          }`}
+          } ${loading ? "cursor-not-allowed opacity-50" : ""}`}
         >
           <LikeIcon styles="size-6" />
         </div>
@@ -134,11 +162,15 @@ const LikeDislikeOperations = ({
       <div className="flex items-end gap-0.5">
         <div
           onClick={
-            userReaction === "dislike" ? handleRemoveReaction : handleDislike
+            loading
+              ? undefined
+              : userReaction === "dislike"
+              ? handleRemoveReaction
+              : handleDislike
           }
           className={`like-dislike cursor-pointer custom-transition ${
             userReaction === "dislike" ? "text-dark" : ""
-          }`}
+          } ${loading ? "cursor-not-allowed opacity-50" : ""}`}
         >
           <DislikeIcon styles="size-6" />
         </div>

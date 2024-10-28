@@ -13,16 +13,18 @@ const ProductPageComments = ({ comments, commentsCount }: Props) => {
   return (
     <>
       <CreateCommentModal />
-      <ProductPageCommentsHeader commentsCount={commentsCount} />
-      {comments ? (
-        <div className="flex flex-col gap-4">
-          {comments.map((comment: CommentWithAuthor) => {
-            return <Testimonial key={comment.id} comment={comment} />;
-          })}
-        </div>
+      {commentsCount > 0 && comments ? (
+        <>
+          <ProductPageCommentsHeader commentsCount={commentsCount} />
+          <div className="flex flex-col gap-4">
+            {comments.map((comment: CommentWithAuthor) => {
+              return <Testimonial key={comment.id} comment={comment} />;
+            })}
+          </div>
+        </>
       ) : (
         <div className="w-full px-4 py-8 bg-state-error-200 text-state-error rounded-xl flex-center flex-col gap-4 text-center text-bodyMain">
-          <p>کامنتی موجود نیست</p>
+          <p>دیدگاهی موجود نیست</p>
         </div>
       )}
     </>
