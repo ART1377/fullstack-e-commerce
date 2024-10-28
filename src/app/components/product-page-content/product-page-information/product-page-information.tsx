@@ -40,7 +40,7 @@ type Props = {
   selectedSize: string;
   handleColorSelection: (color: string) => void;
   handleSizeSelection: (size: string) => void;
-  commentsCount:number;
+  commentsCount: number;
 };
 
 const ProductPageInformation = ({
@@ -141,6 +141,11 @@ const ProductPageInformation = ({
     } else {
       if (!selectedStockId) {
         toast.error("لطفا یک رنگ و سایز انتخاب کنید !");
+        return;
+      }
+
+      if (quantityOfStock === 0) {
+        toast.error("این موجودی به پایان رسیده");
         return;
       }
 
@@ -375,7 +380,7 @@ const ProductPageInformation = ({
               icon={<ShopIcon />}
               styles="w-full"
               onClick={handleAddToCart}
-              disabled={cartStatus === "loading"}
+              disabled={cartStatus === "loading" || quantityOfStock===0}
               loading={
                 cartStatus === "loading" && <Spinner size={20} color="white" />
               }

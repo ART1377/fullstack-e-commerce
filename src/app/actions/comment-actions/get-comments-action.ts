@@ -84,7 +84,7 @@ export const getComments = async (
   productId: string,
   sort?: string
 ): Promise<GetCommentsResponse> => {
-  console.log("runningggggggggggggggg", sort);
+
   try {
     const comments = await fetchCommentsWithChildren(
       productId,

@@ -29,7 +29,6 @@ const ShoppingCartPage = (props: Props) => {
     0
   );
 
-  console.log(cartItems, !!cartItems);
 
   const cartIsEmpty = cartItems.length < 1;
 
@@ -38,7 +37,7 @@ const ShoppingCartPage = (props: Props) => {
       {/* cart items - header */}
       <div
         className={`w-full flex flex-col gap-3 ${
-          cartIsEmpty ?? "bmlg:w-[calc(100%-300px)]"
+          !cartIsEmpty && "bmlg:w-[calc(100%-300px)]"
         }`}
       >
         {/* header */}

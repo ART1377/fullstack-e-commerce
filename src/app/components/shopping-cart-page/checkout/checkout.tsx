@@ -1,8 +1,9 @@
 import { formatPrice } from "@/app/lib/functions";
 import React from "react";
 import Title from "../../title/title";
-import Button from "../../button/button";
 import Spinner from "../../spinner/spinner";
+import CheckoutButton from "./checkout-button/checkout-button";
+import { auth } from "@/app/auth";
 
 type Props = {
   totalQuantity: number;
@@ -17,6 +18,8 @@ const Checkout = ({
   totalDiscount,
   loading,
 }: Props) => {
+
+
   return (
     <div className="bg-white p-3 rounded-xl shadow w-[280px] h-fit mx-auto">
       {loading ? (
@@ -70,9 +73,7 @@ const Checkout = ({
               </div>
             </div>
           </div>
-          <Button color="dark" styles="w-full" outline>
-            پرداخت
-          </Button>
+          <CheckoutButton />
         </>
       )}
     </div>
