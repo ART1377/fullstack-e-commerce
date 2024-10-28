@@ -14,61 +14,76 @@ import { useFormState } from "react-dom";
 import * as actions from "@/app/actions/comment-actions/comment-actions";
 import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
+import ArrowDoubleLeftIcon from "@/app/icons/arrow-double-left-icon";
+import ArrowLeftIcon from "@/app/icons/arrow-left-icon";
 
-type Props = {};
+type Props = {
+  parentId?: string;
+  isReply?: boolean;
+};
 
-const CreateCommentModal = (props: Props) => {
+const CreateCommentModal = ({
+  parentId = undefined,
+  isReply = false,
+}: Props) => {
   const { session } = useSessionContext();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const sessionExist = !!session && !!session?.user;
 
-  const params=useParams()
+  const params = useParams();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  
 
   const productId = params.id as string;
-  const parentId = undefined;
 
   const [formState, action] = useFormState(
     actions.createComment.bind(null, productId, parentId),
     { state: {} }
   );
 
-    // Form submission handler
- const handleSubmit = async (e: React.FormEvent) => {
-   e.preventDefault();
-   const formData = new FormData();
-   formData.append("title", title);
-   formData.append("description", description);
+  // Form submission handler
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
 
+    // Run the action
+    action(formData);
 
-   // Run the action
-   action(formData);
-
-   // Handle toast notifications based on success or errors
-   if (formState.state.errors?._form?.[0]) {
-     toast.error(formState.state.errors._form[0]);
-   } else if (formState.state.success) {
-     toast.success("ثبت نظر با موفقیت انجام شد");
-     setTitle(""); // Clear input
-     setDescription(""); // Clear input
-     setIsModalOpen(false); // Close modal
-   }
- };
+    // Handle toast notifications based on success or errors
+    if (formState.state.errors?._form?.[0]) {
+      toast.error(formState.state.errors._form[0]);
+    } else if (formState.state.success) {
+      toast.success("ثبت نظر با موفقیت انجام شد");
+      setTitle(""); // Clear input
+      setDescription(""); // Clear input
+      setIsModalOpen(false); // Close modal
+    }
+  };
 
   return (
     <>
       {sessionExist ? (
         <>
-          <Button
-            icon={<PlusIcon styles="size-6" />}
-            styles="mb-4"
-            onClick={() => setIsModalOpen((prev) => !prev)}
-          >
-            ایجاد پیام
-          </Button>
+          {isReply ? (
+            <div
+              onClick={() => setIsModalOpen((prev) => !prev)}
+              className="text-customGray-500 flex items-center justify-end cursor-pointer ml-2 mt-2 custom-transition transform hover:-translate-x-0.5 hover:text-customGray-700"
+            >
+              <small className="text-bodySmall">پاسخ</small>
+              <ArrowLeftIcon styles="size-6" />
+            </div>
+          ) : (
+            <Button
+              icon={<PlusIcon styles="size-6" />}
+              styles="mb-4"
+              onClick={() => setIsModalOpen((prev) => !prev)}
+            >
+              ایجاد پیام
+            </Button>
+          )}
           <Modal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen((prev) => !prev)}

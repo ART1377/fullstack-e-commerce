@@ -1,6 +1,11 @@
 import { db } from "@/app/db/db";
 
 // Types for comments and response
+type GetCommentsResponse = {
+  success: boolean;
+  comments?: CommentWithAuthor[];
+  errors?: string;
+};
 
 export type CommentWithAuthor = {
   id: string;
@@ -15,65 +20,58 @@ export type CommentWithAuthor = {
   };
   likeCount: number;
   dislikeCount: number;
+  children?: CommentWithAuthor[]; // For recursive comments
 };
 
-type GetCommentsResponse = {
-  success: boolean;
-  comments?: CommentWithAuthor[];
-  errors?: string;
-};
+// Recursive function to fetch comments with children
+async function fetchCommentsWithChildren(
+  commentId?: string
+): Promise<CommentWithAuthor[]> {
+  const comments = await db.comment.findMany({
+    where: {
+      parentId: commentId || null,
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          image: true,
+          firstName: true,
+          lastName: true,
+        },
+      },
+      likes: {
+        select: {
+          isLike: true,
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
 
-// The function with the defined return type
+  return await Promise.all(
+    comments.map(async (comment) => {
+      const likeCount = comment.likes.filter((like) => like.isLike).length;
+      const dislikeCount = comment.likes.length - likeCount;
+
+      return {
+        ...comment,
+        likeCount,
+        dislikeCount,
+        children: await fetchCommentsWithChildren(comment.id), // Fetch nested children recursively
+      };
+    })
+  );
+}
+
 export const getComments = async (
   productId: string,
   sort?: string
 ): Promise<GetCommentsResponse> => {
   try {
-    const comments = await db.comment.findMany({
-      where: { productId },
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        createdAt: true,
-        user: {
-          select: {
-            id: true,
-            image: true,
-            firstName: true,
-            lastName: true,
-          },
-        },
-        likes: {
-          select: {
-            isLike: true,
-          },
-        },
-      },
-      orderBy: (() => {
-        switch (sort) {
-          case "mostLike":
-            return { likes: { _count: "desc" } };
-          case "mostDislike":
-            return { likes: { _count: "asc" } };
-          case "newest":
-          default:
-            return { createdAt: "desc" };
-        }
-      })(),
-    });
+    const comments = await fetchCommentsWithChildren();
 
-    const formattedComments: CommentWithAuthor[] = comments.map((comment) => {
-      const likeCount = comment.likes.filter((like) => like.isLike).length;
-      const dislikeCount = comment.likes.length - likeCount;
-      return {
-        ...comment,
-        likeCount,
-        dislikeCount,
-      };
-    });
-
-    return { success: true, comments: formattedComments };
+    return { success: true, comments };
   } catch (error) {
     return {
       success: false,
