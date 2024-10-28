@@ -361,6 +361,7 @@ const ProductPageInformation = ({
               icon={<DeleteIcon styles="size-6" />}
               styles="w-full"
               onClick={handleRemoveCartItem}
+              disabled={cartStatus === "loading"}
               loading={
                 cartStatus === "loading" && <Spinner size={20} color="white" />
               }
@@ -374,6 +375,7 @@ const ProductPageInformation = ({
               icon={<ShopIcon />}
               styles="w-full"
               onClick={handleAddToCart}
+              disabled={cartStatus === "loading"}
               loading={
                 cartStatus === "loading" && <Spinner size={20} color="white" />
               }

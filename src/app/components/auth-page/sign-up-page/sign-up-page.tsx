@@ -36,11 +36,11 @@ const SighUpPage = (props: Props) => {
         variants={bgColorVariants}
         initial="hidden"
         animate="visible"
-        className="absolute w-full h-[35%] top-0 bg-primary-main bmlg:h-full bmlg:w-[35%] bmlg:left-0 -z-10"
+        className="absolute w-full h-[28%] top-0 bg-primary-main xs:h-[35%] bmlg:h-full bmlg:w-[35%] bmlg:left-0 -z-10"
       ></motion.div>
 
       <div className="custom-container w-full">
-        <div className="flex flex-col flex-center shadow-xl w-full px-4 gap-x-4 gap-y-8 max-w-[600px] mx-auto my-20 py-8 bmlg:py-4 bmlg:max-w-none bmlg:flex-row-reverse">
+        <div className="flex flex-col flex-center shadow-xl w-full px-4 gap-x-4 gap-y-8 max-w-[600px] mx-auto my-8 py-8 bmlg:py-4 bmlg:max-w-none bmlg:flex-row-reverse xs:my-20">
           {/* vector */}
           <motion.div
             key="vector" // Unique key for animation

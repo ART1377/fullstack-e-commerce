@@ -24,13 +24,14 @@ export type CommentWithAuthor = {
 };
 
 // Recursive function to fetch comments with children
+// Recursive function to fetch comments with children
 async function fetchCommentsWithChildren(
-  commentId?: string
+  productId: string,
+  sortOption: string,
+  parentId?: string
 ): Promise<CommentWithAuthor[]> {
   const comments = await db.comment.findMany({
-    where: {
-      parentId: commentId || null,
-    },
+    where: { productId: productId, parentId: parentId || null },
     include: {
       user: {
         select: {
@@ -46,10 +47,11 @@ async function fetchCommentsWithChildren(
         },
       },
     },
-    orderBy: { createdAt: "desc" },
+    orderBy: sortOption === "newest" ? { createdAt: "desc" } : undefined, // Only sort here if by newest
   });
 
-  return await Promise.all(
+  // Process comments to calculate like and dislike counts
+  const processedComments = await Promise.all(
     comments.map(async (comment) => {
       const likeCount = comment.likes.filter((like) => like.isLike).length;
       const dislikeCount = comment.likes.length - likeCount;
@@ -58,19 +60,36 @@ async function fetchCommentsWithChildren(
         ...comment,
         likeCount,
         dislikeCount,
-        children: await fetchCommentsWithChildren(comment.id), // Fetch nested children recursively
+        children: await fetchCommentsWithChildren(
+          productId,
+          sortOption,
+          comment.id
+        ),
       };
     })
   );
+
+  // Sort by like/dislike counts after processing if needed
+  if (sortOption === "mostLikes") {
+    processedComments.sort((a, b) => b.likeCount - a.likeCount);
+  } else if (sortOption === "mostDislikes") {
+    processedComments.sort((a, b) => b.dislikeCount - a.dislikeCount);
+  }
+
+  return processedComments;
 }
+
 
 export const getComments = async (
   productId: string,
   sort?: string
 ): Promise<GetCommentsResponse> => {
+  console.log("runningggggggggggggggg", sort);
   try {
-    const comments = await fetchCommentsWithChildren();
-
+    const comments = await fetchCommentsWithChildren(
+      productId,
+      sort || "newest"
+    );
     return { success: true, comments };
   } catch (error) {
     return {

@@ -46,7 +46,7 @@ const ProductPageCommentsHeader = ({ commentsCount }: Props) => {
   return (
     <div className="w-full bg-white rounded-xl shadow px-3 py-1 flex items-center justify-between mt-2 mb-4 sm:mt-0">
       {/* sort */}
-      <div className="min-w-[160px] rounded-xl z-[2]">
+      <div className="min-w-[160px] rounded-xl z-[3]">
         <Dropdown
           onSelectItem={handleSortChange}
           selectedItem={sortOption}

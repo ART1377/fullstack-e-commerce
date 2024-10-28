@@ -17,7 +17,7 @@ const HeroButtons = ({ productId }: Props) => {
   return (
     <div className="flex flex-col gap-3 w-full blgxl:flex-row blgxl:gap-4">
       <Link href={`/products/${productId}`}>
-        <Button color="primary-main" icon={<BurgerMenuIcon styles="size-6 w-full"/>}>
+        <Button color="primary-main" styles="w-full" icon={<BurgerMenuIcon styles="size-6"/>}>
           جزییات بیشتر
         </Button>
       </Link>

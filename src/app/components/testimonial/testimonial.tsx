@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Rating from "../rating/rating";
 import Image from "next/image";
 import { CommentWithAuthor } from "@/app/actions/comment-actions/get-comments-action";
 import { formatToJalali } from "@/app/lib/date-format";
@@ -37,16 +36,16 @@ const Testimonial = ({ comment, depth = 0 }: Props) => {
     <>
       <div
         className={`rounded-xl shadow bg-white flex flex-col justify-center pt-2 pb-3 custom-transition hover:shadow-none`}
-        style={{ marginRight: depth * 20 }}
+        style={{ marginRight: depth < 3 ? depth * 20 : 40 }}
       >
         {/* rating */}
-        {/* <div className="w-full flex-center gap-3">
-        <div className="bg-customGray-200 h-px min-w-14 w-[calc(40%-100px)]"></div>
-        <div>
-          <Rating rating={rating} />
-        </div>
-        <div className="bg-customGray-200 h-px min-w-14 w-[calc(40%-100px)]"></div>
-      </div> */}
+        {userId && userId === user.id && (
+          <div className="w-full flex-center gap-3">
+            <div className="bg-customGray-200 h-px min-w-14 w-[calc(40%-100px)]"></div>
+            <div className="text-primary-main">دیدگاه شما</div>
+            <div className="bg-customGray-200 h-px min-w-14 w-[calc(40%-100px)]"></div>
+          </div>
+        )}
         {/* image and comment content */}
         <div className="flex flex-col items-center gap-y-8 mt-8 sm:flex-row sm:gap-x-10">
           {/* images */}

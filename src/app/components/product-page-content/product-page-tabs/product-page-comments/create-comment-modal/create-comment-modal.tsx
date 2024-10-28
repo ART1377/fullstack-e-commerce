@@ -9,13 +9,13 @@ import { useSessionContext } from "@/app/context/useSessionContext";
 import CloseIcon from "@/app/icons/close-icon";
 import PlusIcon from "@/app/icons/plus-icon";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useActionState, useState } from "react";
 import { useFormState } from "react-dom";
 import * as actions from "@/app/actions/comment-actions/comment-actions";
 import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
-import ArrowDoubleLeftIcon from "@/app/icons/arrow-double-left-icon";
 import ArrowLeftIcon from "@/app/icons/arrow-left-icon";
+import Spinner from "@/app/components/spinner/spinner";
 
 type Props = {
   parentId?: string;
@@ -30,6 +30,8 @@ const CreateCommentModal = ({
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const sessionExist = !!session && !!session?.user;
 
+  const [loading, setLoading] = useState(false);
+
   const params = useParams();
 
   const [title, setTitle] = useState("");
@@ -42,24 +44,53 @@ const CreateCommentModal = ({
     { state: {} }
   );
 
+  // const [formState, action, isPending] = useActionState(
+  //   actions.createComment.bind(null, productId, parentId),
+  //   { state: {} }
+  // );
+
   // Form submission handler
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!sessionExist) return toast.error("ابتدا وارد سایت شوید");
+
+    setLoading(true);
+    const loadingToastId = toast.loading("در حال ثبت پیام...");
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
 
-    // Run the action
-    action(formData);
+    try {
+      const response = await actions.createComment(
+        productId,
+        parentId,
+        { state: {} },
+        formData
+      );
 
-    // Handle toast notifications based on success or errors
-    if (formState.state.errors?._form?.[0]) {
-      toast.error(formState.state.errors._form[0]);
-    } else if (formState.state.success) {
-      toast.success("ثبت نظر با موفقیت انجام شد");
-      setTitle(""); // Clear input
-      setDescription(""); // Clear input
-      setIsModalOpen(false); // Close modal
+      toast.dismiss(loadingToastId);
+      if (response.state.success) {
+        toast.success("ثبت نظر با موفقیت انجام شد");
+        setTitle("");
+        setDescription("");
+        setIsModalOpen(false);
+      } else {
+        toast.error(response.state.errors?._form?.[0] || "خطایی رخ داده است");
+      }
+    } catch (error) {
+      toast.dismiss(loadingToastId);
+      toast.error("خطایی رخ داده است");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Show toast error if user is not logged in
+  const handleUnauthenticatedClick = () => {
+    if (!sessionExist) {
+      toast.error("ابتدا وارد سایت شوید");
     }
   };
 
@@ -127,9 +158,15 @@ const CreateCommentModal = ({
                 onChange={(e) => setDescription(e.target.value)}
                 error={formState.state.errors?.description?.[0]}
               />
-              <Button type="submit" styles="w-full mt-2" size="large">
+              <Button
+                disabled={loading}
+                loading={loading && <Spinner size={20} color="white" />}
+                type="submit"
+                styles="w-full mt-2"
+                size="large"
+              >
                 ثبت
-              </Button>
+              </Button>{" "}
               {formState.state.errors?._form?.[0] && (
                 <small className="text-state-error text-captionMain -mt-4">
                   {formState.state.errors?._form?.[0]}
@@ -139,13 +176,31 @@ const CreateCommentModal = ({
           </Modal>
         </>
       ) : (
-        <div className="px-4 py-8 rounded-xl bg-state-error-200 text-state-error flex-center text-ceter text-bodyMain mb-4">
-          برای ایجاد پیام ابتدا{" "}
-          <Link href={"/auth/login"} className="text-bodyMainBold mx-1">
-            وارد
-          </Link>{" "}
-          شوید
-        </div>
+        <>
+          {isReply ? (
+            <div
+              onClick={handleUnauthenticatedClick}
+              className="text-customGray-500 flex items-center justify-end cursor-pointer ml-2 mt-2 custom-transition transform hover:-translate-x-0.5 hover:text-customGray-700"
+            >
+              <small className="text-bodySmall">پاسخ</small>
+              <ArrowLeftIcon styles="size-6" />
+            </div>
+          ) : (
+            <div
+              onClick={handleUnauthenticatedClick}
+              className="px-4 py-8 rounded-xl bg-state-error-200 text-state-error flex-center text-center text-bodyMain mb-4"
+            >
+              برای ایجاد پیام ابتدا
+              <Link
+                href={"/auth/login"}
+                className="text-bodyMainBold mx-1 hover:underline underline-offset-8"
+              >
+                وارد
+              </Link>
+              شوید
+            </div>
+          )}
+        </>
       )}
     </>
   );
