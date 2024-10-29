@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import PersonIcon from "@/app/icons/person-icon";
@@ -8,6 +10,8 @@ import OperationIcon from "@/app/components/operation-icon/operation-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import Tooltip from "@/app/components/tooltip/tooltip";
 import { Notification } from "../../../../../../../next-type-models";
+import toast from "react-hot-toast";
+import * as actions from "@/app/actions/notification-actions/notification-actions";
 
 type Props = {
   notification: Notification;
@@ -23,6 +27,51 @@ const NotificationItem = ({ notification }: Props) => {
     <CheckIcon styles="size-6 text-state-error" />
   );
   const readStatusText = isRead ? "خوانده شده" : "خوانده نشده";
+
+  const handleDelete = async () => {
+    // Show loading toast
+    const loadingToastId = toast.loading("در حال حذف اعلان...");
+
+    try {
+      const response = await actions.deleteNotificationById(id);
+      // Dismiss the loading toast
+      toast.dismiss(loadingToastId);
+
+      if (response.success) {
+        // Show success toast
+        toast.success("اعلان با موفقیت حذف شد.");
+      } else {
+        // Show error toast
+        toast.error(`خطا: ${response.error}`);
+      }
+    } catch (error) {
+      // Dismiss loading toast on error
+      toast.dismiss(loadingToastId);
+      toast.error("خطا در حذف اعلان. لطفا دوباره تلاش کنید.");
+    }
+  };
+
+  const handleToggleReadStatus = async () => {
+    const loadingToastId = toast.loading("در حال تغییر وضعیت خوانده شده...");
+
+    try {
+      const response = await actions.toggleNotificationReadStatus(id);
+      toast.dismiss(loadingToastId);
+
+      if (response.success) {
+        toast.success(
+          isRead
+            ? "علامت زده به عنوان خوانده نشده"
+            : "علامت زده به عنوان خوانده شده"
+        );
+      } else {
+        toast.error(`خطا: ${response.error}`);
+      }
+    } catch (error) {
+      toast.dismiss(loadingToastId);
+      toast.error("خطا در تغییر وضعیت خوانده شده. لطفا دوباره تلاش کنید.");
+    }
+  };
 
   return (
     <div className="rounded-xl shadow bg-light flex flex-col cursor-pointer custom-transition hover:bg-customGray-200">
@@ -68,21 +117,27 @@ const NotificationItem = ({ notification }: Props) => {
         <div className="flex gap-2">
           {isRead ? (
             <Tooltip content="علامت زدن به عنوان خوانده نشده" position="right">
-              <OperationIcon color="primary">
-                <CheckIcon styles="size-6" />
-              </OperationIcon>
+              <div onClick={handleToggleReadStatus}>
+                <OperationIcon color="primary">
+                  <CheckIcon styles="size-6" />
+                </OperationIcon>
+              </div>
             </Tooltip>
           ) : (
             <Tooltip content="علامت زدن به عنوان خوانده شده" position="right">
-              <OperationIcon color="primary">
-                <DoubleCheckIcon styles="size-6" />
-              </OperationIcon>
+              <div onClick={handleToggleReadStatus}>
+                <OperationIcon color="primary">
+                  <DoubleCheckIcon styles="size-6" />
+                </OperationIcon>
+              </div>
             </Tooltip>
           )}
           <Tooltip content="حذف پیام" color="state-error" position="right">
-            <OperationIcon color="error">
-              <DeleteIcon styles="size-6" />
-            </OperationIcon>
+            <div onClick={handleDelete}>
+              <OperationIcon color="error">
+                <DeleteIcon styles="size-6" />
+              </OperationIcon>
+            </div>
           </Tooltip>
         </div>
       </div>
