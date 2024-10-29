@@ -31,7 +31,7 @@ export async function getAllOrders({
 }: Filters): Promise<GetOrdersState> {
   const pageQuery = page ? parseInt(page) : undefined;
   const skip = pageQuery && limit ? (pageQuery - 1) * limit : undefined;
-console.log('hi');
+  console.log("hi");
   // Build dynamic sorting logic based on sortBy and sortOrder
   let orderBy: any = undefined;
 
@@ -40,6 +40,7 @@ console.log('hi');
   } else if (sortBy === "date") {
     orderBy = { createdAt: sortOrder };
   }
+
   try {
     // Fetch the user's orders and aggregate the product information
     const orders = await db.order.findMany({

@@ -19,7 +19,6 @@ const OrdersTableRow = ({ order, index }: Props) => {
     id,
     createdAt,
     price,
-    products,
     status,
     discountAmount,
     totalItems,
@@ -29,11 +28,11 @@ const OrdersTableRow = ({ order, index }: Props) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   const orderStatusColor =
-    status === "pending"
+    status === "جاری"
       ? "warning"
-      : status === "delivered"
+      : status === "تحویل شده"
       ? "success"
-      : status === "returned"
+      : status === "مرجوع شده"
       ? "error"
       : "";
 

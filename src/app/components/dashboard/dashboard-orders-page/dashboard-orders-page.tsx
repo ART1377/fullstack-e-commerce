@@ -18,20 +18,27 @@ const DashboardOrdersPage = async ({ searchParams }: Props) => {
     limit: PAGE_LIMIT,
     page: page as string,
     sortBy:
-      sort === "ارزان ترین" || "گران ترین"
+      sort === "ارزان ترین"
         ? "price"
-        : sort === "قدیمی ترین" || "جدید ترین"
+        : sort === "گران ترین"
+        ? "price"
+        : sort === "قدیمی ترین"
+        ? "date"
+        : sort === "جدید ترین"
         ? "date"
         : undefined,
     sortOrder:
-      sort === "ارزان ترین" || "جدید ترین"
+      sort === "ارزان ترین"
         ? "asc"
-        : sort === "گران ترین" || "قدیمی ترین"
+        : sort === "گران ترین"
+        ? "desc"
+        : sort === "جدید ترین"
+        ? "asc"
+        : sort === "قدیمی ترین"
         ? "desc"
         : undefined,
   });
 
-  const ordersCount = orders?.length;
 
   return (
     <section className="bg-white shadow rounded-xl pb-20">
