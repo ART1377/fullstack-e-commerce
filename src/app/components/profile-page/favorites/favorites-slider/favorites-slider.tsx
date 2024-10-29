@@ -13,7 +13,7 @@ import { Navigation } from "swiper/modules";
 import { Product } from "../../../../../../next-type-models";
 
 type Props = {
-  products: Product[];
+  products: Partial<Product>[];
 };
 
 const ProfilePageFavoritesSlider = ({ products }: Props) => {
@@ -28,7 +28,7 @@ const ProfilePageFavoritesSlider = ({ products }: Props) => {
         modules={[Navigation]}
         className="newest-shoes-swiper mt-4 lg:mt-5"
       >
-        {products.map((product: Product) => {
+        {products.map((product: Partial<Product>) => {
           return (
             <SwiperSlide
               key={product.id}

@@ -11,6 +11,13 @@ export const calculateDiscountedPrice = (
   return price - (price * discountPercentage) / 100;
 };
 
+export const calculateDiscountAmount = (
+  price: number,
+  discountPercentage: number
+): number => {
+  return (price * discountPercentage) / 100;
+};
+
 export const timeAgo = (notificationDate: Date): string => {
   const now = new Date();
   const diff = Math.abs(now.getTime() - notificationDate.getTime());

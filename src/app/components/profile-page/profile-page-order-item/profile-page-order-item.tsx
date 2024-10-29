@@ -1,18 +1,25 @@
 import React from "react";
-import { Order, Product } from "../../../../../next-type-d";
 import { formatPrice } from "@/app/lib/functions";
-import { products } from "@/app/data/data";
 import Link from "next/link";
 import Image from "next/image";
+import { formatToJalali } from "@/app/lib/date-format";
 
 type Props = {
-  order: Order;
+  order: {
+    id: string;
+    discountAmount: number;
+    price: number;
+    createdAt: Date;
+    products: {
+      title: string;
+      id: string;
+      image: string;
+    }[];
+    status: string;
+  };
 };
 
 const ProfilePageOrderItem = ({ order }: Props) => {
-  const foundProducts = (orderProducts: string[]) => {
-    return products.filter((product) => orderProducts.includes(product.id));
-  };
 
   return (
     <div className="flex flex-col gap-3 mb-5">
@@ -44,12 +51,14 @@ const ProfilePageOrderItem = ({ order }: Props) => {
         </div>
         <div className="flex items-center gap-1">
           <small className="text-bodySmall text-customGray-500">تاریخ :</small>
-          <div className="text-bodyMain text-dark">{order.date}</div>
+          <div className="text-bodyMain text-dark">
+            {formatToJalali(order.createdAt)}
+          </div>
         </div>
       </div>
       {/* tab products */}
       <div className="bg-customGray-200 p-2 flex gap-4 overflow-x-auto custom-scrollbar">
-        {foundProducts(order.products).map((product: Product) => {
+        {order.products.map((product) => {
           return (
             <Link
               key={product.id}
@@ -58,7 +67,7 @@ const ProfilePageOrderItem = ({ order }: Props) => {
             >
               <Image
                 alt={product.title}
-                src={product.images[0]}
+                src={product.image}
                 fill
                 style={{
                   objectFit: "cover",

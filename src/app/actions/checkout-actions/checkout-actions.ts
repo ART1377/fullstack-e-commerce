@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/app/db/db";
+import { calculateDiscountAmount } from "@/app/lib/functions";
 import { revalidatePath } from "next/cache";
 
 export async function getCartItems(userId: string) {
@@ -29,17 +30,23 @@ export async function getCartItems(userId: string) {
     stock: item.stock,
   }));
 
-  const total = items.reduce(
+  const totalPrice = items.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
+  const totalDiscount = items.reduce(
+    (sum, item) =>
+      sum +
+      calculateDiscountAmount(item.product.price, item.product.discount || 0) *
+        item.quantity,
+    0
+  );
 
-  return { items, total };
+  return { items, totalPrice, totalDiscount };
 }
 
 export async function checkout(userId: string) {
-
-  const { items, total } = await getCartItems(userId);
+  const { items, totalPrice, totalDiscount } = await getCartItems(userId);
 
   return await db.$transaction(async (db) => {
     // Step 1: Check and update stock quantities
@@ -66,7 +73,8 @@ export async function checkout(userId: string) {
     const order = await db.order.create({
       data: {
         userId,
-        price: total,
+        price: totalPrice,
+        discountAmount: totalDiscount,
         status: "جاری",
         products: {
           connect: items.map((item) => ({ id: item.productId })),
