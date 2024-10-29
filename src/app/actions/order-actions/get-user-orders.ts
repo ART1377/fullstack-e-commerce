@@ -2,7 +2,6 @@
 
 import { db } from "@/app/db/db";
 
-
 export async function getUserOrdersWithDetails(userId: string) {
   // Fetch the user's orders and aggregate the product information
   const orders = await db.order.findMany({
@@ -66,7 +65,7 @@ export async function getUserOrdersWithDetails(userId: string) {
       products: productDetails,
       status: order.status,
       price: order.price,
-      totalItems: order.totalItems,
+      totalItems: order.totalItems || 0,
     };
   });
 

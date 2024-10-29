@@ -42,11 +42,16 @@ export async function getCartItems(userId: string) {
     0
   );
 
-  return { items, totalPrice, totalDiscount,totalItems:items.length };
+  const totalItems = items.length;
+  console.log("totalItems", totalItems);
+
+  return { items, totalPrice, totalDiscount, totalItems };
 }
 
 export async function checkout(userId: string) {
-  const { items, totalPrice, totalDiscount ,totalItems} = await getCartItems(userId);
+  const { items, totalPrice, totalDiscount, totalItems } = await getCartItems(
+    userId
+  );
 
   return await db.$transaction(async (db) => {
     // Step 1: Check and update stock quantities
