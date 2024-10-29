@@ -69,7 +69,6 @@ export async function getUserOrdersWithDetails(userId: string) {
     };
   });
 
-  console.log(processedOrders);
 
   return {
     statusCount,
