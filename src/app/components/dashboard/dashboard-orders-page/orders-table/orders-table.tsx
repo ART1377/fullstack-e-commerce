@@ -1,27 +1,16 @@
-"use client";
-
 import React from "react";
-import { useSearchParams } from "next/navigation";
-import { orders, users } from "@/app/data/data";
 import Pagination from "@/app/components/pagination/pagination";
-import { Order } from "../../../../../../next-type-d";
 import OrdersTableRow from "./orders-table-row/orders-table-row";
+import { Order } from "../../../../../../next-type-models";
+import { PAGE_LIMIT } from "@/app/lib/values";
+import { OrderWithName } from "@/app/actions/order-actions/get-all-orders";
 
 type Props = {
   totalItems: number;
+  orders: OrderWithName[];
 };
 
-const OrdersTable = ({ totalItems }: Props) => {
-  const searchParams = useSearchParams();
-  const pageNumber = parseInt(searchParams.get("page")!);
-
-  const itemsPerPage = 4;
-
-  const ordersData = orders.slice(
-    pageNumber * itemsPerPage - itemsPerPage,
-    pageNumber * itemsPerPage
-  );
-
+const OrdersTable = ({ totalItems ,orders}: Props) => {
   return (
     <>
       <div className="overflow-x-auto custom-scrollbar">
@@ -30,9 +19,7 @@ const OrdersTable = ({ totalItems }: Props) => {
             <tr className="text-customGray-500 text-right border-b border-t border-customGray-300">
               <th className="text-bodySmall p-2 min-w-[180px]">نام خریدار</th>
               <th className="text-bodySmall p-2 min-w-[140px]">تعداد اقلام</th>
-              <th className="text-bodySmall p-2 min-w-[140px]">
-                قیمت کل
-              </th>
+              <th className="text-bodySmall p-2 min-w-[140px]">قیمت کل</th>
               <th className="text-bodySmall p-2 min-w-[140px]">مجموع تخفیف</th>
               <th className="text-bodySmall p-2 min-w-[140px]">تاریخ سفارش</th>
               <th className="text-bodySmall p-2 min-w-[180px]">وضعیت سفارش</th>
@@ -40,14 +27,14 @@ const OrdersTable = ({ totalItems }: Props) => {
             </tr>
           </thead>
           <tbody>
-            {ordersData.map((order: Order, index: number) => (
+            {orders.map((order: OrderWithName, index: number) => (
               <OrdersTableRow key={order.id} order={order} index={index} />
             ))}
           </tbody>
         </table>
       </div>
       <div className="mt-10">
-        <Pagination totalItems={users.length} itemsPerPage={itemsPerPage} />
+        <Pagination totalItems={totalItems} itemsPerPage={PAGE_LIMIT} />
       </div>
     </>
   );

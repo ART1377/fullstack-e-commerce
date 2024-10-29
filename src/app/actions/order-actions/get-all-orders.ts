@@ -1,18 +1,24 @@
 "use server";
 
 import { db } from "@/app/db/db";
+import { Order } from "../../../../next-type-models";
+
+export type OrderWithName = Order & {
+  userName: string;
+  totalItems: number;
+};
 
 type Filters = {
   page?: string;
   limit?: number;
-  sortBy?: "price"; // Can now sort by either price or total stock quantity
+  sortBy?: "price" | "date"; // Can now sort by either price or total stock quantity
   sortOrder?: "asc" | "desc"; // Ascending or descending order
 };
 
 interface GetOrdersState {
   success: boolean;
   error?: string;
-  orders?: any;
+  orders?: OrderWithName[];
   totalPages?: number;
   currentPage?: number;
   totalCount?: number;

@@ -1,20 +1,30 @@
 "use client";
 
 import React, { useState } from "react";
-import { Order } from "../../../../../../../next-type-d";
 import OperationIcon from "@/app/components/operation-icon/operation-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import CloseIcon from "@/app/icons/close-icon";
 import DeleteOrderModal from "./delete-order-modal/delete-order-modal";
 import { formatPrice } from "@/app/lib/functions";
+import { OrderWithName } from "@/app/actions/order-actions/get-all-orders";
+import { formatToJalali } from "@/app/lib/date-format";
 
 type Props = {
-  order: Order;
+  order: OrderWithName;
   index: number;
 };
 
 const OrdersTableRow = ({ order, index }: Props) => {
-  const { id, date, price, products, status, discountAmount } = order;
+  const {
+    id,
+    createdAt,
+    price,
+    products,
+    status,
+    discountAmount,
+    totalItems,
+    userName,
+  } = order;
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
@@ -26,18 +36,6 @@ const OrdersTableRow = ({ order, index }: Props) => {
       : status === "returned"
       ? "error"
       : "";
-
-  const orderStatusText =
-    status === "pending"
-      ? "جاری"
-      : status === "delivered"
-      ? "تحویل شده"
-      : status === "returned"
-      ? "مرجوع شده"
-      : "";
-
-  // user name should be changed
-  const userName = "علیرضا تهوری";
 
   return (
     <>
@@ -54,21 +52,23 @@ const OrdersTableRow = ({ order, index }: Props) => {
         }`}
       >
         <td className="p-2 flex items-center gap-2">{userName}</td>
-        <td className="p-2">{products.length}</td>
+        <td className="p-2">{totalItems}</td>
         <td className="p-2">{formatPrice(price)}</td>
         <td className="p-2">
-          {discountAmount !== undefined && discountAmount > 0 ? (
+          {discountAmount !== undefined &&
+          discountAmount &&
+          discountAmount > 0 ? (
             formatPrice(discountAmount)
           ) : (
             <CloseIcon styles="size-6 text-state-error" />
           )}
         </td>
-        <td className="p-2">{date}</td>
+        <td className="p-2">{formatToJalali(createdAt)}</td>
         <td className="p-2">
           <div
             className={`rounded-full px-3 py-0.5 flex-center text-bodySmallBold w-fit bg-state-${orderStatusColor}-200 text-state-${orderStatusColor}`}
           >
-            {orderStatusText}
+            {status}
           </div>
         </td>
         <td className="p-2">

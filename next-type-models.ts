@@ -26,11 +26,11 @@ export type Order = {
   price: number;
   status: string; // Could be 'PENDING', 'DELIVERED', or 'RETURNED'
   createdAt: Date;
-  updatedAt: Date;
+  updatedAt?: Date;
   // Relations
-  user: User; // The user who placed the order
-  userId: string; // User ID reference
-  products: Product[]; // Many-to-many relation with products
+  user?: User; // The user who placed the order
+  userId?: string; // User ID reference
+  products?: Product[]; // Many-to-many relation with products
 };
 
 export type Product = {

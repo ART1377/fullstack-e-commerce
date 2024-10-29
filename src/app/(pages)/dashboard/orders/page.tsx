@@ -7,10 +7,12 @@ export const metadata: Metadata = {
   description: "پنل مدیریت سفارشات سایت هامتوسیتی",
 };
 
-type Props = {};
+type Props = {
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
-const page = (props: Props) => {
-  return <DashboardOrdersPage />;
+const page = ({ searchParams }: Props) => {
+  return <DashboardOrdersPage searchParams={searchParams} />;
 };
 
 export default page;
