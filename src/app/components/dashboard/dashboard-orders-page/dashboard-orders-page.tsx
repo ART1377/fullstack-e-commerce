@@ -13,7 +13,7 @@ type Props = {
 const DashboardOrdersPage = async ({ searchParams }: Props) => {
   const { page, sort } = searchParams as SearchQueries;
 
-  // Fetch products using the updated searchParams
+  // Fetch orders using the updated searchParams
   const { orders, totalCount } = await actions.getAllOrders({
     limit: PAGE_LIMIT,
     page: page as string,
@@ -44,11 +44,11 @@ const DashboardOrdersPage = async ({ searchParams }: Props) => {
     <section className="bg-white shadow rounded-xl pb-20">
       {/* header */}
       <DashboardOrdersPageHeader totalItems={totalCount!} />
-      {/* products table */}
+      {/* orders table */}
       {totalCount! > 0 ? (
         <OrdersTable totalItems={totalCount!} orders={orders!} />
       ) : (
-        <p className="text-bodyMain text-state-error py-2 px-3 rounded-lg bg-state-error-200 m-4 text-center mb-3">
+        <p className="text-bodyMain text-state-error py-5 px-3 rounded-lg bg-state-error-200 m-4 text-center">
           سفارشی یافت نشد
         </p>
       )}

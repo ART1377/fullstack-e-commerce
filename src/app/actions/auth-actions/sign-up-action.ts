@@ -5,6 +5,8 @@ import { db } from "../../db/db";
 import { hashPassword } from "../../lib/bcrypt";
 import { uploadImage } from "../../lib/cloudinary";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
+import { createAdminNotification } from "../notification-actions/create-notification";
 
 // Zod schema for signup form
 const signUpSchema = z
@@ -32,7 +34,6 @@ const signUpSchema = z
     message: "رمز عبور و تکرار آن مطابقت ندارند",
     path: ["confirmPassword"],
   });
-
 
 interface SighUpFormState {
   errors: {
@@ -97,7 +98,7 @@ export async function handleSignUp(
     }
 
     // create user in db
-    await db.user.create({
+    const user = await db.user.create({
       data: {
         firstName: result.data.firstName,
         lastName: result.data.lastName,
@@ -106,6 +107,14 @@ export async function handleSignUp(
         image,
       },
     });
+
+    await createAdminNotification(
+      user.id, // or session.user.id if available
+      "ثبت نام",
+      `کاربر ${user.firstName} ${user.lastName} ثبت نام کرد`
+    );
+
+    revalidatePath("/dashboard/notifications");
   } catch (error) {
     return {
       errors: {

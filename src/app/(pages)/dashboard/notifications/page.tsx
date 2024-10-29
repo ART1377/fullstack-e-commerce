@@ -7,10 +7,12 @@ export const metadata: Metadata = {
   description: "پنل مدیریت اعلانات سایت هامتوسیتی",
 };
 
-type Props = {};
+type Props = {
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
-const page = (props: Props) => {
-  return <DashboardNotificationsPage />;
+const page = ({ searchParams }: Props) => {
+  return <DashboardNotificationsPage searchParams={searchParams} />;
 };
 
 export default page;

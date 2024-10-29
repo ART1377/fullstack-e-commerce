@@ -1,7 +1,5 @@
 import React from "react";
-import { Notification } from "../../../../../../../next-type-d";
 import Image from "next/image";
-import { users } from "@/app/data/data";
 import PersonIcon from "@/app/icons/person-icon";
 import { timeAgo } from "@/app/lib/functions";
 import DoubleCheckIcon from "@/app/icons/double-check-icon";
@@ -9,15 +7,14 @@ import CheckIcon from "@/app/icons/check-icon";
 import OperationIcon from "@/app/components/operation-icon/operation-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import Tooltip from "@/app/components/tooltip/tooltip";
+import { Notification } from "../../../../../../../next-type-models";
 
 type Props = {
   notification: Notification;
 };
 
 const NotificationItem = ({ notification }: Props) => {
-  const { id, userId, description, date, isRead } = notification;
-
-  const user = users.find((user) => user.id === userId);
+  const { id, message, type, createdAt, isRead, user } = notification;
 
   const readStatusColor = isRead ? "success" : "error";
   const readStatusIcon = isRead ? (
@@ -35,7 +32,7 @@ const NotificationItem = ({ notification }: Props) => {
             <div className="size-12 rounded-xl shadow relative overflow-hidden flex-center">
               {user?.image ? (
                 <Image
-                  alt={`${user?.name.firstName}`}
+                  alt={`${user?.firstName} ${user?.lastName}`}
                   src={user?.image}
                   fill
                   style={{
@@ -48,7 +45,7 @@ const NotificationItem = ({ notification }: Props) => {
             </div>
             <div className="flex flex-col justify-between">
               <small className="text-customGray-700 text-bodySmall">
-                {user?.name.firstName} {user?.name.lastName}
+                {user?.firstName} {user?.lastName}
               </small>
               <span className="text-captionMain text-customGray-500">
                 {user?.email}
@@ -56,10 +53,10 @@ const NotificationItem = ({ notification }: Props) => {
             </div>
           </div>
           <span className="text-customGray-700 text-captionMain">
-            {timeAgo(date)}
+            {timeAgo(createdAt)}
           </span>
         </div>
-        <p className="text-bodySmall text-customGray-500">{description}</p>
+        <p className="text-bodySmall text-customGray-500">{message}</p>
       </div>
       <div className="bg-customGray-100 p-2 flex justify-between items-center">
         <div

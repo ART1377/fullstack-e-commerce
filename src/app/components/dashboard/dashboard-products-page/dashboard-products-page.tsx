@@ -50,7 +50,7 @@ const DashboardProductsPage = async ({ searchParams }: Props) => {
       {totalCount! > 0 ? (
         <ProductsTable totalItems={totalCount!} products={products!} />
       ) : (
-        <p className="text-bodyMain text-state-error py-2 px-3 rounded-lg bg-state-error-200 m-4 text-center mb-3">
+        <p className="text-bodyMain text-state-error py-5 px-3 rounded-lg bg-state-error-200 m-4 text-center">
           محصولی یافت نشد
         </p>
       )}

@@ -37,7 +37,7 @@ const DashboardUsersPage = async ({ searchParams }: Props) => {
       {totalCount! > 0 ? (
         <UsersTable totalItems={totalCount!} users={users!} />
       ) : (
-        <p className="text-bodyMain text-state-error py-2 px-3 rounded-lg bg-state-error-200 m-4 text-center mb-3">
+        <p className="text-bodyMain text-state-error py-5 px-3 rounded-lg bg-state-error-200 m-4 text-center">
           کاربری یافت نشد
         </p>
       )}

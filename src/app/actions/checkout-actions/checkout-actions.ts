@@ -1,8 +1,10 @@
 "use server";
 
+import { auth } from "@/app/auth";
 import { db } from "@/app/db/db";
 import { calculateDiscountAmount } from "@/app/lib/functions";
 import { revalidatePath } from "next/cache";
+import { createAdminNotification } from "../notification-actions/create-notification";
 
 export async function getCartItems(userId: string) {
   const cart = await db.cart.findUnique({
@@ -43,7 +45,7 @@ export async function getCartItems(userId: string) {
   );
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
-    console.log("totalItems", totalItems);
+  console.log("totalItems", totalItems);
 
   return { items, totalPrice, totalDiscount, totalItems };
 }
@@ -52,6 +54,12 @@ export async function checkout(userId: string) {
   const { items, totalPrice, totalDiscount, totalItems } = await getCartItems(
     userId
   );
+
+  // check if user is logged in
+  const session = await auth();
+  if (!session || !session.user) {
+    return { success: false, error: "ابتدا وارد سایت شوید" };
+  }
 
   return await db.$transaction(async (db) => {
     // Step 1: Check and update stock quantities
@@ -94,7 +102,14 @@ export async function checkout(userId: string) {
       data: { items: { deleteMany: {} } },
     });
 
+    await createAdminNotification(
+      userId,
+      "سفارش",
+      `کاربر با شناسه ${userId} یک خرید انجام داد`
+    );
+
     revalidatePath("/shopping-cart");
+    revalidatePath("/dashboard/notifications");
 
     return order;
   });

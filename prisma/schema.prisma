@@ -33,6 +33,8 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  Notification Notification[]
 }
  
 model Account {
@@ -241,4 +243,16 @@ model CommentLike {
   createdAt DateTime  @default(now())
 
   @@unique([userId, commentId]) // Ensures a user can't like/dislike the same comment multiple times
+}
+
+
+model Notification {
+  id         String   @id @default(uuid())
+  type       String   // Type of notification (e.g., "signup", "checkout", "comment")
+  message    String   // Brief message for the notification
+  createdAt  DateTime @default(now())
+  isRead     Boolean  @default(false) // To mark notifications as read/unread
+
+  user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String?
 }

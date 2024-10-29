@@ -216,3 +216,20 @@ export interface ShoppingCartItem {
     } | null;
   };
 }
+
+
+// notification
+export interface Notification {
+  id: string;
+  type: string;
+  message: string;
+  createdAt: Date;
+  isRead: boolean;
+  userId?: string;
+  user?: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    image: string;
+  };
+}

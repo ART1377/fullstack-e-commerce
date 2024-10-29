@@ -1,21 +1,41 @@
-import React from 'react'
-import DashboardNotificationsPageHeader from './dashboard-notifications-page-header/dashboard-notifications-page-header';
-import { notifications } from '@/app/data/data';
-import NotificationsList from './notifications-list/notifications-list';
+import React from "react";
+import DashboardNotificationsPageHeader from "./dashboard-notifications-page-header/dashboard-notifications-page-header";
+import NotificationsList from "./notifications-list/notifications-list";
+import { SearchQueries } from "../../../../../next-type-models";
+import { PAGE_LIMIT } from "@/app/lib/values";
+import * as actions from "@/app/actions/notification-actions/notification-actions";
 
-type Props = {}
+type Props = {
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
-const DashboardNotificationsPage = (props: Props) => {
-    const NotificationsCount = notifications.length;
+const DashboardNotificationsPage = async ({ searchParams }: Props) => {
+  const { page } = searchParams as SearchQueries;
+
+  // Fetch notifications using the updated searchParams
+  const { notifications, totalCount } = await actions.getAllNotification({
+    limit: PAGE_LIMIT,
+    page: (page as string) || '1',
+  });
 
   return (
     <section className="bg-white shadow rounded-xl pb-20">
       {/* header */}
-      <DashboardNotificationsPageHeader totalItems={NotificationsCount} />
-      {/* products table */}
-      <NotificationsList notifications={notifications} />
+      <DashboardNotificationsPageHeader totalItems={totalCount!} />
+      {/* notification table */}
+
+      {totalCount! > 0 ? (
+        <NotificationsList
+          totalItems={totalCount!}
+          notifications={notifications!}
+        />
+      ) : (
+        <p className="text-bodyMain text-state-error py-5 px-3 rounded-lg bg-state-error-200 m-4 text-center">
+          اعلانی یافت نشد
+        </p>
+      )}
     </section>
   );
-}
+};
 
-export default DashboardNotificationsPage
+export default DashboardNotificationsPage;

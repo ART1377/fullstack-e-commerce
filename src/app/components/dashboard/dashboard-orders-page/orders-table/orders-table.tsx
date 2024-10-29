@@ -1,7 +1,6 @@
 import React from "react";
 import Pagination from "@/app/components/pagination/pagination";
 import OrdersTableRow from "./orders-table-row/orders-table-row";
-import { Order } from "../../../../../../next-type-models";
 import { PAGE_LIMIT } from "@/app/lib/values";
 import { OrderWithName } from "@/app/actions/order-actions/get-all-orders";
 

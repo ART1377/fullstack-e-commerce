@@ -4,6 +4,7 @@ import { auth } from "@/app/auth";
 import { db } from "@/app/db/db";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { createAdminNotification } from "../notification-actions/create-notification";
 
 const createCommentSchema = z.object({
   title: z
@@ -86,9 +87,15 @@ export const createComment = async (
         parentId: parentIdData,
       },
     });
-    console.log("newComment", newComment);
+
+    await createAdminNotification(
+      session.user.id,
+      "کامنت",
+      `کاربر ${session.user.id} یک نظر ارسال کرد`
+    );
     
     revalidatePath(`/products/${productId}`);
+    revalidatePath("/dashboard/notifications");
 
     return { state: { success: true } };
   } catch (error) {

@@ -1,30 +1,19 @@
-"use client";
-
 import React from "react";
-import { useSearchParams } from "next/navigation";
-import { Notification } from "../../../../../../next-type-d";
 import NotificationItem from "./notification-item/notification-item";
 import Pagination from "@/app/components/pagination/pagination";
+import { Notification } from "../../../../../../next-type-models";
+import { PAGE_LIMIT } from "@/app/lib/values";
 
 type Props = {
+  totalItems: number;
   notifications: Notification[];
 };
 
-const NotificationsList = ({ notifications }: Props) => {
-  const searchParams = useSearchParams();
-  const pageNumber = parseInt(searchParams.get("page")!);
-
-  const itemsPerPage = 4;
-
-  const notificationsData = notifications.slice(
-    pageNumber * itemsPerPage - itemsPerPage,
-    pageNumber * itemsPerPage
-  );
-
+const NotificationsList = ({ notifications, totalItems }: Props) => {
   return (
     <>
       <div className="w-full flex flex-col gap-4 p-2 md:p-4">
-        {notificationsData.map((notification: Notification) => {
+        {notifications.map((notification: Notification) => {
           return (
             <NotificationItem
               key={notification.id}
@@ -34,7 +23,7 @@ const NotificationsList = ({ notifications }: Props) => {
         })}
       </div>
       <div className="mt-10">
-        <Pagination totalItems={notifications.length} itemsPerPage={itemsPerPage} />
+        <Pagination totalItems={totalItems} itemsPerPage={PAGE_LIMIT} />
       </div>
     </>
   );
