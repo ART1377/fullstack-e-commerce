@@ -35,7 +35,7 @@ const DashboardOrdersPageHeader = ({ totalItems }: Props) => {
     }
 
     // Update the URL with the new query parameters
-    router.push(`/dashboard/users?${queryParams.toString()}`);
+    router.push(`/dashboard/orders?${queryParams.toString()}`);
   };
 
   return (
