@@ -11,29 +11,13 @@ import "swiper/css/navigation";
 import "swiper/css";
 import { Navigation } from "swiper/modules";
 import { Product } from "../../../../../../next-type-models";
-import { useAppSelector } from "@/app/redux/hooks/hook";
 
 type Props = {
   products: Partial<Product>[];
 };
 
 const ProfilePageFavoritesSlider = ({ products }: Props) => {
-  const favoriteItems = useAppSelector((state) => state.favorites.items) || [];
-  const favoriteItemsIds = favoriteItems.map((item) => item.productId);
-
-  console.log(favoriteItems);
-  console.log("Favorite Item IDs:", favoriteItemsIds); // Debug: Log the IDs in favorites
-  console.log("All Products:", products); // Debug: Log the products array
-
-  // Filter products to include only those in favoriteItemsIds
-  const productData = products.filter((product) => {
-    const inFavorites = favoriteItemsIds.includes(product.id!);
-    console.log(`Product ID: ${product.id}, In Favorites: ${inFavorites}`); // Debug: Log for each product
-    return inFavorites;
-  });
-
-  console.log("Filtered Products:", productData); // Debug: Verify the final filtered products
-
+  
   return (
     <>
       <Swiper
@@ -45,7 +29,7 @@ const ProfilePageFavoritesSlider = ({ products }: Props) => {
         modules={[Navigation]}
         className="newest-shoes-swiper mt-4 lg:mt-5"
       >
-        {productData.map((product: Partial<Product>) => {
+        {products.map((product: Partial<Product>) => {
           return (
             <SwiperSlide
               key={product.id}

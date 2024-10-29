@@ -5,7 +5,7 @@ type Props = {
   size?: number;
 };
 
-const HomeIcon = ({ styles = "text-dark", size = 24 }: Props) => {
+const HomeIcon = ({ styles, size = 24 }: Props) => {
   return (
     <svg
       className={styles}

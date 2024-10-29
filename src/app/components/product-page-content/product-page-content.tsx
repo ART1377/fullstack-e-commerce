@@ -25,18 +25,15 @@ const ProductPageContent = ({ product, relatedProducts,comments }: Props) => {
   );
   const [selectedSize, setSelectedSize] = useState<string>(stock?.[0].size!);
 
-  const sizes = getSizesForColor(stock!, selectedColor);
-
-  useEffect(() => {
+  const handleColorSelection = (colorName: string) => {   
+    const sizes = getSizesForColor(stock!, colorName);
     setSelectedSize(sizes[0]);
-  }, [selectedColor, sizes]);
-
-  const handleColorSelection = (colorName: string) => {
     setSelectedColor(colorName);
   };
   const handleSizeSelection = (size: string) => {
     setSelectedSize(size);
   };
+
 
   return (
     <section className="w-full mt-4 sm:mt-10">

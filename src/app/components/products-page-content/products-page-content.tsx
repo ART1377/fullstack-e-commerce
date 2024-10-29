@@ -5,6 +5,7 @@ import { SearchQueries } from "../../../../next-type-models";
 import * as actions from "@/app/actions/product-actions/product-action";
 import { db } from "@/app/db/db";
 import { PAGE_LIMIT } from "@/app/lib/values";
+import Breadcrumb from "../breadcrumb/breadcrumb";
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -39,11 +40,14 @@ const ProductsPageContent = async ({ searchParams }: Props) => {
   const allColors = await db.color.findMany({});
 
   return (
+    <>
+    {/* <Breadcrumb/> */}
     <section className="w-full mt-4 sm:mt-10 flex flex-col sm:flex-row sm:gap-3">
       <Filters filterColors={allColors} />
       {/* products list */}
       <ProductsList totalItems={totalCount!} products={products!} />
     </section>
+    </>
   );
 };
 

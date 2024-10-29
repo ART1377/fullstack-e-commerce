@@ -1,1 +1,2 @@
-export {getUserOrdersWithDetails} from './get-user-orders'
+export { getUserOrdersWithDetails } from "./get-user-orders";
+export { getAllOrders } from "./get-all-orders";
