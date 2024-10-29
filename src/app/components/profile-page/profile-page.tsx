@@ -5,6 +5,7 @@ import ProfilePageOrders from "./profile-page-orders/profile-page-orders";
 import { auth } from "@/app/auth";
 import * as actions from "@/app/actions/user-actions/user-actions";
 import Spinner from "../spinner/spinner";
+import { db } from "@/app/db/db";
 
 
 type Props = {};
@@ -13,6 +14,7 @@ const ProfilePage = async (props: Props) => {
   const session = await auth();
 
   const { user } = await actions.getUserProfileInformation(session?.user?.id!);
+
 
 
   return (

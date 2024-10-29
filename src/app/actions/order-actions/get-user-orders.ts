@@ -10,6 +10,7 @@ export async function getUserOrdersWithDetails(userId: string) {
     select: {
       id: true,
       discountAmount: true,
+      totalItems: true,
       price: true,
       createdAt: true,
       status: true,
@@ -65,8 +66,11 @@ export async function getUserOrdersWithDetails(userId: string) {
       products: productDetails,
       status: order.status,
       price: order.price,
+      totalItems: order.totalItems,
     };
   });
+
+  console.log(processedOrders);
 
   return {
     statusCount,

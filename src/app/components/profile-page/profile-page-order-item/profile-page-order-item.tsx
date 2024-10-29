@@ -9,6 +9,7 @@ type Props = {
     id: string;
     discountAmount: number;
     price: number;
+    totalItems: number;
     createdAt: Date;
     products: {
       title: string;
@@ -47,7 +48,7 @@ const ProfilePageOrderItem = ({ order }: Props) => {
           <small className="text-bodySmall text-customGray-500">
             تعداد محصول :
           </small>
-          <div className="text-bodyMain text-dark">{order.products.length}</div>
+          <div className="text-bodyMain text-dark">{order.totalItems}</div>
         </div>
         <div className="flex items-center gap-1">
           <small className="text-bodySmall text-customGray-500">تاریخ :</small>

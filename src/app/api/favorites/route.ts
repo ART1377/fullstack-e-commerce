@@ -1,4 +1,5 @@
 import { db } from "@/app/db/db";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 // Assuming you have a similar setup to your existing POST and DELETE
@@ -21,7 +22,6 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-
   const { userId, productId } = await req.json();
 
   try {
@@ -32,6 +32,7 @@ export async function POST(req: Request) {
       },
     });
 
+    revalidatePath("/profile");
     return NextResponse.json({ success: true, favorite });
   } catch (error) {
     return NextResponse.json(
@@ -52,6 +53,7 @@ export async function DELETE(req: Request) {
       },
     });
 
+    revalidatePath("/profile");
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json(

@@ -9,6 +9,7 @@ type Props = {
     id: string;
     discountAmount: number;
     price: number;
+    totalItems: number;
     createdAt: Date;
     products: {
       title: string;

@@ -168,6 +168,7 @@ model Order {
   id             String     @id @default(uuid())
   discountAmount Int?       // Optional discount amount for the order
   price          Int        // Total price of the order in cents
+  totalItems     Int?        // Total count of items in the order
   status         String     @default("جاری") // Can be 'PENDING', 'DELIVERED', or 'RETURNED'
   
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade) // onDelete is here
