@@ -4,6 +4,7 @@ import CloseIcon from "@/app/icons/close-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import React from "react";
 import * as actions from "@/app/actions/auth-actions/auth-actions";
+import toast from "react-hot-toast";
 
 type Props = {
   isDeleteModalOpen: boolean;
@@ -18,6 +19,34 @@ const DeleteUserModal = ({
   selectedUserId,
   selectedUserName,
 }: Props) => {
+
+    
+ const handleDelete = async () => {
+   // Show loading toast
+   const loadingToastId = toast.loading("در حال حذف کاربر...");
+
+   try {
+     const response = await actions.deleteUserByAdmin(selectedUserId);
+     // Dismiss the loading toast
+     toast.dismiss(loadingToastId);
+
+     if (response.success) {
+       // Show success toast
+       toast.success("کاربر با موفقیت حذف شد.");
+     } else {
+       // Show error toast
+       toast.error(`خطا: ${response.error}`);
+     }
+   } catch (error) {
+     // Dismiss loading toast on error
+     toast.dismiss(loadingToastId);
+     toast.error("خطا در حذف کاربر. لطفا دوباره تلاش کنید.");
+   }
+
+   setIsDeleteModalOpen(false); // Close the modal after deletion
+ };
+
+ 
   return (
     <Modal
       isOpen={isDeleteModalOpen}
@@ -38,16 +67,14 @@ const DeleteUserModal = ({
           </small>
         </div>
         <div className="flex gap-5">
-          <Button
-            onClick={async () => {
-              await actions.deleteUserByAdmin();
-              setIsDeleteModalOpen((prev) => !prev);
-            }}
-            color="state-error"
-            icon={<DeleteIcon styles="size-6" />}
-          >
-            حذف
-          </Button>
+          <div onClick={handleDelete}>
+            <Button
+              color="state-error"
+              icon={<DeleteIcon styles="size-6" />}
+            >
+              حذف
+            </Button>
+          </div>
           <Button
             onClick={() => setIsDeleteModalOpen((prev) => !prev)}
             color="state-error"

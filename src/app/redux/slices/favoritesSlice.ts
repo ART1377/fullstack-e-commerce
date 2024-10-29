@@ -1,14 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "@/app/redux/store"; // Adjust path as necessary
+import { Favorite } from "../../../../next-type-models";
 
-// Define types
-interface FavoriteItem {
-  id: string;
-  productId: string;
-}
+
 
 interface FavoritesState {
-  items: FavoriteItem[];
+  items: Partial<Favorite>[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }

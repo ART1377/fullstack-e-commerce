@@ -7,6 +7,7 @@ import { auth } from "../../auth";
 // delete product by id
 interface DeleteProductByIdState {
   error?: string;
+  success?: boolean;
 }
 
 export async function deleteProductById(
@@ -15,9 +16,7 @@ export async function deleteProductById(
   // check if user is logged in
   const session = await auth();
   if (!session || !session.user) {
-    return {
-      error: "ابتدا وارد سایت شوید",
-    };
+    return { success: false, error: "ابتدا وارد سایت شوید" };
   }
 
   try {
@@ -31,12 +30,9 @@ export async function deleteProductById(
     revalidatePath("/dashboard/products");
 
     return {
-      error: "",
+      success: true,
     };
   } catch (error) {
-    // Handle any errors that occur during the query
-    return {
-      error: "خطایی رخ داده است",
-    };
+    return { success: false, error: "خطایی رخ داده است" };
   }
 }

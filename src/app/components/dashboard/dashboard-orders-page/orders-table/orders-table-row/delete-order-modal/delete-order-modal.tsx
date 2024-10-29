@@ -43,6 +43,7 @@ const DeleteOrderModal = ({
 
    setIsDeleteModalOpen(false); // Close the modal after deletion
  };
+ 
   return (
     <Modal
       isOpen={isDeleteModalOpen}

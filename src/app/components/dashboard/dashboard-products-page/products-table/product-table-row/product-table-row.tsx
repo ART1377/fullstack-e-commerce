@@ -10,6 +10,7 @@ import DeleteIcon from "@/app/icons/delete-icon";
 import DeleteProductModal from "./delete-product-modal/delete-product-modal";
 import Link from "next/link";
 import { Color, Product } from "../../../../../../../next-type-models";
+import Tooltip from "@/app/components/tooltip/tooltip";
 
 type Props = {
   product: Product;
@@ -26,7 +27,6 @@ const ProductTableRow = ({ product, index }: Props) => {
     (acc, stockItem) => acc + stockItem.quantity,
     0
   );
-
 
   return (
     <>
@@ -82,16 +82,24 @@ const ProductTableRow = ({ product, index }: Props) => {
         </td>
         <td className="p-2">
           <div className="flex gap-2">
-            <Link href={`/dashboard/products/edit-product/${id}`}>
-              <OperationIcon color={"primary"}>
-                <EditIcon styles="size-6" />
-              </OperationIcon>
-            </Link>
-            <div onClick={() => setIsDeleteModalOpen(true)}>
-              <OperationIcon color={"error"}>
-                <DeleteIcon styles="size-6" />
-              </OperationIcon>
-            </div>
+            <Tooltip
+              content="ویرایش محصول"
+              position="right"
+              color="primary-main"
+            >
+              <Link href={`/dashboard/products/edit-product/${id}`}>
+                <OperationIcon color={"primary"}>
+                  <EditIcon styles="size-6" />
+                </OperationIcon>
+              </Link>
+            </Tooltip>
+            <Tooltip content="حذف محصول" position="right" color="state-error">
+              <div onClick={() => setIsDeleteModalOpen(true)}>
+                <OperationIcon color={"error"}>
+                  <DeleteIcon styles="size-6" />
+                </OperationIcon>
+              </div>
+            </Tooltip>
           </div>
         </td>
       </tr>

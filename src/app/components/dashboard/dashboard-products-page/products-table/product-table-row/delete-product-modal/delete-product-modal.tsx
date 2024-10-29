@@ -4,6 +4,7 @@ import CloseIcon from "@/app/icons/close-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import React from "react";
 import * as actions from "@/app/actions/product-actions/product-action";
+import toast from "react-hot-toast";
 
 type Props = {
   isDeleteModalOpen: boolean;
@@ -18,6 +19,32 @@ const DeleteProductModal = ({
   selectedProductId,
   selectedProductName,
 }: Props) => {
+
+    
+ const handleDelete = async () => {
+   // Show loading toast
+   const loadingToastId = toast.loading("در حال حذف محصول...");
+
+   try {
+     const response = await actions.deleteProductById(selectedProductId);
+     // Dismiss the loading toast
+     toast.dismiss(loadingToastId);
+
+     if (response.success) {
+       // Show success toast
+       toast.success("محصول با موفقیت حذف شد.");
+     } else {
+       // Show error toast
+       toast.error(`خطا: ${response.error}`);
+     }
+   } catch (error) {
+     // Dismiss loading toast on error
+     toast.dismiss(loadingToastId);
+     toast.error("خطا در حذف محصول. لطفا دوباره تلاش کنید.");
+   }
+
+   setIsDeleteModalOpen(false); // Close the modal after deletion
+ };
 
   return (
     <Modal
@@ -39,12 +66,7 @@ const DeleteProductModal = ({
           </small>
         </div>
         <div className="flex gap-5">
-          <div
-            onClick={async () => {
-              await actions.deleteProductById(selectedProductId);
-              setIsDeleteModalOpen((prev) => !prev);
-            }}
-          >
+          <div onClick={handleDelete}>
             <Button
               type="submit"
               color="state-error"

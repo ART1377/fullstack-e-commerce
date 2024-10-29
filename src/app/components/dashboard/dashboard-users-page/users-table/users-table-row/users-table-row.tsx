@@ -9,6 +9,7 @@ import DeleteUserModal from "./delete-user-modal/delete-user-modal";
 import { formatPrice } from "@/app/lib/functions";
 import { User } from "../../../../../../../next-type-models";
 import { formatToJalali } from "@/app/lib/date-format";
+import Tooltip from "@/app/components/tooltip/tooltip";
 
 type Props = {
   user: User;
@@ -28,7 +29,7 @@ const UsersTableRow = ({ user, index }: Props) => {
   );
 
 
-  
+
   return (
     <>
       <DeleteUserModal
@@ -63,9 +64,7 @@ const UsersTableRow = ({ user, index }: Props) => {
           {firstName} {lastName}
         </td>
         <td className="p-2">{email}</td>
-        <td className="p-2">
-          {createdAt ? formatToJalali(createdAt) : "-"}
-        </td>
+        <td className="p-2">{createdAt ? formatToJalali(createdAt) : "-"}</td>
         <td className="p-2">{orders?.length}</td>
         <td className="p-2">{formatPrice(totalOrdersPrice!)}</td>
         <td className="p-2">
@@ -74,11 +73,13 @@ const UsersTableRow = ({ user, index }: Props) => {
             : "-"}
         </td>
         <td className="p-2">
-          <div onClick={() => setIsDeleteModalOpen(true)}>
-            <OperationIcon color={"error"}>
-              <DeleteIcon styles="size-6" />
-            </OperationIcon>
-          </div>
+          <Tooltip content="حذف کاربر" position="right" color="state-error">
+            <div onClick={() => setIsDeleteModalOpen(true)}>
+              <OperationIcon color={"error"}>
+                <DeleteIcon styles="size-6" />
+              </OperationIcon>
+            </div>
+          </Tooltip>
         </td>
       </tr>
     </>

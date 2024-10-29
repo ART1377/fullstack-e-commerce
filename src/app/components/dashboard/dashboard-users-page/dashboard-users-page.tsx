@@ -4,7 +4,6 @@ import UsersTable from "./users-table/users-table";
 import { SearchQueries } from "../../../../../next-type-models";
 import * as actions from "@/app/actions/user-actions/user-actions";
 import { PAGE_LIMIT } from "@/app/lib/values";
-import { db } from "@/app/db/db";
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };

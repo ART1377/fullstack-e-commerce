@@ -66,6 +66,7 @@ export async function getAllUsers({
       },
       orderBy: orderBy,
       select: {
+        id: true,
         firstName: true,
         lastName: true,
         email: true,

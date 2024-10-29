@@ -3,8 +3,6 @@ import { RootState } from "@/app/redux/store";
 import { CartItem } from "../../../../next-type-models";
 
 
-
-
 interface CartState {
   items: Partial<CartItem>[];
   status: "idle" | "loading" | "succeeded" | "failed";
