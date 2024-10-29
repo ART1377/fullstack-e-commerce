@@ -23,7 +23,7 @@ const OrdersTable = ({ totalItems ,orders}: Props) => {
               <th className="text-bodySmall p-2 min-w-[140px]">مجموع تخفیف</th>
               <th className="text-bodySmall p-2 min-w-[140px]">تاریخ سفارش</th>
               <th className="text-bodySmall p-2 min-w-[180px]">وضعیت سفارش</th>
-              <th className="text-bodySmall p-2 min-w-[120px]"></th>
+              <th className="text-bodySmall p-2 min-w-[200px]"></th>
             </tr>
           </thead>
           <tbody>

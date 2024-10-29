@@ -1,18 +1,27 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import ShoppingCartPageHeader from "./shopping-cart-page-header/shopping-cart-page-header";
 import Checkout from "./checkout/checkout";
 import ShoppingCartPageItem from "./shopping-cart-page-item/shopping-cart-page-item";
-import { useAppSelector } from "@/app/redux/hooks/hook";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks/hook";
 import { calculateDiscountedPrice } from "@/app/lib/functions";
 import Button from "../button/button";
 import Link from "next/link";
+import { fetchCart } from "@/app/redux/slices/cartSlice";
+import { useSessionContext } from "@/app/context/useSessionContext";
 
 type Props = {};
 
 const ShoppingCartPage = (props: Props) => {
   const { items: cartItems, status } = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
+
+  const { session } = useSessionContext();
+
+  useEffect(() => {
+    dispatch(fetchCart(session?.user?.id!));
+  }, [dispatch, session?.user?.id]);
 
   const totalQuantity = cartItems?.reduce(
     (acc, item) => acc + item.quantity!,
@@ -28,7 +37,6 @@ const ShoppingCartPage = (props: Props) => {
       calculateDiscountedPrice(item.product?.price!, item.product?.discount!),
     0
   );
-
 
   const cartIsEmpty = cartItems.length < 1;
 
@@ -46,7 +54,7 @@ const ShoppingCartPage = (props: Props) => {
           <div className="w-full px-4 py-8 bg-state-error-200 text-state-error rounded-xl flex-center flex-col gap-4 text-center text-bodyMain">
             <p>سبد خرید شما خالی است</p>
             <Button color="state-error" outline>
-              <Link href={'/products?page=1'}>صفحه محصولات</Link>
+              <Link href={"/products?page=1"}>صفحه محصولات</Link>
             </Button>
           </div>
         )}

@@ -11,7 +11,9 @@ type Props = {
     | "primary-dark"
     | "primary-light"
     | "dark"
-    | "state-error";
+    | "state-error"
+    | "state-success"
+    | "state-warning";
 };
 
 const Tooltip = ({
@@ -36,7 +38,6 @@ const Tooltip = ({
         return "";
     }
   };
-
 
   return (
     <div

@@ -18,13 +18,6 @@ const DeleteProductModal = ({
   selectedProductId,
   selectedProductName,
 }: Props) => {
-  // const deleteProductHandler = () => {
-  //   // connect db and delete user
-  //   console.log(`product with id ${selectedProductId} deleted`);
-
-  //   // close modal after async operation
-  //   setIsDeleteModalOpen((prev) => !prev);
-  // };
 
   return (
     <Modal
