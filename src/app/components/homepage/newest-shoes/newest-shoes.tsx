@@ -12,7 +12,7 @@ const NewestShoes = async (props: Props) => {
     <section className="mt-20 md:mt-28 w-full">
       {/* title */}
       {/* need change */}
-      <Title link="/products?category=کفش&sort=newest">
+      <Title link="/products?category=کفش">
         <h3>جدیدترین کفش ها</h3>
       </Title>
       {/* slider */}

@@ -16,6 +16,7 @@ const ProfilePage = async (props: Props) => {
   const { user } = await actions.getUserProfileInformation(session?.user?.id!);
 
 
+  // await db.order.deleteMany()
 
   return (
     <section className="w-full mt-4 sm:mt-10 flex flex-col gap-y-8 md:flex-row">

@@ -42,7 +42,7 @@ export async function getCartItems(userId: string) {
     0
   );
 
-  const totalItems = items.reduce((sum, item) => sum + item.stock.quantity, 0);
+  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
     console.log("totalItems", totalItems);
 
   return { items, totalPrice, totalDiscount, totalItems };
