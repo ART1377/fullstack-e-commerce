@@ -33,6 +33,8 @@ import {
   removeFromFavorites,
 } from "@/app/redux/slices/favoritesSlice";
 import HeartFillIcon from "@/app/icons/heart-fill-icon";
+import ProductShare from "../../product-share/product-share";
+
 
 type Props = {
   product: Product;
@@ -270,10 +272,7 @@ const ProductPageInformation = ({
           <span>({commentsCount}) دیدگاه</span>
         </div>
         <div className="flex gap-2">
-          <OperationIcon color="success">
-            <ShareIcon styles="size-5" />
-          </OperationIcon>
-
+          <ProductShare />
           <div onClick={isFavorite ? handleRemoveFavorite : handleAddFavorite}>
             <OperationIcon color={"error"}>
               {favoritesStatus === "loading" ? (
@@ -380,7 +379,7 @@ const ProductPageInformation = ({
               icon={<ShopIcon />}
               styles="w-full"
               onClick={handleAddToCart}
-              disabled={cartStatus === "loading" || quantityOfStock===0}
+              disabled={cartStatus === "loading" || quantityOfStock === 0}
               loading={
                 cartStatus === "loading" && <Spinner size={20} color="white" />
               }

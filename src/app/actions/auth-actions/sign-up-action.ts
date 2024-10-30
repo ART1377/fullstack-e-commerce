@@ -108,11 +108,13 @@ export async function handleSignUp(
       },
     });
 
-    await createAdminNotification(
-      user.id, // or session.user.id if available
-      "ثبت نام",
-      `کاربر ${user.firstName} ${user.lastName} ثبت نام کرد`
-    );
+    if (user) {
+      await createAdminNotification(
+        user.id, // or session.user.id if available
+        "ثبت نام",
+        `کاربر ${user.firstName} ${user.lastName} ثبت نام کرد`
+      );
+    }
 
     revalidatePath("/dashboard/notifications");
   } catch (error) {

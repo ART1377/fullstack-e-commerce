@@ -102,14 +102,17 @@ export async function checkout(userId: string) {
       data: { items: { deleteMany: {} } },
     });
 
-    await createAdminNotification(
-      userId,
-      "سفارش",
-      `کاربر با شناسه ${userId} یک خرید انجام داد`
-    );
+    if (order) {
+      await createAdminNotification(
+        userId,
+        "سفارش",
+        `کاربر با شناسه ${session.user?.name} یک خرید انجام داد`
+      );
+    }
 
     revalidatePath("/shopping-cart");
     revalidatePath("/dashboard/notifications");
+    revalidatePath("/dashboard/users");
 
     return order;
   });

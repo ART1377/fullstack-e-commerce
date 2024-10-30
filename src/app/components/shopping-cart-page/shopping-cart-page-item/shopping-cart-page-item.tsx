@@ -27,6 +27,7 @@ import Spinner from "../../spinner/spinner";
 import HeartFillIcon from "@/app/icons/heart-fill-icon";
 import PlusIcon from "@/app/icons/plus-icon";
 import MinusIcon from "@/app/icons/minus-icon";
+import ProductShare from "../../product-share/product-share";
 
 type Props = {
   cartItem: Partial<CartItem>;
@@ -282,9 +283,7 @@ const ShoppingCartPageItem = ({ cartItem }: Props) => {
                 )}
               </OperationIcon>
             </div>
-            <OperationIcon color={"success"}>
-              <ShareIcon styles="size-5" />
-            </OperationIcon>
+            <ProductShare />
             <div onClick={handleRemoveCartItem}>
               <OperationIcon color={"error"}>
                 <DeleteIcon styles="size-6" />
@@ -311,11 +310,7 @@ const ShoppingCartPageItem = ({ cartItem }: Props) => {
                 onClick={handleDecreaseQuantity}
                 className="custom-shape size-8 text-bodyMain text-white bg-primary-light flex-center custom-transition hover:opacity-60 cursor-pointer"
               >
-                {quantity! > 1 ? (
-                  <MinusIcon />
-                ) : (
-                  <DeleteIcon styles="size-6" />
-                )}
+                {quantity! > 1 ? <MinusIcon /> : <DeleteIcon styles="size-6" />}
               </div>
             </div>
             <Price

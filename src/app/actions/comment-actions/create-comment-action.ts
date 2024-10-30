@@ -88,12 +88,14 @@ export const createComment = async (
       },
     });
 
-    await createAdminNotification(
-      session.user.id,
-      "کامنت",
-      `کاربر ${session.user.id} یک نظر ارسال کرد`
-    );
-    
+    if (newComment) {
+      await createAdminNotification(
+        session.user.id,
+        "کامنت",
+        `کاربر ${session.user?.id} یک نظر ارسال کرد`
+      );
+    }
+
     revalidatePath(`/products/${productId}`);
     revalidatePath("/dashboard/notifications");
 

@@ -25,7 +25,7 @@ const Modal = ({ isOpen, onClose, children, header }: ModalProps) => {
               ease: "easeOut", // Apply ease-out effect
             }}
             onClick={(e: any) => e.stopPropagation()} // Prevent click on modal from closing
-            className="bg-light rounded-2xl w-11/12 max-w-lg mx-auto relative max-h-[80%] overflow-y-auto custom-scrollbar"
+            className="bg-light rounded-2xl w-11/12 max-w-lg mx-auto relative max-h-[80%] overflow-x-hidden overflow-y-auto custom-scrollbar"
           >
             {header && header}
             <div className="m-auto p-4">{children}</div>

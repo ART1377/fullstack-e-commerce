@@ -9,13 +9,13 @@ import { useSessionContext } from "@/app/context/useSessionContext";
 import CloseIcon from "@/app/icons/close-icon";
 import PlusIcon from "@/app/icons/plus-icon";
 import Link from "next/link";
-import React, { useActionState, useState } from "react";
+import React, { useState } from "react";
 import { useFormState } from "react-dom";
 import * as actions from "@/app/actions/comment-actions/comment-actions";
 import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
-import ArrowLeftIcon from "@/app/icons/arrow-left-icon";
 import Spinner from "@/app/components/spinner/spinner";
+import ReplyIcon from "@/app/icons/reply-icon";
 
 type Props = {
   parentId?: string;
@@ -101,10 +101,10 @@ const CreateCommentModal = ({
           {isReply ? (
             <div
               onClick={() => setIsModalOpen((prev) => !prev)}
-              className="text-customGray-500 flex items-center justify-end cursor-pointer ml-2 mt-2 custom-transition transform hover:-translate-x-0.5 hover:text-customGray-700"
+              className="text-customGray-500 flex items-center justify-end gap-1 cursor-pointer ml-2 mt-2 custom-transition transform hover:-translate-x-0.5 hover:text-customGray-700"
             >
               <small className="text-bodySmall">پاسخ</small>
-              <ArrowLeftIcon styles="size-6" />
+              <ReplyIcon styles="size-4" />
             </div>
           ) : (
             <Button
@@ -180,10 +180,10 @@ const CreateCommentModal = ({
           {isReply ? (
             <div
               onClick={handleUnauthenticatedClick}
-              className="text-customGray-500 flex items-center justify-end cursor-pointer ml-2 mt-2 custom-transition transform hover:-translate-x-0.5 hover:text-customGray-700"
+              className="text-customGray-500 flex items-center justify-end gap-1 cursor-pointer ml-2 mt-2 custom-transition transform hover:-translate-x-0.5 hover:text-customGray-700"
             >
               <small className="text-bodySmall">پاسخ</small>
-              <ArrowLeftIcon styles="size-6" />
+              <ReplyIcon styles="size-4" />
             </div>
           ) : (
             <div

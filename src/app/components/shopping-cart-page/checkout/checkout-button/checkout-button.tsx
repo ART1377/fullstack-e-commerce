@@ -6,8 +6,8 @@ import toast from "react-hot-toast";
 import * as actions from "@/app/actions/checkout-actions/checkout-actions";
 import Button from "@/app/components/button/button";
 import { useSessionContext } from "@/app/context/useSessionContext";
-import { fetchFavorites } from "@/app/redux/slices/favoritesSlice";
 import { useAppDispatch } from "@/app/redux/hooks/hook";
+import { fetchCart } from "@/app/redux/slices/cartSlice";
 
 export default function CheckoutButton() {
   const { session } = useSessionContext();
@@ -27,7 +27,7 @@ export default function CheckoutButton() {
 
     try {
       await actions.checkout(session.user.id); // Execute checkout logic
-      dispatch(fetchFavorites(session.user.id)); // Optionally re-fetch if needed
+      dispatch(fetchCart(session.user.id)); // Optionally re-fetch if needed
       toast.dismiss(loadingToastId); // Dismiss the loading toast
       toast.success("سفارش شما با موفقیت ثبت شد!");
     } catch (error) {
