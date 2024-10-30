@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
 import Spinner from "@/app/components/spinner/spinner";
 import ReplyIcon from "@/app/icons/reply-icon";
+import { CreateCommentFormState } from "@/app/actions/comment-actions/create-comment-action";
 
 type Props = {
   parentId?: string;
@@ -31,18 +32,16 @@ const CreateCommentModal = ({
   const sessionExist = !!session && !!session?.user;
 
   const [loading, setLoading] = useState(false);
-
+  
   const params = useParams();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   const productId = params.id as string;
-
-  const [formState, action] = useFormState(
-    actions.createComment.bind(null, productId, parentId),
-    { state: {} }
-  );
+  
+  
+  const [formState, setFormState] = useState<CreateCommentFormState>();
 
   // const [formState, action, isPending] = useActionState(
   //   actions.createComment.bind(null, productId, parentId),
@@ -77,6 +76,7 @@ const CreateCommentModal = ({
         setDescription("");
         setIsModalOpen(false);
       } else {
+        setFormState(response)
         toast.error(response.state.errors?._form?.[0] || "خطایی رخ داده است");
       }
     } catch (error) {
@@ -149,14 +149,14 @@ const CreateCommentModal = ({
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                error={formState.state.errors?.title?.[0]}
+                error={formState?.state?.errors?.title?.[0]}
               />
               <TextArea
                 label="متن پیام"
                 name="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                error={formState.state.errors?.description?.[0]}
+                error={formState?.state?.errors?.description?.[0]}
               />
               <Button
                 disabled={loading}
@@ -167,9 +167,9 @@ const CreateCommentModal = ({
               >
                 ثبت
               </Button>{" "}
-              {formState.state.errors?._form?.[0] && (
+              {formState?.state?.errors?._form?.[0] && (
                 <small className="text-state-error text-captionMain -mt-4">
-                  {formState.state.errors?._form?.[0]}
+                  {formState?.state?.errors?._form?.[0]}
                 </small>
               )}
             </form>

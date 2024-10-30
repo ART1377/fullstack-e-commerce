@@ -19,7 +19,7 @@ const createCommentSchema = z.object({
   parentId: z.string().uuid("شناسه والد نامعتبر است").optional(),
 });
 
-interface CreateCommentFormState {
+export interface CreateCommentFormState {
   state: {
     success?: boolean;
     errors?: {
