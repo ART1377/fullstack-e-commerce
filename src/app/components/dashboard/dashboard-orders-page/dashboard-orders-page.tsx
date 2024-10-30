@@ -33,9 +33,9 @@ const DashboardOrdersPage = async ({ searchParams }: Props) => {
         : sort === "گران ترین"
         ? "desc"
         : sort === "جدید ترین"
-        ? "asc"
-        : sort === "قدیمی ترین"
         ? "desc"
+        : sort === "قدیمی ترین"
+        ? "asc"
         : undefined,
   });
 
