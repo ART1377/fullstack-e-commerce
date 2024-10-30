@@ -26,10 +26,18 @@ export default function CheckoutButton() {
     const loadingToastId = toast.loading("در حال ثبت سفارش...");
 
     try {
-      await actions.checkout(session.user.id); // Execute checkout logic
-      dispatch(fetchCart(session.user.id)); // Optionally re-fetch if needed
+      const response = await actions.checkout(session.user.id);
+
       toast.dismiss(loadingToastId); // Dismiss the loading toast
-      toast.success("سفارش شما با موفقیت ثبت شد!");
+
+      if (response.success) {
+        // If checkout is successful
+        dispatch(fetchCart(session.user.id)); // Optionally re-fetch if needed
+        toast.success("سفارش شما با موفقیت ثبت شد!");
+      } else {
+        // Display the specific error returned from the server
+        toast.error("خطایی رخ داده است");
+      }
     } catch (error) {
       toast.dismiss(loadingToastId); // Dismiss the loading toast
       toast.error("خطایی رخ داده است");

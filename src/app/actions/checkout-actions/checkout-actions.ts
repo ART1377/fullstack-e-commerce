@@ -51,69 +51,78 @@ export async function getCartItems(userId: string) {
 }
 
 export async function checkout(userId: string) {
-  const { items, totalPrice, totalDiscount, totalItems } = await getCartItems(
-    userId
-  );
-
-  // check if user is logged in
+  // Step 0: Retrieve user session
   const session = await auth();
   if (!session || !session.user) {
     return { success: false, error: "ابتدا وارد سایت شوید" };
   }
 
-  return await db.$transaction(async (db) => {
-    // Step 1: Check and update stock quantities
-    for (const item of items) {
-      const stockItem = await db.stock.findUnique({
-        where: { id: item.stockId },
-        select: { quantity: true },
-      });
+  try {
+    // Step 1: Retrieve cart items
+    const { items, totalPrice, totalDiscount, totalItems } = await getCartItems(
+      userId
+    );
 
-      if (!stockItem || stockItem.quantity < item.quantity) {
-        throw new Error(
-          `موجودی کافی برای آیتم: ${item.product.title} وجود ندارد`
-        );
-      }
-
-      // Reduce stock quantity
-      await db.stock.update({
-        where: { id: item.stockId },
-        data: { quantity: { decrement: item.quantity } },
-      });
+    if (!items || items.length === 0) {
+      return { success: false, error: "سبد خرید خالی است" };
     }
 
-    // Step 2: Create the order with connected products
-    const order = await db.order.create({
-      data: {
-        userId,
-        price: totalPrice,
-        discountAmount: totalDiscount,
-        totalItems,
-        status: "جاری",
-        products: {
-          connect: items.map((item) => ({ id: item.productId })),
+    return await db.$transaction(async (db) => {
+      // Step 2: Validate stock for each item in the cart
+      for (const item of items) {
+        const stockItem = await db.stock.findUnique({
+          where: { id: item.stockId },
+          select: { quantity: true },
+        });
+
+        if (!stockItem || stockItem.quantity < item.quantity) {
+          throw new Error(
+            `موجودی کافی برای آیتم ${item.product.title} وجود ندارد`
+          );
+        }
+
+        // Update stock quantity for each item
+        await db.stock.update({
+          where: { id: item.stockId },
+          data: { quantity: { decrement: item.quantity } },
+        });
+      }
+
+      // Step 3: Create the order with connected products
+      const order = await db.order.create({
+        data: {
+          userId,
+          price: totalPrice,
+          discountAmount: totalDiscount,
+          totalItems,
+          status: "جاری",
+          products: {
+            connect: items.map((item) => ({ id: item.productId })),
+          },
         },
-      },
-    });
+      });
 
-    // Step 3: Clear the user's cart
-    await db.cart.update({
-      where: { userId },
-      data: { items: { deleteMany: {} } },
-    });
+      // Step 4: Clear the user's cart
+      await db.cart.update({
+        where: { userId },
+        data: { items: { deleteMany: {} } },
+      });
 
-    if (order) {
+      // Step 5: Create an admin notification for the new order
       await createAdminNotification(
         userId,
         "سفارش",
-        `کاربر با شناسه ${session.user?.name} یک خرید انجام داد`
+        `کاربر با شناسه ${session.user?.id} یک خرید انجام داد`
       );
-    }
 
-    revalidatePath("/shopping-cart");
-    revalidatePath("/dashboard/notifications");
-    revalidatePath("/dashboard/users");
+      // Step 6: Revalidate paths that display cart, orders, and notifications
+      revalidatePath("/shopping-cart");
+      revalidatePath("/dashboard/notifications");
+      revalidatePath("/dashboard/users");
 
-    return order;
-  });
+      return { success: true };
+    });
+  } catch (error) {
+    return { success: false, error: "خطایی رخ داده است" };
+  }
 }
