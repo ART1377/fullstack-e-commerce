@@ -35,14 +35,17 @@ const signUpSchema = z
     path: ["confirmPassword"],
   });
 
-interface SighUpFormState {
-  errors: {
-    firstName?: string[];
-    lastName?: string[];
-    email?: string[];
-    password?: string[];
-    confirmPassword?: string[];
-    _form?: string[];
+export interface SighUpFormState {
+  state: {
+    errors?: {
+      firstName?: string[];
+      lastName?: string[];
+      email?: string[];
+      password?: string[];
+      confirmPassword?: string[];
+      _form?: string[];
+    };
+    success?: boolean;
   };
 }
 
@@ -69,7 +72,10 @@ export async function handleSignUp(
   // check validation result
   if (!result.success) {
     return {
-      errors: result.error.flatten().fieldErrors,
+      state: {
+        errors: result.error.flatten().fieldErrors,
+        success: false,
+      },
     };
   }
 
@@ -81,8 +87,11 @@ export async function handleSignUp(
 
   if (existingUser) {
     return {
-      errors: {
-        email: ["کاربری با این ایمیل موجود است"],
+      state: {
+        errors: {
+          email: ["کاربری با این ایمیل موجود است"],
+        },
+        success: false,
       },
     };
   }
@@ -117,14 +126,22 @@ export async function handleSignUp(
     }
 
     revalidatePath("/dashboard/notifications");
-  } catch (error) {
     return {
-      errors: {
-        _form: ["خطایی رخ داده است"],
+      state: {
+        success: true,
       },
     };
-  }
+  } catch (error) {
+    return {
+      state: {
+        errors: {
+          _form: ["خطایی رخ داده است"],
+        },
+        success: false,
+      },
+    };
 
-  // return user;
-  redirect("/auth/login");
+    // return user;
+    // redirect("/auth/login");
+  }
 }

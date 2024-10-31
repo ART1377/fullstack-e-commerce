@@ -42,7 +42,9 @@ const Testimonial = ({ comment, depth = 0 }: Props) => {
         {userId && userId === user.id && (
           <div className="w-full flex-center gap-3">
             <div className="bg-customGray-200 h-px min-w-14 w-[calc(40%-100px)]"></div>
-            <div className="text-primary-main">دیدگاه شما</div>
+            <div className="text-primary-main">
+              {user.firstName} {user.lastName}
+            </div>
             <div className="bg-customGray-200 h-px min-w-14 w-[calc(40%-100px)]"></div>
           </div>
         )}

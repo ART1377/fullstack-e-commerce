@@ -49,7 +49,6 @@ const CreateCommentModal = ({
   // );
 
   // Form submission handler
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!sessionExist) return toast.error("ابتدا وارد سایت شوید");

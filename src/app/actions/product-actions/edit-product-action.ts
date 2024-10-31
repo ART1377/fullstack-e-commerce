@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { Feature, Stock } from "../../../../next-type-d";
 import { auth } from "../../auth";
 import { uploadImage } from "@/app/lib/cloudinary";
+import { ProductFormState } from "./add-product-action";
 
 const productSchema = z.object({
   title: z.string().min(1, "عنوان محصول الزامی است"),
@@ -44,21 +45,7 @@ const productSchema = z.object({
     .nonempty("حداقل یک تنوع موجودی باید وجود داشته باشد"),
 });
 
-interface ProductFormState {
-  errors: {
-    title?: string[];
-    model?: string[];
-    category?: string[];
-    brand?: string[];
-    price?: string[];
-    discount?: string[];
-    description?: string[];
-    features?: string[];
-    stock?: string[];
-    images?: string[];
-    _form?: string[];
-  };
-}
+
 
 // Server action to update a product
 export async function updateProduct(
@@ -97,8 +84,11 @@ export async function updateProduct(
   const session = await auth();
   if (!session || !session.user) {
     return {
-      errors: {
-        _form: ["ابتدا وارد سایت شوید"],
+      state: {
+        errors: {
+          _form: ["ابتدا وارد سایت شوید"],
+        },
+        success: false,
       },
     };
   }
@@ -107,7 +97,10 @@ export async function updateProduct(
   const result = productSchema.safeParse(productData);
   if (!result.success) {
     return {
-      errors: result.error.flatten().fieldErrors,
+      state: {
+        errors: result.error.flatten().fieldErrors,
+        success: false,
+      },
     };
   }
 
@@ -190,12 +183,17 @@ export async function updateProduct(
     revalidatePath("/dashboard/products");
 
     return {
-      errors: {},
+      state: {
+        success: true,
+      },
     };
   } catch (error) {
     return {
-      errors: {
-        _form: ["خطایی رخ داده است"],
+      state: {
+        errors: {
+          _form: ["خطایی رخ داده است"],
+        },
+        success: false,
       },
     };
   }

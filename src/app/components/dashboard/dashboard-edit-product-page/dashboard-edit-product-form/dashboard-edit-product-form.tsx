@@ -17,12 +17,13 @@ import PlusIcon from "@/app/icons/plus-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import CloseIcon from "@/app/icons/close-icon";
 import * as actions from "@/app/actions/product-actions/product-action";
-import { useFormState } from "react-dom";
 import { z } from "zod";
 import Checkbox from "@/app/components/form/checkbox/checkbox";
 import Image from "next/image";
 import { Color, Product } from "../../../../../../next-type-models";
 import EditIcon from "@/app/icons/edit-icon";
+import toast from "react-hot-toast";
+import { ProductFormState } from "@/app/actions/product-actions/add-product-action";
 
 // Zod schema for stock validation
 const stockSchema = z.object({
@@ -103,19 +104,55 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
     errors: {},
   });
 
-  const [formState, action] = useFormState(
-    actions.updateProduct.bind(
-      null,
-      cloudinaryImages,
-      product.id,
-      category!,
-      features,
-      stockItems
-    ),
-    {
-      errors: {},
+  const [formState, setFormState] = useState<ProductFormState>();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    // Show loading toast
+    const loadingToastId = toast.loading("در حال ویرایش محصول...");
+
+    try {
+      // Call server action
+      const result = await actions.updateProduct(
+        cloudinaryImages,
+        product.id,
+        category!,
+        features,
+        stockItems,
+        { state: {} },
+        formData
+      );
+
+      // Dismiss loading toast
+      toast.dismiss(loadingToastId);
+
+      // Check response and show appropriate toast
+      if (result.state.success) {
+        toast.success("ویرایش محصول با موفقیت انجام شد");
+        // Optional: Redirect user if needed
+      } else if (result.state.errors) {
+        setFormState(result);
+        toast.error("ویرایش محصول ناموفق بود. لطفا دوباره تلاش کنید.");
+      }
+    } catch (error) {
+      toast.error("خطایی رخ داده است");
     }
-  );
+  };
+  // const [formState, action] = useFormState(
+  //   actions.updateProduct.bind(
+  //     null,
+  //     cloudinaryImages,
+  //     product.id,
+  //     category!,
+  //     features,
+  //     stockItems
+  //   ),
+  //   {
+  //     errors: {},
+  //   }
+  // );
 
   useEffect(() => {
     const receivedFeatures = product.features?.map((feature) => {
@@ -305,7 +342,10 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
   };
 
   return (
-    <form action={action} className="flex flex-col gap-7 py-4 px-2 md:px-4">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-7 py-4 px-2 md:px-4"
+    >
       {/* general information */}
       <DashedContainer label="اطلاعات کلی">
         <div className="w-full grid gap-5">
@@ -316,7 +356,7 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              error={formState.errors.title?.[0]}
+              error={formState?.state?.errors?.title?.[0]}
             />
             <Input
               label="مدل"
@@ -324,7 +364,7 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
               type="text"
               value={model}
               onChange={(e) => setModel(e.target.value)}
-              error={formState.errors.model?.[0]}
+              error={formState?.state?.errors?.model?.[0]}
             />
           </div>
           <div className="w-full grid gap-5 bmlg:grid-cols-2">
@@ -334,12 +374,12 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
               type="text"
               value={brand}
               onChange={(e) => setBrand(e.target.value)}
-              error={formState.errors.brand?.[0]}
+              error={formState?.state?.errors?.brand?.[0]}
             />
             <div className="flex flex-col gap-1">
               <div
                 className={`text-bodyMain ${
-                  formState.errors.category?.[0]
+                  formState?.state?.errors?.category?.[0]
                     ? "text-state-error"
                     : "text-dark"
                 }`}
@@ -355,7 +395,8 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
                   label={
                     <div
                       className={`flex items-center gap-1 ${
-                        formState.errors.category?.[0] && "text-state-error"
+                        formState?.state?.errors?.category?.[0] &&
+                        "text-state-error"
                       }`}
                     >
                       <SortIcon styles="size-6" />
@@ -364,13 +405,14 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
                   }
                   items={categoryItems}
                   styles={`rounded-l-[50px] rounded-tr-[10px] rounded-br-[30px] ${
-                    formState.errors.category?.[0] && "bg-state-error-200"
+                    formState?.state?.errors?.category?.[0] &&
+                    "bg-state-error-200"
                   }`}
                 />
               </div>
-              {formState.errors.category?.[0] && (
+              {formState?.state?.errors?.category?.[0] && (
                 <small className="text-state-error text-captionMain mt-1">
-                  {formState.errors.category?.[0]}
+                  {formState?.state?.errors?.category?.[0]}
                 </small>
               )}
             </div>
@@ -387,7 +429,7 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
             value={price}
             onChange={(e) => setPrice(parseInt(e.target.value))}
             min={0}
-            error={formState.errors.price?.[0]}
+            error={formState?.state?.errors?.price?.[0]}
           />
           <Input
             label="درصد تخفیف"
@@ -396,7 +438,7 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
             value={discount}
             onChange={(e) => setDiscount(parseInt(e.target.value))}
             max={100}
-            error={formState.errors.discount?.[0]}
+            error={formState?.state?.errors?.discount?.[0]}
           />
         </div>
       </DashedContainer>
@@ -472,9 +514,9 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
               </Button>
             </div>
 
-            {formState.errors.stock?.[0] && (
+            {formState?.state?.errors?.stock?.[0] && (
               <small className="text-state-error text-captionMain mt-1">
-                {formState.errors.stock?.[0]}
+                {formState?.state?.errors?.stock?.[0]}
               </small>
             )}
 
@@ -533,7 +575,7 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
           <label
             htmlFor="images"
             className={`rounded-lg border border-dashed border-customGray-700 w-full h-full flex-center cursor-pointer relative ${
-              formState.errors.images?.[0] && "bg-state-error-200"
+              formState?.state?.errors?.images?.[0] && "bg-state-error-200"
             }`}
           >
             <input
@@ -614,9 +656,9 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
               </div>
             </div>
           )}
-          {formState.errors.images?.[0] && (
+          {formState?.state?.errors?.images?.[0] && (
             <small className="text-state-error text-captionMain mt-1">
-              {formState.errors.images?.[0]}
+              {formState?.state?.errors?.images?.[0]}
             </small>
           )}
         </div>
@@ -691,9 +733,9 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
             </div>
           )}
 
-          {formState.errors.features?.[0] && (
+          {formState?.state?.errors?.features?.[0] && (
             <small className="text-state-error text-captionMain mt-1">
-              {formState.errors.features?.[0]}
+              {formState?.state?.errors?.features?.[0]}
             </small>
           )}
         </div>
@@ -707,7 +749,7 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
             name={`description`}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            error={formState.errors.description?.[0]}
+            error={formState?.state?.errors?.description?.[0]}
           />
         </div>
       </DashedContainer>
@@ -728,9 +770,9 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
           پاک کردن
         </Button>
       </div>
-      {formState.errors._form?.[0] && (
+      {formState?.state?.errors?._form?.[0] && (
         <small className="text-state-error text-captionMain -mt-4">
-          {formState.errors._form?.[0]}
+          {formState?.state?.errors?._form?.[0]}
         </small>
       )}
     </form>

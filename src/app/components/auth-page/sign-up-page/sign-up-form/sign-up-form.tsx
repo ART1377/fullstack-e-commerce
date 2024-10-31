@@ -8,16 +8,22 @@ import Image from "next/image";
 import PersonIcon from "@/app/icons/person-icon";
 import * as actions from "@/app/actions/auth-actions/auth-actions";
 import Link from "next/link";
-import { useFormState } from "react-dom";
+import { SighUpFormState } from "@/app/actions/auth-actions/sign-up-action";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const SignUpForm = (props: Props) => {
-  const [formState, action] = useFormState(actions.handleSignUp, {
-    errors: {},
-  });
+  // const [formState, action] = useFormState(actions.handleSignUp, {
+  //   errors: {},
+  // });
 
   const [image, setImage] = useState<string>("");
+
+  const [formState, setFormState] = useState<SighUpFormState>();
+
+  const router = useRouter();
 
   // Handle image selection
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,8 +40,36 @@ const SignUpForm = (props: Props) => {
     }
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    // Show loading toast
+    const loadingToastId = toast.loading("در حال ثبت نام...");
+
+    try {
+      // Call server action
+      const result = await actions.handleSignUp({ state: {} }, formData);
+
+      // Dismiss loading toast
+      toast.dismiss(loadingToastId);
+
+      // Check response and show appropriate toast
+      if (result.state.success) {
+        toast.success("ثبت نام با موفقیت انجام شد");
+        router.push("/auth/login");
+        // Optional: Redirect user if needed
+      } else if (result.state.errors) {
+        setFormState(result);
+        toast.error("ثبت نام ناموفق بود. لطفا دوباره تلاش کنید.");
+      }
+    } catch (error) {
+      toast.error("خطایی رخ داده است");
+    }
+  };
+
   return (
-    <form action={action} className="w-full flex-center flex-col gap-4">
+    <form onSubmit={handleSubmit} className="w-full flex-center flex-col gap-4">
       {/* form title */}
       <Title>
         <h1 className="text-bodyMain xs:text-bodyMainBold">ثبت نام</h1>
@@ -77,13 +111,13 @@ const SignUpForm = (props: Props) => {
           label="نام"
           name="first-name"
           type="text"
-          error={formState.errors.firstName?.[0]}
+          error={formState?.state?.errors?.firstName?.[0]}
         />
         <Input
           label="نام خانوادگی"
           name="last-name"
           type="text"
-          error={formState.errors.lastName?.[0]}
+          error={formState?.state?.errors?.lastName?.[0]}
         />
       </div>
       <div className="grid gap-4 w-full bmlg:grid-cols-2">
@@ -91,13 +125,13 @@ const SignUpForm = (props: Props) => {
           label="رمز عبور"
           name="password"
           type="password"
-          error={formState.errors.password?.[0]}
+          error={formState?.state?.errors?.password?.[0]}
         />
         <Input
           label="تکرار رمز عبور"
           name="confirm-password"
           type="password"
-          error={formState.errors.confirmPassword?.[0]}
+          error={formState?.state?.errors?.confirmPassword?.[0]}
         />
       </div>
 
@@ -105,11 +139,11 @@ const SignUpForm = (props: Props) => {
         label="ایمیل"
         name="email"
         type="email"
-        error={formState.errors.email?.[0]}
+        error={formState?.state?.errors?.email?.[0]}
       />
-      {formState.errors._form?.[0] && (
+      {formState?.state?.errors?._form?.[0] && (
         <small className="text-state-error text-captionMain p-2 rounded-xl bg-state-error-200 mt-1 ml-auto">
-          {formState.errors._form?.[0]}
+          {formState?.state?.errors?._form?.[0]}
         </small>
       )}
       <Button type="submit" color="dark" styles="w-full mt-2" size="large">

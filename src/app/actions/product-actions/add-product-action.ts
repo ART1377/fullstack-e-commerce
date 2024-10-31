@@ -44,19 +44,22 @@ const productSchema = z.object({
     .nonempty("حداقل یک تنوع موجودی باید وجود داشته باشد"),
 });
 
-interface ProductFormState {
-  errors: {
-    title?: string[];
-    model?: string[];
-    category?: string[];
-    brand?: string[];
-    price?: string[];
-    discount?: string[];
-    description?: string[];
-    features?: string[];
-    stock?: string[];
-    images?: string[];
-    _form?: string[];
+export interface ProductFormState {
+  state: {
+    success?: boolean;
+    errors?: {
+      title?: string[];
+      model?: string[];
+      category?: string[];
+      brand?: string[];
+      price?: string[];
+      discount?: string[];
+      description?: string[];
+      features?: string[];
+      stock?: string[];
+      images?: string[];
+      _form?: string[];
+    };
   };
 }
 
@@ -94,8 +97,11 @@ export async function addProduct(
 
   if (!session || !session.user) {
     return {
-      errors: {
-        _form: ["ابتدا وارد سایت شوید"],
+      state: {
+        errors: {
+          _form: ["ابتدا وارد سایت شوید"],
+        },
+        success: false,
       },
     };
   }
@@ -105,7 +111,10 @@ export async function addProduct(
 
   if (!result.success) {
     return {
-      errors: result.error.flatten().fieldErrors,
+      state: {
+        errors: result.error.flatten().fieldErrors,
+        success: false,
+      },
     };
   }
 
@@ -178,12 +187,17 @@ export async function addProduct(
     revalidatePath("/dashboard/products");
 
     return {
-      errors: {},
+      state: {
+        success: true,
+      },
     };
   } catch (error) {
     return {
-      errors: {
-        _form: ["خطایی رخ داده است"],
+      state: {
+        errors: {
+          _form: ["خطایی رخ داده است"],
+        },
+        success: false,
       },
     };
   }

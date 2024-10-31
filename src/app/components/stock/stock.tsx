@@ -13,7 +13,7 @@ const Stock = ({ quantity }: Props) => {
           : "bg-state-error-200 text-state-error"
       }`}
     >
-      {quantity > 0 ? "موجود" : "نا موجود"}
+      {quantity > 0 ? "موجود" : "ناموجود"}
     </div>
   );
 };

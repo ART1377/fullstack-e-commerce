@@ -63,9 +63,6 @@ const ProductTableRow = ({ product, index }: Props) => {
         <td className="p-2">{`${discount ? `${discount}%` : ""}`}</td>
         <td className="p-2">
           <div className="flex gap-1">
-            <span className="text-customGray-500 text-bodySmall">
-              {uniqueColors.length > 3 && `(+${uniqueColors.length - 3})`}
-            </span>
             {uniqueColors.slice(0, 3).map((color: Color) => (
               <div
                 key={color.id}
@@ -75,6 +72,9 @@ const ProductTableRow = ({ product, index }: Props) => {
                 style={{ backgroundColor: color.hex }}
               ></div>
             ))}
+            <span className="text-customGray-500 text-bodySmall">
+              {uniqueColors.length > 3 && `(+${uniqueColors.length - 3})`}
+            </span>
           </div>
         </td>
         <td className="p-2">

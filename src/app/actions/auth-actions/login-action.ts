@@ -6,8 +6,6 @@ import { comparePassword } from "../../lib/bcrypt";
 import * as auth from "@/app/auth";
 import { z } from "zod";
 
-
-
 // Zod schema for login form
 const loginSchema = z.object({
   email: z
@@ -19,12 +17,14 @@ const loginSchema = z.object({
     .min(6, { message: "رمز عبور باید حداقل ۶ کاراکتر باشد" }),
 });
 
-
-interface LoginFormState {
-  errors: {
-    email?: string[];
-    password?: string[];
-    _form?: string[];
+export interface LoginFormState {
+  state: {
+    errors?: {
+      email?: string[];
+      password?: string[];
+      _form?: string[];
+    };
+    success?: boolean;
   };
 }
 
@@ -44,13 +44,28 @@ export async function handleLogin(
   // check validation result
   if (!result.success) {
     return {
-      errors: result.error.flatten().fieldErrors,
+      state: {
+        errors: result.error.flatten().fieldErrors,
+        success: false,
+      },
     };
   }
 
   const user = await db.user.findUnique({
     where: { email: result.data.email },
   });
+
+
+  if (!user) {
+     return {
+       state: {
+         errors: {
+           _form: ["کاربری با این ایمیل یافت نشد"],
+         },
+         success: false,
+       },
+     };
+  }
 
   if (user) {
     const isValidPassword = await comparePassword(
@@ -59,8 +74,11 @@ export async function handleLogin(
     );
     if (!isValidPassword) {
       return {
-        errors: {
-          _form: ["رمز عبور با ایمیل مطابقت ندارد"],
+        state: {
+          errors: {
+            _form: ["رمز عبور با ایمیل مطابقت ندارد"],
+          },
+          success: false,
         },
       };
     }
@@ -72,13 +90,22 @@ export async function handleLogin(
       email: result.data.email,
       password: result.data.password,
     });
+
+    return {
+      state: {
+        success: true,
+      },
+    };
   } catch (error) {
     return {
-      errors: {
-        _form: ["خطایی رخ داده است"],
+      state: {
+        errors: {
+          _form: ["خطایی رخ داده است"],
+        },
+        success: false,
       },
     };
   }
+  // redirect("/");
 
-  redirect("/");
 }
