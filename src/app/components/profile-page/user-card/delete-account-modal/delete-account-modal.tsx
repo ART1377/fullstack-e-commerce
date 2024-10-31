@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Button from "@/app/components/button/button";
 import Modal from "@/app/components/modal/modal";
@@ -5,6 +7,7 @@ import CloseIcon from "@/app/icons/close-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import * as actions from "@/app/actions/auth-actions/auth-actions";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type Props = {
   isDeleteModalOpen: boolean;
@@ -17,37 +20,36 @@ const DeleteAccountModal = ({
   setIsDeleteModalOpen,
   selectedUserId,
 }: Props) => {
- 
-
+  const router = useRouter();
   // const submitHandler = async (e: FormEvent) => {
   //   action();
 
- const handleDelete = async () => {
-   // Show loading toast
-   const loadingToastId = toast.loading("در حال حذف حساب کاربری...");
+  const handleDelete = async () => {
+    // Show loading toast
+    const loadingToastId = toast.loading("در حال حذف حساب کاربری...");
 
-   try {
-     const response = await actions.deleteUserByUser(selectedUserId);
-     // Dismiss the loading toast
-     toast.dismiss(loadingToastId);
+    try {
+      const response = await actions.deleteUserByUser(selectedUserId);
+      // Dismiss the loading toast
+      toast.dismiss(loadingToastId);
 
-     if (response.success) {
-       // Show success toast
-       toast.success("حساب کاربری با موفقیت حذف شد.");
-       
-     } else {
-       // Show error toast
-       toast.error(`خطا: ${response.error}`);
-     }
-   } catch (error) {
-     // Dismiss loading toast on error
-     toast.dismiss(loadingToastId);
-     toast.error("خطا در حذف حساب کاربری. لطفا دوباره تلاش کنید.");
-   }
+      if (response.success) {
+        // Show success toast
+        toast.success("حساب کاربری با موفقیت حذف شد.");
+        
+        router.push('/')
+      } else {
+        // Show error toast
+        toast.error(`خطا: ${response.error}`);
+      }
+    } catch (error) {
+      // Dismiss loading toast on error
+      toast.dismiss(loadingToastId);
+      toast.error("خطا در حذف حساب کاربری. لطفا دوباره تلاش کنید.");
+    }
 
-   setIsDeleteModalOpen(false); // Close the modal after deletion
- };
-
+    setIsDeleteModalOpen(false); // Close the modal after deletion
+  };
 
   return (
     <Modal
