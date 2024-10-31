@@ -4,13 +4,7 @@ import { redirect } from "next/navigation";
 import { db } from "../../db/db";
 import * as auth from "@/app/auth";
 import { revalidatePath } from "next/cache";
-
-interface DeleteAccountFormState {
-  state: {
-    success?: boolean;
-    error?: string;
-  };
-}
+import { DeleteAccountFormState } from "./delete-user-by-admin-action";
 
 // delete user but user himself
 export async function deleteUserByUser(
@@ -20,12 +14,13 @@ export async function deleteUserByUser(
   const session = await auth.auth();
 
   if (!session?.user?.email) {
-    return { state: { success: false, error: "ابتدا وارد شوید" } };
+    return { success: false, error: "ابتدا وارد شوید" };
   }
 
   if (session?.user?.id !== userId) {
     return {
-      state: { success: false, error: "شما نمیتوانید این کاربر را حذف کنید" },
+      success: false,
+      error: "شما نمیتوانید این کاربر را حذف کنید",
     };
   }
 
@@ -35,12 +30,11 @@ export async function deleteUserByUser(
       where: { email: session.user.email },
     });
 
-    revalidatePath("/dashboard/users");
     revalidatePath("/profile");
+    revalidatePath("/dashboard/users");
     // Optionally, you can return a success response or status
+    return { success: true };
   } catch (error) {
-    console.log("Error deleting user:", error);
-    return { state: { success: false, error: "خطایی رخ داده است" } };
+    return { success: false, error: "خطایی رخ داده است" };
   }
-  redirect("/");
 }

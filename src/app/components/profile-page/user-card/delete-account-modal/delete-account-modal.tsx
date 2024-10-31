@@ -1,12 +1,10 @@
-"use client";
-
 import React from "react";
 import Button from "@/app/components/button/button";
 import Modal from "@/app/components/modal/modal";
 import CloseIcon from "@/app/icons/close-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import * as actions from "@/app/actions/auth-actions/auth-actions";
-import { useFormState } from "react-dom";
+import toast from "react-hot-toast";
 
 type Props = {
   isDeleteModalOpen: boolean;
@@ -19,32 +17,37 @@ const DeleteAccountModal = ({
   setIsDeleteModalOpen,
   selectedUserId,
 }: Props) => {
-  const [formState, action] = useFormState(
-    actions.deleteUserByUser.bind(null, selectedUserId),
-    { state: {} }
-  );
+ 
 
   // const submitHandler = async (e: FormEvent) => {
   //   action();
 
-  //   setIsDeleteModalOpen(false);
-  //   // Custom signOut and refresh page
-  //   // await signOut({ redirect: false }); // Custom behavior for signOut
-  //   // // window.location.reload(); // Refresh page after signing out
-  // };
+ const handleDelete = async () => {
+   // Show loading toast
+   const loadingToastId = toast.loading("در حال حذف حساب کاربری...");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent default form submission
-    await action(); // Call the delete action
+   try {
+     const response = await actions.deleteUserByUser(selectedUserId);
+     // Dismiss the loading toast
+     toast.dismiss(loadingToastId);
 
-    if (!formState.state?.success) {
-      return;
-    } else {
-      setIsDeleteModalOpen(false);
-    }
-  };
+     if (response.success) {
+       // Show success toast
+       toast.success("حساب کاربری با موفقیت حذف شد.");
+       
+     } else {
+       // Show error toast
+       toast.error(`خطا: ${response.error}`);
+     }
+   } catch (error) {
+     // Dismiss loading toast on error
+     toast.dismiss(loadingToastId);
+     toast.error("خطا در حذف حساب کاربری. لطفا دوباره تلاش کنید.");
+   }
 
-  console.log("formState", formState);
+   setIsDeleteModalOpen(false); // Close the modal after deletion
+ };
+
 
   return (
     <Modal
@@ -61,7 +64,7 @@ const DeleteAccountModal = ({
             آیا از حذف حساب کاربری خود اطمینان دارید؟
           </small>
         </div>
-        <form onSubmit={handleSubmit} className="flex gap-5">
+        <form onSubmit={handleDelete} className="flex gap-5">
           <Button
             type="submit"
             color="state-error"

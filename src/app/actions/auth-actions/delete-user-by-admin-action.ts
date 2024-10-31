@@ -4,7 +4,7 @@ import { db } from "../../db/db";
 import * as auth from "@/app/auth";
 import { revalidatePath } from "next/cache";
 
-interface DeleteAccountFormState {
+export interface DeleteAccountFormState {
   success?: boolean;
   error?: string;
 }
