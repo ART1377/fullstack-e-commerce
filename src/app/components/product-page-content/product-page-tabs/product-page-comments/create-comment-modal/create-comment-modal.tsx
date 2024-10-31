@@ -158,11 +158,11 @@ const CreateCommentModal = ({
                 error={formState?.state?.errors?.description?.[0]}
               />
               <Button
-                disabled={loading}
-                loading={loading && <Spinner size={20} color="white" />}
                 type="submit"
                 styles="w-full mt-2"
                 size="large"
+                disabled={loading}
+                loading={loading && <Spinner size={20} color="white" />}
               >
                 ثبت
               </Button>{" "}

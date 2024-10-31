@@ -8,8 +8,10 @@ import Input from "@/app/components/form/input/input";
 import Image from "next/image";
 import PersonIcon from "@/app/icons/person-icon";
 import { User } from "../../../../../../next-type-models";
-import { useFormState } from "react-dom";
 import * as actions from "@/app/actions/auth-actions/auth-actions";
+import { EditUserFormState } from "@/app/actions/auth-actions/edit-user-action";
+import toast from "react-hot-toast";
+import Spinner from "@/app/components/spinner/spinner";
 
 type Props = {
   isEditModalOpen: boolean;
@@ -31,6 +33,8 @@ const EditAccountModal = ({
   const [image, setImage] = useState<string>("");
   const [cloudinaryImage, setCloudinaryImage] = useState<string>(user.image!);
 
+  const [loading, setLoading] = useState(false);
+
   // Handle image selection
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -46,12 +50,49 @@ const EditAccountModal = ({
     }
   };
 
-  const [formState, action] = useFormState(
-    actions.updateUser.bind(null, cloudinaryImage),
-    {
-      errors: {},
+  const [formState, setFormState] = useState<EditUserFormState>();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    setLoading(true);
+
+    // Show loading toast
+    const loadingToastId = toast.loading("در حال ویرایش پروفایل...");
+
+    try {
+      // Call server action
+      const result = await actions.updateUser(
+        cloudinaryImage,
+        { state: {} },
+        formData
+      );
+
+      // Dismiss loading toast
+      toast.dismiss(loadingToastId);
+
+      // Check response and show appropriate toast
+      if (result.state.success) {
+        toast.success("ویرایش پروفایل با موفقیت انجام شد");
+        // Optional: Redirect user if needed
+      } else if (result.state.errors) {
+        setFormState(result);
+        toast.error("ویرایش پروفایل ناموفق بود. لطفا دوباره تلاش کنید.");
+      }
+    } catch (error) {
+      toast.error("خطایی رخ داده است");
+    } finally {
+      setLoading(false);
     }
-  );
+  };
+
+  // const [formState, action] = useFormState(
+  //   actions.updateUser.bind(null, cloudinaryImage),
+  //   {
+  //     errors: {},
+  //   }
+  // );
 
   return (
     <Modal
@@ -69,7 +110,10 @@ const EditAccountModal = ({
         </div>
       }
     >
-      <form action={action} className="w-full flex-center flex-col gap-4">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full flex-center flex-col gap-4"
+      >
         {/* user image */}
         <div className="flex flex-col items-center text-center gap-2 mb-7">
           <div className="size-36 border-4 border-primary-main rounded-full shadow relative overflow-hidden flex-center">
@@ -117,7 +161,7 @@ const EditAccountModal = ({
             type="text"
             value={firstNameInput}
             onChange={(e) => setFirstNameInput(e.target.value)}
-            error={formState.errors.firstName?.[0]}
+            error={formState?.state?.errors?.firstName?.[0]}
           />
           <Input
             label="نام خانوادگی"
@@ -125,7 +169,7 @@ const EditAccountModal = ({
             type="text"
             value={lastNameInput}
             onChange={(e) => setLastNameInput(e.target.value)}
-            error={formState.errors.lastName?.[0]}
+            error={formState?.state?.errors?.lastName?.[0]}
           />
         </div>
         <div className="grid gap-4 w-full sm:grid-cols-2">
@@ -135,7 +179,7 @@ const EditAccountModal = ({
             type="password"
             value={passwordInput}
             onChange={(e) => setPasswordInput(e.target.value)}
-            error={formState.errors.password?.[0]}
+            error={formState?.state?.errors?.password?.[0]}
           />
           <Input
             label="تکرار رمز عبور"
@@ -143,7 +187,7 @@ const EditAccountModal = ({
             type="password"
             value={confirmPasswordInput}
             onChange={(e) => setConfirmPasswordInput(e.target.value)}
-            error={formState.errors.confirmPassword?.[0]}
+            error={formState?.state?.errors?.confirmPassword?.[0]}
           />
         </div>
         <Input
@@ -152,12 +196,12 @@ const EditAccountModal = ({
           type="email"
           value={emailInput}
           onChange={(e) => setEmailInput(e.target.value)}
-          error={formState.errors.email?.[0]}
+          error={formState?.state?.errors?.email?.[0]}
           disabled
         />
-        {formState.errors._form?.[0] && (
+        {formState?.state?.errors?._form?.[0] && (
           <small className="text-state-error text-captionMain p-2 rounded-xl bg-state-error-200 mt-1 ml-auto">
-            {formState.errors._form?.[0]}
+            {formState?.state?.errors?._form?.[0]}
           </small>
         )}
         <Button
@@ -165,6 +209,8 @@ const EditAccountModal = ({
           color="primary-main"
           styles="w-full mt-2"
           size="large"
+          disabled={loading}
+          loading={loading && <Spinner size={20} color="dark" />}
         >
           نبت
         </Button>

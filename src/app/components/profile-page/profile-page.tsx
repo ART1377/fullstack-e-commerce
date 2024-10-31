@@ -14,28 +14,34 @@ const ProfilePage = async (props: Props) => {
 
   const { user } = await actions.getUserProfileInformation(session?.user?.id!);
 
-  // await db.order.deleteMany()
+  // await db.order.deleteMany()  
 
   return (
     <>
       <Breadcrumb />
-      {session && session?.user && user && (
-        <section className="w-full mt-4 sm:mt-6 flex flex-col gap-y-8 md:flex-row">
-          {/* user card */}
-          <ProfilePageUserCard user={user} />
-          {/* user info */}
-          <div className="w-full flex flex-col gap-3 shadow bg-white rounded-xl p-3 pb-8 md:w-[calc(100%-300px)]">
-            {/* orders */}
-            <Suspense fallback={<Spinner size={50} />}>
-              <ProfilePageOrders />
-            </Suspense>
-            {/* favorites */}
-            <Suspense fallback={<Spinner size={50} />}>
-              <ProfilePageFavorites />
-            </Suspense>
+      <section className="w-full mt-4 sm:mt-6 flex flex-col gap-y-8 md:flex-row">
+        {session && session?.user && user ? (
+          <>
+            {/* user card */}
+            <ProfilePageUserCard user={user} />
+            {/* user info */}
+            <div className="w-full flex flex-col gap-3 shadow bg-white rounded-xl p-3 pb-8 md:w-[calc(100%-300px)]">
+              {/* orders */}
+              <Suspense fallback={<Spinner size={50} />}>
+                <ProfilePageOrders />
+              </Suspense>
+              {/* favorites */}
+              <Suspense fallback={<Spinner size={50} />}>
+                <ProfilePageFavorites />
+              </Suspense>
+            </div>
+          </>
+        ) : (
+          <div className="w-full text-bodyMain text-state-error px-3 py-5 flex-center text-center bg-state-error-200 rounded-xl">
+            <small>کاربری یافت نشد</small>
           </div>
-        </section>
-      )}
+        )}
+      </section>
     </>
   );
 };

@@ -9,6 +9,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { LoginFormState } from "@/app/actions/auth-actions/login-action";
 import { useRouter } from "next/navigation";
+import Spinner from "@/app/components/spinner/spinner";
 
 type Props = {};
 
@@ -16,12 +17,15 @@ const LoginForm = (props: Props) => {
   // const [formState, action] = useFormState(actions.handleLogin, { errors: {} });
 
   const [formState, setFormState] = useState<LoginFormState>();
+  const [loading, setLoading] = useState(false);
 
-  const router = useRouter(); 
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+
+    setLoading(true);
 
     // Show loading toast
     const loadingToastId = toast.loading("در حال ورود...");
@@ -44,6 +48,8 @@ const LoginForm = (props: Props) => {
       }
     } catch (error) {
       toast.error("خطایی رخ داده است");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,7 +78,14 @@ const LoginForm = (props: Props) => {
           {formState?.state?.errors?._form?.[0]}
         </small>
       )}
-      <Button type="submit" color="dark" styles="w-full mt-2" size="large">
+      <Button
+        type="submit"
+        color="dark"
+        styles="w-full mt-2"
+        size="large"
+        disabled={loading}
+        loading={loading && <Spinner size={20} color="dark" />}
+      >
         ورود
       </Button>
       <div className="flex gap-3 justify-start w-full">

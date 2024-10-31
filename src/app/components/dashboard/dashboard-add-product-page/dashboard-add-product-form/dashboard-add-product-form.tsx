@@ -23,6 +23,7 @@ import Image from "next/image";
 import { Color } from "../../../../../../next-type-models";
 import { ProductFormState } from "@/app/actions/product-actions/add-product-action";
 import toast from "react-hot-toast";
+import Spinner from "@/app/components/spinner/spinner";
 
 // Zod schema for stock validation
 const stockSchema = z.object({
@@ -96,11 +97,13 @@ const DashboardAddProductForm = ({ colors }: Props) => {
   });
 
   const [formState, setFormState] = useState<ProductFormState>();
-  
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
+    setLoading(true);
     // Show loading toast
     const loadingToastId = toast.loading("در حال ایجاد محصول...");
 
@@ -127,6 +130,8 @@ const DashboardAddProductForm = ({ colors }: Props) => {
       }
     } catch (error) {
       toast.error("خطایی رخ داده است");
+    } finally {
+      setLoading(false);
     }
   };
   // const [formState, action] = useFormState(
@@ -135,7 +140,6 @@ const DashboardAddProductForm = ({ colors }: Props) => {
   //     errors: {},
   //   }
   // );
-
 
   const handleColorSelection = (color: string) => {
     if (selectedColor === color) {
@@ -687,6 +691,8 @@ const DashboardAddProductForm = ({ colors }: Props) => {
           type="submit"
           color="primary-main"
           icon={<PlusIcon styles="size-6" />}
+          disabled={loading}
+          loading={loading && <Spinner size={20} color="dark" />}
         >
           افزودن
         </Button>
@@ -694,6 +700,8 @@ const DashboardAddProductForm = ({ colors }: Props) => {
           onClick={handleReset}
           color="state-error"
           icon={<DeleteIcon styles="size-6" />}
+          disabled={loading}
+          loading={loading && <Spinner size={20} color="dark" />}
         >
           پاک کردن
         </Button>

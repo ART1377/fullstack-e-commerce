@@ -11,6 +11,7 @@ import Link from "next/link";
 import { SighUpFormState } from "@/app/actions/auth-actions/sign-up-action";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Spinner from "@/app/components/spinner/spinner";
 
 type Props = {};
 
@@ -22,6 +23,8 @@ const SignUpForm = (props: Props) => {
   const [image, setImage] = useState<string>("");
 
   const [formState, setFormState] = useState<SighUpFormState>();
+    const [loading, setLoading] = useState(false);
+
 
   const router = useRouter();
 
@@ -44,6 +47,8 @@ const SignUpForm = (props: Props) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
+        setLoading(true);
+
     // Show loading toast
     const loadingToastId = toast.loading("در حال ثبت نام...");
 
@@ -65,6 +70,8 @@ const SignUpForm = (props: Props) => {
       }
     } catch (error) {
       toast.error("خطایی رخ داده است");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -146,7 +153,14 @@ const SignUpForm = (props: Props) => {
           {formState?.state?.errors?._form?.[0]}
         </small>
       )}
-      <Button type="submit" color="dark" styles="w-full mt-2" size="large">
+      <Button
+        type="submit"
+        color="dark"
+        styles="w-full mt-2"
+        size="large"
+        disabled={loading}
+        loading={loading && <Spinner size={20} color="dark" />}
+      >
         نبت نام
       </Button>
 

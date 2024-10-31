@@ -35,16 +35,17 @@ const editUserSchema = z
     path: ["confirmPassword"],
   });
 
-
-
-interface EditUserFormState {
-  errors: {
-    firstName?: string[];
-    lastName?: string[];
-    email?: string[];
-    password?: string[];
-    confirmPassword?: string[];
-    _form?: string[];
+export interface EditUserFormState {
+  state: {
+    success?: boolean;
+    errors?: {
+      firstName?: string[];
+      lastName?: string[];
+      email?: string[];
+      password?: string[];
+      confirmPassword?: string[];
+      _form?: string[];
+    };
   };
 }
 
@@ -65,8 +66,11 @@ export async function updateUser(
 
   if (!session?.user?.email) {
     return {
-      errors: {
-        _form: ["ابتدا وارد شوید"],
+      state: {
+        errors: {
+          _form: ["ابتدا وارد سایت شوید"],
+        },
+        success: false,
       },
     };
   }
@@ -83,7 +87,10 @@ export async function updateUser(
   // check validation result
   if (!result.success) {
     return {
-      errors: result.error.flatten().fieldErrors,
+      state: {
+        errors: result.error.flatten().fieldErrors,
+        success: false,
+      },
     };
   }
 
@@ -109,14 +116,23 @@ export async function updateUser(
         password: hashedPassword,
       },
     });
+
+    revalidatePath("/profile");
+    revalidatePath("/dashboard/users");
+
+    return {
+      state: {
+        success: true,
+      },
+    };
   } catch (error) {
     return {
-      errors: {
-        _form: ["خطایی رخ داده است"],
+      state: {
+        errors: {
+          _form: ["خطایی رخ داده است"],
+        },
+        success: false,
       },
     };
   }
-
-  revalidatePath("/profile");
-  redirect("/profile");
 }
