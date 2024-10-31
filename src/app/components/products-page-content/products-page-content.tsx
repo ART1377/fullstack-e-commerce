@@ -41,12 +41,12 @@ const ProductsPageContent = async ({ searchParams }: Props) => {
 
   return (
     <>
-    {/* <Breadcrumb/> */}
-    <section className="w-full mt-4 sm:mt-10 flex flex-col sm:flex-row sm:gap-3">
-      <Filters filterColors={allColors} />
-      {/* products list */}
-      <ProductsList totalItems={totalCount!} products={products!} />
-    </section>
+      <Breadcrumb />
+      <section className="w-full mt-4 sm:mt-6 flex flex-col sm:flex-row sm:gap-3">
+        <Filters filterColors={allColors} />
+        {/* products list */}
+        <ProductsList totalItems={totalCount!} products={products!} />
+      </section>
     </>
   );
 };

@@ -15,6 +15,7 @@ const breadcrumbMap: Record<string, string> = {
   settings: "تنظیمات",
   profile: "پروفایل",
   "shopping-cart": "سبد خرید",
+  "contact-us": "تماس با ما",
 };
 
 const Breadcrumb = () => {
@@ -22,10 +23,10 @@ const Breadcrumb = () => {
   const pathSegments = pathName.split("/").filter((segment) => segment); // Split the path and filter out empty segments
 
   return (
-    <nav className="breadcrumb">
-      <ul className="flex items-center gap-1 p-3 rounded-xl bg-white shadow w-fit">
+    <nav className="breadcrumb mt-10">
+      <ul className="flex items-center gap-0.5 px-3 py-2 rounded-xl bg-white shadow w-fit">
         <li>
-          <Link href="/" className="text-customGray-500 custom-transition hover:text-dark">
+          <Link href="/" className="text-customGray-700 custom-transition hover:text-dark">
             <HomeIcon styles="size-6" />
           </Link>{" "}
           {/* Home link */}
@@ -44,12 +45,12 @@ const Breadcrumb = () => {
               <li key={index} className="flex items-center">
                 {!isLast ? (
                   <>
-                    <Link href={url} className="text-customGray-500 custom-transition hover:text-dark">
+                    <Link href={url} className="text-customGray-700 custom-transition hover:text-dark">
                       {persianTitle}
                     </Link>
                   </>
                 ) : (
-                  <span className="text-bodySmall text-customGray-700">
+                  <span className="text-bodySmall text-customGray-500">
                     {persianTitle}
                   </span> // Last item should not be a link
                 )}
