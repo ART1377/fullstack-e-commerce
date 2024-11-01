@@ -11,20 +11,20 @@ type Props = {
 const Hero = ({ products }: Props) => {
   const [current, setCurrent] = useState<number>(0);
 
-  // useEffect(() => {
-  //   const setSlider = setInterval(() => {
-  //     setCurrent((prev) => {
-  //       if (prev == 2) {
-  //         return 0;
-  //       } else {
-  //         return prev + 1;
-  //       }
-  //     });
-  //   }, 5000);
-  //   return () => {
-  //     clearInterval(setSlider);
-  //   };
-  // }, [current]);
+  useEffect(() => {
+    const setSlider = setInterval(() => {
+      setCurrent((prev) => {
+        if (prev == 2) {
+          return 0;
+        } else {
+          return prev + 1;
+        }
+      });
+    }, 5000);
+    return () => {
+      clearInterval(setSlider);
+    };
+  }, [current]);
 
   const changeSlide = useCallback((value: number) => {
     setCurrent(value);
