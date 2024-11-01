@@ -19,13 +19,13 @@ const ProfilePage = async (props: Props) => {
   return (
     <>
       <Breadcrumb />
-      <section className="w-full mt-4 sm:mt-6 flex flex-col gap-y-8 md:flex-row">
+      <section className="w-full mt-4 sm:mt-6 flex flex-col md:flex-row gap-3">
         {session && session?.user && user ? (
           <>
             {/* user card */}
             <ProfilePageUserCard user={user} />
             {/* user info */}
-            <div className="w-full flex flex-col gap-3 shadow bg-white rounded-xl p-3 pb-8 md:w-[calc(100%-300px)]">
+            <div className="w-full flex flex-col gap-3 shadow bg-white rounded-xl p-3 pb-8 md:w-[calc(100%-292px)]">
               {/* orders */}
               <Suspense fallback={<Spinner size={50} />}>
                 <ProfilePageOrders />

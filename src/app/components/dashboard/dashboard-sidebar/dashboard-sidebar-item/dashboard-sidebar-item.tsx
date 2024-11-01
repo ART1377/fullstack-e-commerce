@@ -20,7 +20,7 @@ const DashboardSidebarItem = ({ sidebarItem }: Props) => {
     }
   };
   return (
-    <li className="w-full">
+    
       <Link
         href={sidebarItem.path}
         className={`flex items-center gap-1 py-3 px-2 rounded-r-xl w-full text-customGray-700 text-h6 font-medium custom-transition hover:text-primary-main ${
@@ -31,7 +31,6 @@ const DashboardSidebarItem = ({ sidebarItem }: Props) => {
         <div className="mb-1">{sidebarItem.icon}</div>
         {sidebarItem.title}
       </Link>
-    </li>
   );
 };
 

@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import HeartEmptyIcon from "@/app/icons/heart-empty-icon";
@@ -101,7 +103,7 @@ const ProductCard = ({ product }: Props) => {
         />
       </Link>
       {/* card info */}
-      <div className="w-full flex flex-col gap-2">
+      <div className="w-full flex flex-col gap-2 h-[153px]">
         {/* first row */}
         <div className="flex justify-between">
           <div className="flex flex-col gap-1 w-[calc(100%-40px)]">
@@ -150,9 +152,7 @@ const ProductCard = ({ product }: Props) => {
 
         {/* third row */}
         <div className="flex flex-col justify-end gap-1 h-[70px]">
-          <div className="my-auto">
             <Price price={price!} discountPercentage={discount!} />
-          </div>
           <small className="text-bodySmall text-state-error">
             تعداد موجودی : {totalQuantity}
           </small>

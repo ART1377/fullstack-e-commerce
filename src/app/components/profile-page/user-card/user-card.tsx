@@ -35,9 +35,10 @@ const ProfilePageUserCard = ({ user }: Props) => {
         user={user}
       />
 
-      <div className="bg-white p-3 rounded-xl shadow w-full max-w-[460px] h-fit mx-auto flex flex-col gap-7 md:w-[280px]">
+      <div className="bg-white p-3 rounded-xl shadow w-full h-fit mx-auto flex flex-col gap-7 md:w-[280px]">
+        <div className="flex gap-y-7 gap-x-3 flex-col xs:flex-row md:flex-col">
         {/* user image */}
-        <div className="w-full h-56 relative rounded-xl overflow-hidden shadow">
+        <div className="w-full h-56 relative rounded-xl overflow-hidden shadow xs:max-w-[150px] xs:max-h-[150px] md:max-h-none md:max-w-none">
           {image ? (
             <Image
               alt={`${firstName} ${lastName}`}
@@ -54,7 +55,7 @@ const ProfilePageUserCard = ({ user }: Props) => {
           )}
         </div>
         {/* user personal info */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 justify-center xs:w-[calc(100%-170px)] md:w-full">
           <div className="flex justify-between">
             <small className="text-bodySmall text-customGray-500">نام</small>
             <p className="text-bodyMain text-dark">{firstName}</p>
@@ -77,6 +78,7 @@ const ProfilePageUserCard = ({ user }: Props) => {
               {formatToJalali(createdAt)}
             </p>
           </div>
+        </div>
         </div>
         {/* buttons */}
         <div className="flex flex-col gap-2">

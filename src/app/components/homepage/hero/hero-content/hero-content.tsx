@@ -45,12 +45,12 @@ const HeroContent = ({ product }: Props) => {
     >
       <div>
         <Link
-          href={`products/${category}/${id}`}
+          href={`products/${id}`}
           className="h6 text-dark custom-transition hover:text-primary-main md:font-bold md:text-[24px] lg:text-[40px]"
         >
           {title}
         </Link>
-        <p className="mt-1 text-bodyMain text-customGray-600 line-clamp-2 md:line-clamp-3 md:text-base md:mt-2">
+        <p className="mt-1 text-bodyMain text-customGray-600 line-clamp-2 md:text-base md:mt-2">
           {description}
         </p>
       </div>

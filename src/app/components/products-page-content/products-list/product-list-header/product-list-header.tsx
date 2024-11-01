@@ -62,6 +62,14 @@ const ProductListHeader = ({ totalItems }: Props) => {
               title: "ارزان ترین",
               icon: <CheapIcon styles="size-6" />,
             },
+            {
+              title: "جدید ترین",
+              icon: <ExpensiveIcon styles="size-6" />,
+            },
+            {
+              title: "قدیمی ترین",
+              icon: <CheapIcon styles="size-6" />,
+            },
           ]}
         />
       </div>

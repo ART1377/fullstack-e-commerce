@@ -27,9 +27,26 @@ const ProductsPageContent = async ({ searchParams }: Props) => {
     limit: PAGE_LIMIT,
     page: page as string,
     category: selectedCategory ? (selectedCategory as string) : undefined,
-    sortBy: sort === "ارزان ترین" || "گران ترین" ? "price" : undefined,
+    sortBy:
+      sort === "ارزان ترین"
+        ? "price"
+        : sort === "گران ترین"
+        ? "price"
+        : sort === "قدیمی ترین"
+        ? "date"
+        : sort === "جدید ترین"
+        ? "date"
+        : undefined,
     sortOrder:
-      sort === "ارزان ترین" ? "asc" : sort === "گران ترین" ? "desc" : undefined,
+      sort === "ارزان ترین"
+        ? "asc"
+        : sort === "گران ترین"
+        ? "desc"
+        : sort === "جدید ترین"
+        ? "desc"
+        : sort === "قدیمی ترین"
+        ? "asc"
+        : undefined,
     colors: colors ? colors?.toString().split(",") : undefined,
     sizes: sizes ? sizes?.toString().split(",") : undefined,
     maxPrice: maxPrice ? (Number(maxPrice) as number) : undefined,

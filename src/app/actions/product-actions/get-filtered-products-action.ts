@@ -13,7 +13,7 @@ type Filters = {
   sizes?: string[]; // Updated to array for multiple sizes
   minPrice?: number;
   maxPrice?: number;
-  sortBy?: "price"; // Can now sort by either price or total stock quantity
+  sortBy?: "price" | "date"; // Can now sort by either price or total stock quantity
   sortOrder?: "asc" | "desc"; // Ascending or descending order
 };
 
@@ -67,18 +67,11 @@ export async function getFilteredProducts({
     // Build dynamic sorting logic based on sortBy and sortOrder
     let orderBy: any = undefined;
 
-    if (sortBy === "price") {
-      orderBy = { price: sortOrder };
-    } else if (sortBy === "quantity") {
-      // Sorting by the total stock quantity (sum of all stock quantities for each product)
-      orderBy = {
-        _sum: {
-          stock: {
-            quantity: sortOrder, // Sort by total quantity in ascending or descending order
-          },
-        },
-      };
-    }
+     if (sortBy === "price") {
+       orderBy = { price: sortOrder };
+     } else if (sortBy === "date") {
+       orderBy = { createdAt: sortOrder };
+     }
 
     // Fetch the actual products (with pagination and sorting)
     const products = await db.product.findMany({

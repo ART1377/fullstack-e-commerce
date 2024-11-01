@@ -49,12 +49,12 @@ export default function CheckoutButton() {
   return (
     <div>
       <Button
-        onClick={handleCheckout}
-        disabled={loading}
-        loading={loading && <Spinner size={20} color="dark" />}
         color="dark"
         styles="w-full"
         outline
+        onClick={handleCheckout}
+        loading={loading && <Spinner size={20} color="dark" />}
+        disabled={loading}
       >
         پرداخت
       </Button>

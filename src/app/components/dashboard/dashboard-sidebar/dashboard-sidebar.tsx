@@ -60,10 +60,13 @@ const DashboardSidebar = ({ isSidebarOpen, setIsSidebarOpen }: Props) => {
       <ul className="flex flex-col gap-6 h-[90%] justify-center mr-auto max-w-[80%] sm:justify-start sm:mt-24 sm:mb-20 sm:w-full">
         {sidebarItems.map((sidebarItem: NavbarItemType) => {
           return (
-            <DashboardSidebarItem
+            <li
               key={sidebarItem.title}
-              sidebarItem={sidebarItem}
-            />
+              onClick={closeToggle}
+              className="w-full"
+            >
+              <DashboardSidebarItem sidebarItem={sidebarItem} />
+            </li>
           );
         })}
       </ul>
