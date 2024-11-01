@@ -10,7 +10,6 @@ import CloseIcon from "@/app/icons/close-icon";
 import PlusIcon from "@/app/icons/plus-icon";
 import Link from "next/link";
 import React, { useState } from "react";
-import { useFormState } from "react-dom";
 import * as actions from "@/app/actions/comment-actions/comment-actions";
 import toast from "react-hot-toast";
 import { useParams } from "next/navigation";

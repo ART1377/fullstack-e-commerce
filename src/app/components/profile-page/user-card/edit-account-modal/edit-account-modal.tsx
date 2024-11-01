@@ -75,7 +75,7 @@ const EditAccountModal = ({
       // Check response and show appropriate toast
       if (result.state.success) {
         toast.success("ویرایش پروفایل با موفقیت انجام شد");
-        // Optional: Redirect user if needed
+        setIsEditModalOpen((prev) => !prev);
       } else if (result.state.errors) {
         setFormState(result);
         toast.error("ویرایش پروفایل ناموفق بود. لطفا دوباره تلاش کنید.");

@@ -26,7 +26,10 @@ const Breadcrumb = () => {
     <nav className="breadcrumb mt-10">
       <ul className="flex items-center gap-0.5 px-3 py-2 rounded-xl bg-white shadow w-fit">
         <li>
-          <Link href="/" className="text-customGray-700 custom-transition hover:text-dark">
+          <Link
+            href="/"
+            className="text-customGray-700 custom-transition hover:text-dark"
+          >
             <HomeIcon styles="size-6" />
           </Link>{" "}
           {/* Home link */}
@@ -41,11 +44,14 @@ const Breadcrumb = () => {
 
           return (
             <>
-            <ArrowLeftIcon styles="size-6 text-customGray-500" />
               <li key={index} className="flex items-center">
+                <ArrowLeftIcon styles="size-6 text-customGray-500 flex items-center gap-0.5" />
                 {!isLast ? (
                   <>
-                    <Link href={url} className="text-customGray-700 custom-transition hover:text-dark">
+                    <Link
+                      href={url}
+                      className="text-customGray-700 custom-transition hover:text-dark"
+                    >
                       {persianTitle}
                     </Link>
                   </>

@@ -11,6 +11,8 @@ export type OrderWithName = Notification & {
 type Filters = {
   page?: string;
   limit?: number;
+  sortBy?: "date";
+  sortOrder?: "asc" | "desc";
 };
 
 interface GetNotificationsState {
@@ -25,6 +27,8 @@ interface GetNotificationsState {
 export async function getAllNotification({
   page,
   limit,
+  sortBy,
+  sortOrder = "desc",
 }: Filters): Promise<GetNotificationsState> {
   const pageQuery = page ? parseInt(page) : undefined;
   const skip = pageQuery && limit ? (pageQuery - 1) * limit : undefined;
@@ -35,7 +39,7 @@ export async function getAllNotification({
     const notifications = (await db.notification.findMany({
       skip,
       take: limit,
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: sortOrder },
       select: {
         id: true,
         type: true,

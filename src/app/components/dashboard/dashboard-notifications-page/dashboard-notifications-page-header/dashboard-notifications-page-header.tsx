@@ -36,7 +36,7 @@ const DashboardNotificationsPageHeader = ({ totalItems }: Props) => {
     }
 
     // Update the URL with the new query parameters
-    router.push(`/dashboard/users?${queryParams.toString()}`);
+    router.push(`/dashboard/notifications?${queryParams.toString()}`);
   };
 
   return (

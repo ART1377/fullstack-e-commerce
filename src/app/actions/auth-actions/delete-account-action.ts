@@ -1,17 +1,17 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { db } from "../../db/db";
-import * as auth from "@/app/auth";
 import { revalidatePath } from "next/cache";
 import { DeleteAccountFormState } from "./delete-user-by-admin-action";
+import * as actions from '@/app/actions/auth-actions/auth-actions'
+import { auth } from "@/app/auth";
 
 // delete user but user himself
 export async function deleteUserByUser(
   userId: string
 ): Promise<DeleteAccountFormState> {
   // Get the session to determine if the user is authenticated
-  const session = await auth.auth();
+  const session = await auth();
 
   if (!session?.user?.email) {
     return { success: false, error: "ابتدا وارد شوید" };
@@ -25,10 +25,13 @@ export async function deleteUserByUser(
   }
 
   try {
+    await actions.handleSighOut();
     //Use Prisma to delete the user by email (from the session)
-    await db.user.delete({
-      where: { email: session.user.email },
+    const user = await db.user.delete({
+      where: { id: userId },
     });
+
+    console.log("00000000", user);
 
     revalidatePath("/profile");
     revalidatePath("/dashboard/users");

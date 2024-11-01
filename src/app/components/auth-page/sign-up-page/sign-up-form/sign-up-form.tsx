@@ -23,8 +23,7 @@ const SignUpForm = (props: Props) => {
   const [image, setImage] = useState<string>("");
 
   const [formState, setFormState] = useState<SighUpFormState>();
-    const [loading, setLoading] = useState(false);
-
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -47,7 +46,7 @@ const SignUpForm = (props: Props) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-        setLoading(true);
+    setLoading(true);
 
     // Show loading toast
     const loadingToastId = toast.loading("در حال ثبت نام...");

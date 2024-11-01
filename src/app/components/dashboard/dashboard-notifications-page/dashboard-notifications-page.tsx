@@ -10,12 +10,20 @@ type Props = {
 };
 
 const DashboardNotificationsPage = async ({ searchParams }: Props) => {
-  const { page } = searchParams as SearchQueries;
+  const { page, sort } = searchParams as SearchQueries;
 
   // Fetch notifications using the updated searchParams
   const { notifications, totalCount } = await actions.getAllNotification({
     limit: PAGE_LIMIT,
-    page: (page as string) || '1',
+    page: (page as string) || "1",
+    sortBy:
+      sort === "قدیمی ترین"
+        ? "date"
+        : sort === "جدید ترین"
+        ? "date"
+        : undefined,
+    sortOrder:
+      sort === "جدید ترین" ? "desc" : sort === "قدیمی ترین" ? "asc" : undefined,
   });
 
   return (

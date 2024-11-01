@@ -24,7 +24,8 @@ const DeleteAccountModal = ({
   // const submitHandler = async (e: FormEvent) => {
   //   action();
 
-  const handleDelete = async () => {
+  const handleDelete = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     // Show loading toast
     const loadingToastId = toast.loading("در حال حذف حساب کاربری...");
 
@@ -36,8 +37,10 @@ const DeleteAccountModal = ({
       if (response.success) {
         // Show success toast
         toast.success("حساب کاربری با موفقیت حذف شد.");
-        
-        router.push('/')
+
+        setIsDeleteModalOpen(false);
+
+        location.reload() 
       } else {
         // Show error toast
         toast.error(`خطا: ${response.error}`);
@@ -47,8 +50,6 @@ const DeleteAccountModal = ({
       toast.dismiss(loadingToastId);
       toast.error("خطا در حذف حساب کاربری. لطفا دوباره تلاش کنید.");
     }
-
-    setIsDeleteModalOpen(false); // Close the modal after deletion
   };
 
   return (

@@ -105,7 +105,21 @@ const NotificationItem = ({ notification }: Props) => {
             {timeAgo(createdAt)}
           </span>
         </div>
-        <p className="text-bodySmall text-customGray-500">{message}</p>
+        <div className="flex flex-col gap-2">
+          <p className="text-bodySmall text-primary-500 bg-primary-200 rounded-full px-3 py-1 w-fit">
+            {type}
+          </p>
+          <div className="text-bodySmall text-customGray-500">
+            {type === "تماس با ما" ? (
+              <div className="flex flex-col gap-1">
+                <small className="text-bodySmall text-customGray-500">{message.split("<br />")[0]}</small>
+                <small className="text-bodySmall text-customGray-500">{message.split("<br />")[1]}</small>
+              </div>
+            ) : (
+              message
+            )}
+          </div>
+        </div>
       </div>
       <div className="bg-customGray-100 p-2 flex justify-between items-center">
         <div
