@@ -82,7 +82,7 @@ const OrdersTableRow = ({ order, index }: Props) => {
         <td className="p-2">{formatToJalali(createdAt)}</td>
         <td className="p-2">
           <div
-            className={`rounded-full px-3 py-0.5 flex-center text-bodySmallBold w-fit bg-state-${orderStatusColor}-200 text-state-${orderStatusColor}`}
+            className={`rounded-full px-3 py-0.5 flex-center text-bodySmall w-fit bg-state-${orderStatusColor}-200 text-state-${orderStatusColor}`}
           >
             {status}
           </div>

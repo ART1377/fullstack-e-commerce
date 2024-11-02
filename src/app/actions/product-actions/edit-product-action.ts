@@ -180,6 +180,7 @@ export async function updateProduct(
     // Revalidate cache or page if necessary
     revalidatePath("/");
     revalidatePath("/products");
+    revalidatePath("/dashboard");
     revalidatePath("/dashboard/products");
 
     return {

@@ -27,6 +27,7 @@ export async function deleteProductById(
 
     revalidatePath("/");
     revalidatePath("/products");
+    revalidatePath("/dashboard");
     revalidatePath("/dashboard/products");
 
     return {

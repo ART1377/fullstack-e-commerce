@@ -2,7 +2,6 @@
 
 import { db } from "@/app/db/db";
 
-
 export async function loadDashboardData() {
   try {
     // Key metrics
@@ -27,7 +26,10 @@ export async function loadDashboardData() {
     // Low stock products
     const lowStockProducts = await db.product.findMany({
       where: { stock: { some: { quantity: { lt: 10 } } } },
-      include: { stock: true },
+      include: {
+        stock: true,
+        images: true,
+      },
     });
 
     // Recent orders
@@ -50,7 +52,6 @@ export async function loadDashboardData() {
       lowStockProducts,
     };
   } catch (error) {
-    console.error("Failed to load dashboard data", error);
-    throw new Error("Failed to load dashboard data");
+    throw new Error("خطایی رخ داده");
   }
 }

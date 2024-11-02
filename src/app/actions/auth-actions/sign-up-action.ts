@@ -125,6 +125,7 @@ export async function handleSignUp(
       );
     }
 
+    revalidatePath("/dashboard");
     revalidatePath("/dashboard/notifications");
     return {
       state: {

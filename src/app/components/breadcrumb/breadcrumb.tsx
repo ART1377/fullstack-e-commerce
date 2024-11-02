@@ -23,7 +23,7 @@ const Breadcrumb = () => {
   const pathSegments = pathName.split("/").filter((segment) => segment); // Split the path and filter out empty segments
 
   return (
-    <nav className="breadcrumb mt-10">
+    <nav className="breadcrumb mt-6 sm:mt-10">
       <ul className="flex items-center gap-0.5 px-3 py-2 rounded-xl bg-white shadow w-fit">
         <li>
           <Link

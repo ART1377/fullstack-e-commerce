@@ -25,6 +25,8 @@ export async function deleteOrderById(
       where: { id: orderId },
     });
 
+
+    revalidatePath("/dashboard");
     revalidatePath("/profile");
     revalidatePath("/dashboard/orders");
 

@@ -184,6 +184,7 @@ export async function addProduct(
     //Revalidate product path after adding
     revalidatePath("/");
     revalidatePath("/products");
+    revalidatePath("/dashboard");
     revalidatePath("/dashboard/products");
 
     return {

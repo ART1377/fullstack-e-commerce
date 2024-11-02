@@ -116,6 +116,7 @@ export async function checkout(userId: string) {
       );
 
       // Step 6: Revalidate paths that display cart, orders, and notifications
+      revalidatePath("/dashboard");
       revalidatePath("/shopping-cart");
       revalidatePath("/dashboard/notifications");
       revalidatePath("/dashboard/users");

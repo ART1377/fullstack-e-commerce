@@ -31,7 +31,7 @@ export async function deleteUserByAdmin(
       where: { id: userId },
     });
 
-
+    revalidatePath("/dashboard");
     revalidatePath("/dashboard/users");
     revalidatePath("/profile");
     // Optionally, you can return a success response or status

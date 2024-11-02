@@ -8,7 +8,7 @@ const DashboardPage = async () => {
 
   return (
     <Suspense fallback={<Spinner size={50} />}>
-      <section className="bg-white shadow rounded-xl p-3 pb-20">
+      <section className="bg-white shadow rounded-xl pb-20">
         <DashboardPageContent data={data} />
       </section>
     </Suspense>

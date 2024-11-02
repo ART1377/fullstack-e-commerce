@@ -31,8 +31,8 @@ export async function deleteUserByUser(
       where: { id: userId },
     });
 
-    console.log("00000000", user);
 
+    revalidatePath("/dashboard");
     revalidatePath("/profile");
     revalidatePath("/dashboard/users");
     // Optionally, you can return a success response or status

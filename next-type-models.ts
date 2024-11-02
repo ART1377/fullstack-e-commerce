@@ -108,8 +108,8 @@ export type Comment = {
 export type ProductImage = {
   id: string;
   url: string; // URL of the image
-  product: Product; // Relation to the product
-  productId: string;
+  product?: Product; // Relation to the product
+  productId?: string;
 };
 
 

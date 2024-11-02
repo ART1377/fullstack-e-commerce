@@ -18,6 +18,8 @@ export async function updateOrderStatus(orderId: string, newStatus: string) {
       where: { id: orderId },
       data: { status: newStatus },
     });
+
+    revalidatePath("/dashboard");
     revalidatePath("/profile");
     revalidatePath("/dashboard/orders");
     return { success: true };

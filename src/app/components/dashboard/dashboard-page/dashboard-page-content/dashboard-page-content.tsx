@@ -13,6 +13,10 @@ import {
 import toast from "react-hot-toast";
 import { formatPrice } from "@/app/lib/functions";
 import { formatToJalali } from "@/app/lib/date-format";
+import Image from "next/image";
+import { Product } from "../../../../../../next-type-models";
+import ProductTableRow from "../../dashboard-products-page/products-table/product-table-row/product-table-row";
+import Link from "next/link";
 
 // Define TypeScript interfaces for each data type in data
 interface SalesData {
@@ -36,12 +40,6 @@ interface Order {
   createdAt: Date;
 }
 
-interface LowStockProduct {
-  id: string;
-  title: string;
-  stock: { quantity: number }[];
-}
-
 interface Data {
   totalSales: number;
   totalOrders: number;
@@ -49,7 +47,7 @@ interface Data {
   productsInStock: number;
   salesData: SalesData[];
   recentOrders: Order[];
-  lowStockProducts: LowStockProduct[];
+  lowStockProducts: Product[];
 }
 
 type Props = {
@@ -67,12 +65,25 @@ const DashboardPageContent = ({ data }: Props) => {
     date: formatToJalali(new Date(sale.date)), // Format to Jalali
   }));
 
+  const orderStatusColor = (status: string) => {
+    const color =
+      status === "جاری"
+        ? "warning"
+        : status === "تحویل شده"
+        ? "success"
+        : status === "مرجوع شده"
+        ? "error"
+        : "";
+
+    return color;
+  };
+
   return (
     <div>
-      <h1 className="text-bodyMain mb-4">داشبورد مدیریت</h1>
+      <h1 className="text-bodyMain mb-4 p-3">داشبورد مدیریت</h1>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 gap-3 mb-8 xs:grid-cols-2 sm:grid-cols-1 md:grid-cols-2 blgxl:grid-cols-4">
+      <div className="p-3 grid grid-cols-1 gap-3 mb-8 xs:grid-cols-2 sm:grid-cols-1 md:grid-cols-2 blgxl:grid-cols-4">
         <div className="px-3 py-16 text-primary-main border border-primary-main rounded-xl shadow flex-center flex-col gap-4 relative overflow-hidden">
           <p className="text-bodyMain">فروش کل</p>
           <small className="text-h6">{data.totalSales} تومان</small>
@@ -99,54 +110,97 @@ const DashboardPageContent = ({ data }: Props) => {
       </div>
 
       {/* Sales Trend Chart */}
-      <div className="mb-8">
-        <h2 className="text-xl font-bold mb-2">روند فروش</h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={formattedSalesData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis tickFormatter={formatNumberInPersian} />
-            <Tooltip formatter={(value: any) => formatNumberInPersian(value)} />
-            <Line type="monotone" dataKey="sales" stroke="#8884d8" />
-          </LineChart>
-        </ResponsiveContainer>
+      <div className="mb-8 p-3">
+        <h2 className="text-bodyMain mb-2">روند فروش</h2>
+        <div dir="ltr">
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart
+              data={formattedSalesData}
+              margin={{ top: 20, right: 30, left: 20, bottom: 5 }} // Margin to position chart properly
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis
+                width={80} // Increase YAxis width for more space
+                tickFormatter={formatNumberInPersian}
+              />
+              <Tooltip
+                formatter={(value: any) => [
+                  formatNumberInPersian(value),
+                  "فروش",
+                ]} // Custom label for tooltip
+              />
+              <Line type="monotone" dataKey="sales" stroke="#6e24a8" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       {/* Low Stock Alerts */}
-      <div className="mb-8">
-        <h2 className="text-xl font-bold mb-2">محصولات کم موجودی</h2>
-        <ul>
+      <div className="mb-8 p-3">
+        <h2 className="text-bodyMain mb-2">محصولات کم موجودی</h2>
+        <div className="flex flex-wrap gap-3">
           {data.lowStockProducts.map((product) => (
-            <li key={product.id}>
-              {product.title} -{" "}
-              {formatNumberInPersian(product.stock[0]?.quantity)} باقی مانده
-            </li>
+            <div
+              key={product.id}
+              className="bg-light rounded-xl shadow p-3 flex flex-col max-w-48"
+            >
+              <div className="relative w-full aspect-square rounded-lg">
+                <Image
+                  src={product?.images?.[0].url!}
+                  alt={product.title}
+                  fill
+                />
+              </div>
+              <Link
+                href={`/products/${product.id}`}
+                className="text-bodyMain text-dark line-clamp-1 custom-transition  group-hover:text-primary-main"
+              >
+                {product.title}
+              </Link>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
 
       {/* Recent Orders Table */}
       <div>
-        <h2 className="text-xl font-bold mb-2">آخرین سفارشات</h2>
+        <h2 className="text-bodyMain mb-2">آخرین سفارشات</h2>
         <div className="overflow-x-auto custom-scrollbar">
-          <table className="min-w-full bg-light">
+          <table className="min-w-full bg-white border-collapse">
             <thead>
-              <tr>
-                <th className="py-2">شناسه سفارش</th>
-                <th className="py-2">کاربر</th>
-                <th className="py-2">قیمت کل</th>
-                <th className="py-2">وضعیت</th>
-                <th className="py-2">تاریخ</th>
+              <tr className="text-customGray-500 text-right border-b border-t border-customGray-300">
+                {" "}
+                <th className="text-bodySmall p-2">شناسه سفارش</th>
+                <th className="text-bodySmall p-2">کاربر</th>
+                <th className="text-bodySmall p-2">قیمت کل</th>
+                <th className="text-bodySmall p-2">تاریخ</th>
+                <th className="text-bodySmall p-2">وضعیت</th>
               </tr>
             </thead>
             <tbody>
-              {data.recentOrders.map((order) => (
-                <tr key={order.id} className="text-center">
-                  <td>{order.id}</td>
-                  <td>{order.user.email}</td>
-                  <td>{formatPrice(order.price)} تومان</td>
-                  <td>{order.status}</td>
-                  <td>{formatToJalali(order.createdAt)}</td>
+              {data.recentOrders.map((order, index) => (
+                <tr
+                  key={order.id}
+                  className={`border-b border-customGray-300 custom-transition ${
+                    index % 2 !== 0
+                      ? "bg-customGray-100 hover:bg-customGray-200"
+                      : "bg-white hover:bg-customGray-200"
+                  }`}
+                >
+                  <td className="p-2">{order.id}</td>
+                  <td className="p-2">{order.user.email}</td>
+                  <td className="p-2">{formatPrice(order.price)} تومان</td>
+                  <td className="p-2">{formatToJalali(order.createdAt)}</td>
+                  <td className="p-2">
+                    <div
+                      className={`rounded-full px-3 py-0.5 flex-center text-bodySmall w-fit bg-state-${orderStatusColor(
+                        order.status
+                      )}-200 text-state-${orderStatusColor(order.status)}`}
+                    >
+                      {order.status}
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
