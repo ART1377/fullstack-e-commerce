@@ -1,4 +1,3 @@
-import { orders } from "@/app/data/data";
 import React from "react";
 import DashboardOrdersPageHeader from "./dashboard-orders-page-header/dashboard-orders-page-header";
 import OrdersTable from "./orders-table/orders-table";
