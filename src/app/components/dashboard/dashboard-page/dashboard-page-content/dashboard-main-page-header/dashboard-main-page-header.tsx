@@ -26,9 +26,9 @@ const DashboardMainPageHeader = (props: Props) => {
   }, []);
 
   return (
-    <div className="flex justify-between mb-4 p-3">
-      <h1 className="text-bodyMai">داشبورد مدیریت</h1>
-      <p className="text-bodySmall">{currentTime}</p>
+    <div className="flex justify-between items-center flex-wrap gap-2 mb-4 p-3">
+      <h1 className="text-bodyMain">داشبورد مدیریت</h1>
+      <p className="text-captionMain">{currentTime}</p>
     </div>
   );
 };

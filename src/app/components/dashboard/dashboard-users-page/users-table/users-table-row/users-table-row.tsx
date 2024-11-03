@@ -46,7 +46,7 @@ const UsersTableRow = ({ user, index }: Props) => {
             : "bg-white hover:bg-customGray-200"
         }`}
       >
-        <td className="p-2 flex items-center gap-2">
+        <td className="p-2 whitespace-nowrap flex items-center gap-2">
           <div className="size-12 rounded-xl shadow relative overflow-hidden flex-center">
             {image ? (
               <Image
@@ -63,16 +63,16 @@ const UsersTableRow = ({ user, index }: Props) => {
           </div>
           {firstName} {lastName}
         </td>
-        <td className="p-2">{email}</td>
-        <td className="p-2">{createdAt ? formatToJalali(createdAt) : "-"}</td>
-        <td className="p-2">{orders?.length}</td>
-        <td className="p-2">{formatPrice(totalOrdersPrice!)}</td>
-        <td className="p-2">
+        <td className="p-2 whitespace-nowrap">{email}</td>
+        <td className="p-2 whitespace-nowrap">{createdAt ? formatToJalali(createdAt) : "-"}</td>
+        <td className="p-2 whitespace-nowrap">{orders?.length}</td>
+        <td className="p-2 whitespace-nowrap">{formatPrice(totalOrdersPrice!)}</td>
+        <td className="p-2 whitespace-nowrap">
           {sortedOrders?.[0]
             ? formatToJalali(sortedOrders?.[0].createdAt)
             : "-"}
         </td>
-        <td className="p-2">
+        <td className="p-2 whitespace-nowrap">
           <Tooltip content="حذف کاربر" position="right" color="state-error">
             <div onClick={() => setIsDeleteModalOpen(true)}>
               <OperationIcon color={"error"}>

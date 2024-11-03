@@ -18,11 +18,7 @@ import {
 import toast from "react-hot-toast";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks/hook";
 import { useSessionContext } from "@/app/context/useSessionContext";
-import {
-  fetchCart,
-  removeFromCart,
-  updateCartItem,
-} from "@/app/redux/slices/cartSlice";
+import { removeFromCart, updateCartItem } from "@/app/redux/slices/cartSlice";
 import Spinner from "../../spinner/spinner";
 import HeartFillIcon from "@/app/icons/heart-fill-icon";
 import PlusIcon from "@/app/icons/plus-icon";
@@ -35,14 +31,11 @@ type Props = {
 
 const ShoppingCartPageItem = ({ cartItem }: Props) => {
   // need change
-  const { id, stock, product, stockId, quantity, productId } = cartItem;
+  const { stock, product, quantity, productId } = cartItem;
 
   const dispatch = useAppDispatch();
 
-  const cartStatus = useAppSelector((state) => state.cart.status);
-
   const favorites = useAppSelector((state) => state.favorites.items);
-  const favoritesStatus = useAppSelector((state) => state.favorites.status);
   const isFavorite = favorites.some(
     (favorite) => favorite.productId === productId
   );
@@ -189,7 +182,7 @@ const ShoppingCartPageItem = ({ cartItem }: Props) => {
           <div onClick={isFavorite ? handleRemoveFavorite : handleAddFavorite}>
             <OperationIcon color={"error"}>
               {favoriteLoading ? (
-                <Spinner size={20} color="error" />
+                <Spinner size={24} color="error" />
               ) : isFavorite ? (
                 <HeartFillIcon styles="size-6" />
               ) : (
@@ -275,7 +268,7 @@ const ShoppingCartPageItem = ({ cartItem }: Props) => {
             >
               <OperationIcon color={"error"}>
                 {favoriteLoading ? (
-                  <Spinner size={20} color="error" />
+                  <Spinner size={24} color="error" />
                 ) : isFavorite ? (
                   <HeartFillIcon styles="size-6" />
                 ) : (
@@ -314,7 +307,11 @@ const ShoppingCartPageItem = ({ cartItem }: Props) => {
               </div>
             </div>
             <Price
-              price={product?.price!}
+              price={
+                quantity && quantity > 0
+                  ? quantity * product?.price!
+                  : product?.price!
+              }
               discountPercentage={product?.discount!}
             />
           </div>

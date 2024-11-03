@@ -12,6 +12,7 @@ const Price = ({ price, discountPercentage, size = "small" }: Props) => {
     ? calculateDiscountedPrice(price, discountPercentage)
     : price;
 
+
   return (
     <>
       <div className="flex flex-col gap-0.5">

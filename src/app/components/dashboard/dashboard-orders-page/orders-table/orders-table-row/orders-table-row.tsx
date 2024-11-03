@@ -67,10 +67,10 @@ const OrdersTableRow = ({ order, index }: Props) => {
             : "bg-white hover:bg-customGray-200"
         }`}
       >
-        <td className="p-2 flex items-center gap-2">{userName}</td>
-        <td className="p-2">{totalItems}</td>
-        <td className="p-2">{formatPrice(price)}</td>
-        <td className="p-2">
+        <td className="p-2 whitespace-nowrap flex items-center gap-2">{userName}</td>
+        <td className="p-2 whitespace-nowrap">{totalItems}</td>
+        <td className="p-2 whitespace-nowrap">{formatPrice(price)}</td>
+        <td className="p-2 whitespace-nowrap">
           {discountAmount !== undefined &&
           discountAmount &&
           discountAmount > 0 ? (
@@ -79,15 +79,15 @@ const OrdersTableRow = ({ order, index }: Props) => {
             <CloseIcon styles="size-6 text-state-error" />
           )}
         </td>
-        <td className="p-2">{formatToJalali(createdAt)}</td>
-        <td className="p-2">
+        <td className="p-2 whitespace-nowrap">{formatToJalali(createdAt)}</td>
+        <td className="p-2 whitespace-nowrap">
           <div
             className={`rounded-full px-3 py-0.5 flex-center text-bodySmall w-fit bg-state-${orderStatusColor}-200 text-state-${orderStatusColor}`}
           >
             {status}
           </div>
         </td>
-        <td className="p-2 flex items-center gap-2">
+        <td className="p-2 whitespace-nowrap flex items-center gap-2">
           <Tooltip
             content="علامت زدن به عنوان سفارش تحویل شده"
             position="right"

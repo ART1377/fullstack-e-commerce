@@ -1,6 +1,10 @@
-"use client"; // Error components must be Client Components
+"use client";
 
-import { useEffect } from "react";
+import Image from "next/image";
+import Button from "./components/button/button";
+import RefreshIcon from "./icons/refresh-icon";
+import Link from "next/link";
+import HomeIcon from "./icons/home-icon";
 
 export default function Error({
   error,
@@ -9,22 +13,25 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    // Log the error to an error reporting service
-    console.error(error);
-  }, [error]);
-
   return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
-      >
-        Try again
-      </button>
+    <div className="w-full h-full flex-center flex-col gap-5 my-10">
+      <div className="relative w-full max-w-[600px] aspect-video">
+        <Image src={"/images/error-image.png"} alt={"error-image"} fill />
+      </div>
+      <div className="flex gap-3">
+        <Button
+          onClick={
+            // Attempt to recover by trying to re-render the segment
+            () => reset()
+          }
+          icon={<RefreshIcon styles="size-6" />}
+        >
+          تلاش مجدد
+        </Button>
+        <Button outline icon={<HomeIcon styles="size-6" />}>
+          <Link href={"/"}>بازگشت به خانه</Link>
+        </Button>
+      </div>
     </div>
   );
 }

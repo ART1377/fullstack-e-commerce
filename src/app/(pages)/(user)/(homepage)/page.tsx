@@ -99,6 +99,7 @@ export default async function Home() {
   // need change
   const { products } = await actions.getAllProducts();
 
+
   return (
     <>
       <Hero products={products.slice(0, 3)} />

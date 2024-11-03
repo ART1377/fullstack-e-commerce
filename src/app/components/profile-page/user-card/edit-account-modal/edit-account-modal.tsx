@@ -210,7 +210,7 @@ const EditAccountModal = ({
           styles="w-full mt-2"
           size="large"
           disabled={loading}
-          loading={loading && <Spinner size={20} color="dark" />}
+          loading={loading && <Spinner size={20} color="white" />}
         >
           نبت
         </Button>

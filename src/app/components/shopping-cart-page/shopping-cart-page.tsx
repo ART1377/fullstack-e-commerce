@@ -28,14 +28,18 @@ const ShoppingCartPage = (props: Props) => {
     (acc, item) => acc + item.quantity!,
     0
   );
+  // Updated totalPrice to consider quantity
   const totalPrice = cartItems?.reduce(
-    (acc, item) => acc + item.product?.price!,
+    (acc, item) => acc + item.product?.price! * item.quantity!,
     0
   );
+
+  // Updated totalDiscount to consider quantity
   const totalDiscount = cartItems?.reduce(
     (acc, item) =>
       acc +
-      calculateDiscountedPrice(item.product?.price!, item.product?.discount!),
+      calculateDiscountedPrice(item.product?.price!, item.product?.discount!) *
+        item.quantity!,
     0
   );
 

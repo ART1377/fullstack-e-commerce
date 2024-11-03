@@ -3,7 +3,6 @@ import React from "react";
 import Title from "../../title/title";
 import Spinner from "../../spinner/spinner";
 import CheckoutButton from "./checkout-button/checkout-button";
-import { auth } from "@/app/auth";
 
 type Props = {
   totalQuantity: number;

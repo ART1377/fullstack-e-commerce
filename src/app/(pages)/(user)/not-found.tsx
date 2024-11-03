@@ -1,18 +1,17 @@
-import Link from "next/link";
-import Image from "next/image";
-import Button from "./components/button/button";
-import HomeIcon from "./icons/home-icon";
 import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import HomeIcon from "../../icons/home-icon";
+import Button from "../../components/button/button";
 
 export default function NotFound() {
-
+  
   return (
-    <div className="w-screen h-screen flex-center flex-col gap-5 my-10">
+    <div className="w-screen h-screen flex-center flex-col gap-5">
       <div className="relative w-full max-w-[600px] aspect-video">
         <Image src={"/images/error-image.png"} alt={"error-image"} fill />
       </div>
       <p>صفحه ی موردنطر یافت نشد</p>
-
       <div className="flex gap-3">
         <Button icon={<HomeIcon styles="size-6" />}>
           <Link href={"/"}>بازگشت به خانه</Link>

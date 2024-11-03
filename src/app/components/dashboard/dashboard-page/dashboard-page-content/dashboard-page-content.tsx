@@ -9,11 +9,9 @@ import RecentOrdersTable from "./recent-orders-table/recent-orders-table";
 import DashboardMetricCards from "./dashboard-metric-cards/dashboard-metric-cards";
 import DashboardMainPageHeader from "./dashboard-main-page-header/dashboard-main-page-header";
 
-
 type Props = {
   data: DashboardData;
 };
-
 
 export const orderStatusColor = (status: string) => {
   const color =
@@ -28,10 +26,9 @@ export const orderStatusColor = (status: string) => {
   return color;
 };
 const DashboardPageContent = ({ data }: Props) => {
-
   return (
     <div>
-<DashboardMainPageHeader/>
+      <DashboardMainPageHeader />
       {/* Key Metrics */}
       <DashboardMetricCards
         totalSales={data.totalSales}
@@ -53,6 +50,5 @@ const DashboardPageContent = ({ data }: Props) => {
     </div>
   );
 };
-
 
 export default DashboardPageContent;

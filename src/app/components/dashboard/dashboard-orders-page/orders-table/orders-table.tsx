@@ -13,16 +13,16 @@ const OrdersTable = ({ totalItems ,orders}: Props) => {
   return (
     <>
       <div className="overflow-x-auto custom-scrollbar">
-        <table className="min-w-full bg-white border-collapse">
+        <table className="min-w-full bg-white border-collapse table-auto">
           <thead>
             <tr className="text-customGray-500 text-right border-b border-t border-customGray-300">
-              <th className="text-bodySmall p-2 min-w-[180px]">نام خریدار</th>
-              <th className="text-bodySmall p-2 min-w-[140px]">تعداد اقلام</th>
-              <th className="text-bodySmall p-2 min-w-[140px]">قیمت کل</th>
-              <th className="text-bodySmall p-2 min-w-[140px]">مجموع تخفیف</th>
-              <th className="text-bodySmall p-2 min-w-[140px]">تاریخ سفارش</th>
-              <th className="text-bodySmall p-2 min-w-[180px]">وضعیت سفارش</th>
-              <th className="text-bodySmall p-2 min-w-[200px]"></th>
+              <th className="text-bodySmall p-2 whitespace-nowrap">نام خریدار</th>
+              <th className="text-bodySmall p-2 whitespace-nowrap">تعداد اقلام</th>
+              <th className="text-bodySmall p-2 whitespace-nowrap">قیمت کل</th>
+              <th className="text-bodySmall p-2 whitespace-nowrap">مجموع تخفیف</th>
+              <th className="text-bodySmall p-2 whitespace-nowrap">تاریخ سفارش</th>
+              <th className="text-bodySmall p-2 whitespace-nowrap">وضعیت سفارش</th>
+              <th className="text-bodySmall p-2 whitespace-nowrap"></th>
             </tr>
           </thead>
           <tbody>

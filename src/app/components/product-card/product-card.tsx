@@ -123,7 +123,7 @@ const ProductCard = ({ product }: Props) => {
           >
             <OperationIcon color={"error"}>
               {loading ? (
-                <Spinner size={20} color="error" />
+                <Spinner size={24} color="error" />
               ) : isFavorite ? (
                 <HeartFillIcon styles="size-6" />
               ) : (

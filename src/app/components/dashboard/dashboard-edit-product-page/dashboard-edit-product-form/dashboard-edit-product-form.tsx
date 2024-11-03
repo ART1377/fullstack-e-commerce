@@ -764,9 +764,14 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
         <Button
           type="submit"
           color="primary-main"
-          icon={<EditIcon styles="size-6" />}
+          icon={
+            loading ? (
+              <Spinner size={24} color="white" />
+            ) : (
+              <EditIcon styles="size-6" />
+            )
+          }
           disabled={loading}
-          loading={loading && <Spinner size={20} color="dark" />}
         >
           ویرایش
         </Button>
@@ -775,7 +780,6 @@ const DashboardEditProductForm = ({ colors, product }: Props) => {
           color="state-error"
           icon={<DeleteIcon styles="size-6" />}
           disabled={loading}
-          loading={loading && <Spinner size={20} color="dark" />}
         >
           پاک کردن
         </Button>

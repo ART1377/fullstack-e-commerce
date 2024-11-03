@@ -276,7 +276,7 @@ const ProductPageInformation = ({
           <div onClick={isFavorite ? handleRemoveFavorite : handleAddFavorite}>
             <OperationIcon color={"error"}>
               {favoritesStatus === "loading" ? (
-                <Spinner size={20} color="error" />
+                <Spinner size={24} color="error" />
               ) : isFavorite ? (
                 <HeartFillIcon styles="size-6" />
               ) : (

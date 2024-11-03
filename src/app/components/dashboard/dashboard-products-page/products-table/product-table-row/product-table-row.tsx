@@ -11,6 +11,9 @@ import DeleteProductModal from "./delete-product-modal/delete-product-modal";
 import Link from "next/link";
 import { Color, Product } from "../../../../../../../next-type-models";
 import Tooltip from "@/app/components/tooltip/tooltip";
+import Checkbox from "@/app/components/form/checkbox/checkbox";
+import CloseIcon from "@/app/icons/close-icon";
+import CheckIcon from "@/app/icons/check-icon";
 
 type Props = {
   product: Product;
@@ -18,7 +21,17 @@ type Props = {
 };
 
 const ProductTableRow = ({ product, index }: Props) => {
-  const { title, id, images, stock, discount, category, price } = product;
+  const {
+    title,
+    id,
+    images,
+    stock,
+    discount,
+    category,
+    price,
+    isInHeroSection,
+    isInDiscountSection,
+  } = product;
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   const uniqueColors = getUniqueColors(stock!);
@@ -44,7 +57,7 @@ const ProductTableRow = ({ product, index }: Props) => {
             : "bg-white hover:bg-customGray-200"
         }`}
       >
-        <td className="p-2 flex items-center gap-2">
+        <td className="p-2 whitespace-nowrap flex items-center gap-2">
           <div className="size-12 rounded-xl shadow relative overflow-hidden">
             <Image
               alt={title}
@@ -57,11 +70,11 @@ const ProductTableRow = ({ product, index }: Props) => {
           </div>
           {title}
         </td>
-        <td className="p-2">{category}</td>
-        <td className="p-2">{formatPrice(price)}</td>
-        <td className="p-2">{totalQuantity}</td>
-        <td className="p-2">{`${discount ? `${discount}%` : ""}`}</td>
-        <td className="p-2">
+        <td className="p-2 whitespace-nowrap">{category}</td>
+        <td className="p-2 whitespace-nowrap">{formatPrice(price)}</td>
+        <td className="p-2 whitespace-nowrap">{totalQuantity}</td>
+        <td className="p-2 whitespace-nowrap">{`${discount ? `${discount}%` : ""}`}</td>
+        <td className="p-2 whitespace-nowrap">
           <div className="flex gap-1">
             {uniqueColors.slice(0, 3).map((color: Color) => (
               <div
@@ -77,10 +90,29 @@ const ProductTableRow = ({ product, index }: Props) => {
             </span>
           </div>
         </td>
-        <td className="p-2">
+        <td className="p-2 whitespace-nowrap">
           <Stock quantity={totalQuantity!} />
         </td>
-        <td className="p-2">
+        <td className="p-2 whitespace-nowrap">
+          {isInHeroSection ? (
+            <CheckIcon styles="text-state-success size-6" />
+          ) : (
+            <CloseIcon styles="text-state-error size-6" />
+          )}
+        </td>
+        <td className="p-2 whitespace-nowrap">
+          {isInDiscountSection ? (
+            <CheckIcon styles="text-state-success size-6" />
+          ) : (
+            <CloseIcon styles="text-state-error size-6" />
+          )}
+          {/* <div
+            className={`border-2 border-dark rounded custom-transition size-5 ${
+              isInDiscountSection ? `bg-dark` : ""
+            }`}
+          ></div> */}
+        </td>
+        <td className="p-2 whitespace-nowrap">
           <div className="flex gap-2">
             <Tooltip
               content="ویرایش محصول"
