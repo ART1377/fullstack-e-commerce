@@ -5,8 +5,6 @@ import Category from "@/app/components/homepage/category/category";
 import NewestShoes from "@/app/components/homepage/newest-shoes/newest-shoes";
 import NewestClothes from "@/app/components/homepage/newest-clothes/newest-clothes";
 import Options from "@/app/components/homepage/options/options";
-import { Color } from "../../../../../next-type-d";
-import { db } from "@/app/db/db";
 import Spinner from "@/app/components/spinner/spinner";
 import { Suspense } from "react";
 
@@ -15,89 +13,7 @@ export const metadata: Metadata = {
   description: "صفحه اصلی فروشگاه هامتوسیتی",
 };
 
-export default async function Home() {
-  // await db.product.deleteMany({});
-
-  // const colors = [
-  //   {
-  //     title: "red",
-  //     hex: "#FF0000",
-  //     persian: "قرمز",
-  //   },
-  //   {
-  //     title: "green",
-  //     hex: "#00FF00",
-  //     persian: "سبز",
-  //   },
-  //   {
-  //     title: "blue",
-  //     hex: "#0000FF",
-  //     persian: "آبی",
-  //   },
-  //   {
-  //     title: "yellow",
-  //     hex: "#FFFF00",
-  //     persian: "زرد",
-  //   },
-  //   {
-  //     title: "orange",
-  //     hex: "#FFA500",
-  //     persian: "نارنجی",
-  //   },
-  //   {
-  //     title: "purple",
-  //     hex: "#800080",
-  //     persian: "بنفش",
-  //   },
-  //   {
-  //     title: "pink",
-  //     hex: "#FFC0CB",
-  //     persian: "صورتی",
-  //   },
-  //   {
-  //     title: "brown",
-  //     hex: "#A52A2A",
-  //     persian: "قهوه‌ای",
-  //   },
-  //   {
-  //     title: "black",
-  //     hex: "#000000",
-  //     persian: "مشکی",
-  //   },
-  //   {
-  //     title: "white",
-  //     hex: "#FFFFFF",
-  //     persian: "سفید",
-  //   },
-  // ];
-
-  // await db.color.deleteMany({});
-
-  // Check if colors are already in the database
-  // const existingColors = await db.color.findMany({
-  //   where: {
-  //     title: {
-  //       in: colors.map((color) => color.title),
-  //     },
-  //   },
-  // });
-
-  // // Find new colors that don't already exist
-  // const newColors = colors.filter(
-  //   (color) =>
-  //     !existingColors.some(
-  //       (existingColor) => existingColor.title === color.title
-  //     )
-  // );
-
-  // // Only create colors if there are any new ones
-  // if (newColors.length > 0) {
-  //   await db.color.createMany({
-  //     data: newColors,
-  //   });
-  // }
-
-  // need change
+export default function Home() {
 
   return (
     <>

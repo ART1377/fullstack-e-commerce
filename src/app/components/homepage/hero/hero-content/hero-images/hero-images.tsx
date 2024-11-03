@@ -2,7 +2,7 @@
 // import Image from "next/image";
 // import Link from "next/link";
 // import { motion } from "framer-motion";
-// import { Product } from "../../../../../../next-type-models";
+// import { Product } from "../../../../../../../next-type-models";
 
 // type Props = {
 //   products: Product[];
@@ -111,7 +111,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Product } from "../../../../../../next-type-models";
+import { Product } from "../../../../../../../next-type-models";
 
 type Props = {
   products: Product[];
