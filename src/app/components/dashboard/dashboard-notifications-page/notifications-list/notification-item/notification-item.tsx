@@ -3,7 +3,6 @@
 import React from "react";
 import Image from "next/image";
 import PersonIcon from "@/app/icons/person-icon";
-import { timeAgo } from "@/app/lib/functions";
 import DoubleCheckIcon from "@/app/icons/double-check-icon";
 import CheckIcon from "@/app/icons/check-icon";
 import OperationIcon from "@/app/components/operation-icon/operation-icon";
@@ -12,6 +11,7 @@ import Tooltip from "@/app/components/tooltip/tooltip";
 import { Notification } from "../../../../../../../next-type-models";
 import toast from "react-hot-toast";
 import * as actions from "@/app/actions/notification-actions/notification-actions";
+import { timeAgo } from "@/app/lib/time-ago";
 
 type Props = {
   notification: Notification;

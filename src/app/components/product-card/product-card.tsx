@@ -7,8 +7,7 @@ import HeartEmptyIcon from "@/app/icons/heart-empty-icon";
 import { Color } from "../../../../next-type-d";
 import OperationIcon from "@/app/components/operation-icon/operation-icon";
 import Price from "../price/price";
-import { getUniqueColors } from "@/app/lib/functions";
-import { Product } from "../../../../next-type-models";
+import { getUniqueColors } from "@/app/lib/get-unique-colors";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks/hook";
 import {
   addToFavorites,
@@ -19,6 +18,7 @@ import { useSessionContext } from "@/app/context/useSessionContext";
 import HeartFillIcon from "@/app/icons/heart-fill-icon";
 import toast from "react-hot-toast";
 import Spinner from "../spinner/spinner";
+import { Product } from "../../../../next-type-models";
 
 type Props = {
   product: Partial<Product>;
@@ -130,7 +130,7 @@ const ProductCard = ({ product }: Props) => {
                 <HeartEmptyIcon styles="size-6" />
               )}
             </OperationIcon>
-          </div>  
+          </div>
         </div>
         {/* second row */}
         <div className="flex gap-1">
@@ -152,7 +152,7 @@ const ProductCard = ({ product }: Props) => {
 
         {/* third row */}
         <div className="flex flex-col justify-end gap-1 h-[70px]">
-            <Price price={price!} discountPercentage={discount!} />
+          <Price price={price!} discountPercentage={discount!} />
           <small className="text-bodySmall text-state-error">
             تعداد موجودی : {totalQuantity}
           </small>

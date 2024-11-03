@@ -1,6 +1,6 @@
 "use client";
 
-import { formatPrice } from "@/app/lib/functions";
+import { formatPrice } from "@/app/lib/format-price";
 import React, { useState } from "react";
 
 type Props = {

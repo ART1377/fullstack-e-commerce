@@ -7,7 +7,8 @@ import NewestClothes from "@/app/components/homepage/newest-clothes/newest-cloth
 import Options from "@/app/components/homepage/options/options";
 import { Color } from "../../../../../next-type-d";
 import { db } from "@/app/db/db";
-import * as actions from "@/app/actions/product-actions/product-action";
+import Spinner from "@/app/components/spinner/spinner";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "هامتوسیتی - صفحه اصلی",
@@ -97,16 +98,46 @@ export default async function Home() {
   // }
 
   // need change
-  const { products } = await actions.getAllProducts();
-
 
   return (
     <>
-      <Hero products={products.slice(0, 3)} />
-      <Discount />
+      <Suspense
+        fallback={
+          <div className="w-full h-full flex-center min-h-[300px]">
+            <Spinner size={50} />
+          </div>
+        }
+      >
+        <Hero />
+      </Suspense>
+      <Suspense
+        fallback={
+          <div className="w-full h-full flex-center min-h-[300px]">
+            <Spinner size={50} />
+          </div>
+        }
+      >
+        <Discount />
+      </Suspense>
       <Category />
-      <NewestShoes />
-      <NewestClothes />
+      <Suspense
+        fallback={
+          <div className="w-full h-full flex-center min-h-[300px]">
+            <Spinner size={50} />
+          </div>
+        }
+      >
+        <NewestShoes />
+      </Suspense>
+      <Suspense
+        fallback={
+          <div className="w-full h-full flex-center min-h-[300px]">
+            <Spinner size={50} />
+          </div>
+        }
+      >
+        <NewestClothes />
+      </Suspense>
       <Options />
     </>
   );

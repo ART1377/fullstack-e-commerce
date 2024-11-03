@@ -1,7 +1,7 @@
 import { formatToJalali } from "@/app/lib/date-format";
 import React from "react";
 import { orderStatusColor } from "../dashboard-page-content";
-import { formatPrice } from "@/app/lib/functions";
+import { formatPrice } from "@/app/lib/format-price";
 import { Order } from "../../../../../../../next-type-models";
 
 type Props = {

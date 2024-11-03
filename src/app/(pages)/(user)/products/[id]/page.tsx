@@ -3,9 +3,9 @@ import ProductPageContent from "@/app/components/product-page-content/product-pa
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import * as actions from "@/app/actions/product-actions/product-action";
-import { Product } from "../../../../../../next-type-models";
 import { getComments } from "@/app/actions/comment-actions/comment-actions";
 import { getSortOptionValue } from "@/app/lib/get-sort-option-value";
+import { Product } from "../../../../../../next-type-models";
 
 type Props = {
   params: {
@@ -59,12 +59,12 @@ const ProductPage = async ({ params: { id }, searchParams }: Props) => {
 
 export default ProductPage;
 
-// // Generate static paths (using the list of product IDs)
-// export async function generateStaticParams() {
-//   // Fetch all product IDs to generate paths for each
-//   const { products } = await actions.getAllProducts();
+// Generate static paths (using the list of product IDs)
+export async function generateStaticParams() {
+  // Fetch all product IDs to generate paths for each
+  const { products } = await actions.getAllProducts();
 
-//   return products.map((product: Product) => ({
-//     id: product.id,
-//   }));
-// }
+  return products.map((product: Product) => ({
+    id: product.id,
+  }));
+}

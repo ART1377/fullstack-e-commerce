@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Button from "../../../button/button";
+import Button from "../../../../../button/button";
 import HeartEmptyIcon from "@/app/icons/heart-empty-icon";
 import Link from "next/link";
 import BurgerMenuIcon from "@/app/icons/burger-menu-icon";

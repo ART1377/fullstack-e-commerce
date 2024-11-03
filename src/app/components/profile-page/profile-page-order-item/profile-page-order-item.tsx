@@ -1,5 +1,5 @@
 import React from "react";
-import { formatPrice } from "@/app/lib/functions";
+import { formatPrice } from "@/app/lib/format-price";
 import Link from "next/link";
 import Image from "next/image";
 import { formatToJalali } from "@/app/lib/date-format";
@@ -21,7 +21,6 @@ type Props = {
 };
 
 const ProfilePageOrderItem = ({ order }: Props) => {
-
   return (
     <div className="flex flex-col gap-3 mb-5">
       {/* tab content info */}

@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { formatPrice, getUniqueColors } from "@/app/lib/functions";
+import { getUniqueColors } from "@/app/lib/get-unique-colors";
+import { formatPrice } from "@/app/lib/format-price";
 import OperationIcon from "../../../../operation-icon/operation-icon";
 import EditIcon from "@/app/icons/edit-icon";
 import Stock from "../../../../stock/stock";
@@ -11,7 +12,6 @@ import DeleteProductModal from "./delete-product-modal/delete-product-modal";
 import Link from "next/link";
 import { Color, Product } from "../../../../../../../next-type-models";
 import Tooltip from "@/app/components/tooltip/tooltip";
-import Checkbox from "@/app/components/form/checkbox/checkbox";
 import CloseIcon from "@/app/icons/close-icon";
 import CheckIcon from "@/app/icons/check-icon";
 
@@ -73,7 +73,9 @@ const ProductTableRow = ({ product, index }: Props) => {
         <td className="p-2 whitespace-nowrap">{category}</td>
         <td className="p-2 whitespace-nowrap">{formatPrice(price)}</td>
         <td className="p-2 whitespace-nowrap">{totalQuantity}</td>
-        <td className="p-2 whitespace-nowrap">{`${discount ? `${discount}%` : ""}`}</td>
+        <td className="p-2 whitespace-nowrap">{`${
+          discount ? `${discount}%` : ""
+        }`}</td>
         <td className="p-2 whitespace-nowrap">
           <div className="flex gap-1">
             {uniqueColors.slice(0, 3).map((color: Color) => (

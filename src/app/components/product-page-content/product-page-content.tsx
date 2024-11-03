@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ProductPageContentImages from "./product-images/product-images";
 import ProductPageContentInformation from "./product-page-information/product-page-information";
 import ProductPageContentTabs from "./product-page-tabs/product-page-tabs";
 import ProductPageContentRelatedProducts from "./related-products/related-products";
-import { getSizesForColor, getUniqueColors } from "@/app/lib/functions";
+import { getUniqueColors } from "@/app/lib/get-unique-colors";
 import { Product } from "../../../../next-type-models";
 import { CommentWithAuthor } from "@/app/actions/comment-actions/get-comments-action";
+import { getSizesForColor } from "@/app/lib/get-sizes-of-color";
 
 type Props = {
   product: Product;
@@ -15,7 +16,7 @@ type Props = {
   comments: CommentWithAuthor[] | undefined;
 };
 
-const ProductPageContent = ({ product, relatedProducts,comments }: Props) => {
+const ProductPageContent = ({ product, relatedProducts, comments }: Props) => {
   const { stock, images, title, description, features } = product;
 
   const uniqueColors = getUniqueColors(stock!);
@@ -25,7 +26,7 @@ const ProductPageContent = ({ product, relatedProducts,comments }: Props) => {
   );
   const [selectedSize, setSelectedSize] = useState<string>(stock?.[0].size!);
 
-  const handleColorSelection = (colorName: string) => {   
+  const handleColorSelection = (colorName: string) => {
     const sizes = getSizesForColor(stock!, colorName);
     setSelectedSize(sizes[0]);
     setSelectedColor(colorName);
@@ -33,7 +34,6 @@ const ProductPageContent = ({ product, relatedProducts,comments }: Props) => {
   const handleSizeSelection = (size: string) => {
     setSelectedSize(size);
   };
-
 
   return (
     <section className="w-full mt-4 sm:mt-10">

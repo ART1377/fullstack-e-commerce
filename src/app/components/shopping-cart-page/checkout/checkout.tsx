@@ -1,4 +1,4 @@
-import { formatPrice } from "@/app/lib/functions";
+import { formatPrice } from "@/app/lib/format-price";
 import React from "react";
 import Title from "../../title/title";
 import Spinner from "../../spinner/spinner";
@@ -17,13 +17,10 @@ const Checkout = ({
   totalDiscount,
   loading,
 }: Props) => {
-
-
   return (
     <div className="bg-white p-3 rounded-xl shadow w-[280px] h-fit mx-auto">
       {loading ? (
         <div className="h-[320px]">
-
           <Spinner size={32} />
         </div>
       ) : (

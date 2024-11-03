@@ -1,7 +1,7 @@
 import React from 'react'
 import { Product } from '../../../../../../../next-type-models';
 import Image from "next/image";
-import { formatPrice } from '@/app/lib/functions';
+import { formatPrice } from '@/app/lib/format-price';
 import Tooltip from "@/app/components/tooltip/tooltip";
 import OperationIcon from '@/app/components/operation-icon/operation-icon';
 import EditIcon from '@/app/icons/edit-icon';

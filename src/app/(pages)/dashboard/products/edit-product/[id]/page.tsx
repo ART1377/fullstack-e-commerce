@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import * as actions from "@/app/actions/product-actions/product-action";
 import { Product } from "../../../../../../../next-type-models";
 
+
 type Props = {
   params: {
     id: string;

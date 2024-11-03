@@ -2,9 +2,9 @@
 
 import { auth } from "@/app/auth";
 import { db } from "@/app/db/db";
-import { calculateDiscountAmount } from "@/app/lib/functions";
 import { revalidatePath } from "next/cache";
 import { createAdminNotification } from "../notification-actions/create-notification";
+import { calculateDiscountAmount } from "@/app/lib/calculate-discount-amount";
 
 export async function getCartItems(userId: string) {
   const cart = await db.cart.findUnique({

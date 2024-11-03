@@ -9,7 +9,6 @@ import ShareIcon from "@/app/icons/share-icon";
 import Price from "../../price/price";
 import Stock from "../../stock/stock";
 import Link from "next/link";
-import { CartItem } from "../../../../../next-type-models";
 import {
   addToFavorites,
   fetchFavorites,
@@ -24,6 +23,7 @@ import HeartFillIcon from "@/app/icons/heart-fill-icon";
 import PlusIcon from "@/app/icons/plus-icon";
 import MinusIcon from "@/app/icons/minus-icon";
 import ProductShare from "../../product-share/product-share";
+import { CartItem } from "../../../../../next-type-models";
 
 type Props = {
   cartItem: Partial<CartItem>;

@@ -1,4 +1,4 @@
-import { formatPrice } from "@/app/lib/functions";
+import { formatPrice } from "@/app/lib/format-price";
 import React from "react";
 import {
   CartesianGrid,

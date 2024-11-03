@@ -1,5 +1,6 @@
 import React from "react";
-import { formatPrice, calculateDiscountedPrice } from "@/app/lib/functions";
+import { formatPrice } from "@/app/lib/format-price";
+import { calculateDiscountedPrice } from "@/app/lib/calculate-discount-price";
 
 type Props = {
   price: number;
@@ -11,7 +12,6 @@ const Price = ({ price, discountPercentage, size = "small" }: Props) => {
   const currentPrice = discountPercentage
     ? calculateDiscountedPrice(price, discountPercentage)
     : price;
-
 
   return (
     <>

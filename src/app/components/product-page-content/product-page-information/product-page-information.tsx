@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import Rating from "../../rating/rating";
 import ChatIcon from "@/app/icons/chat-icon";
-import ShareIcon from "@/app/icons/share-icon";
 import HeartEmptyIcon from "@/app/icons/heart-empty-icon";
 import ColorItem from "../../color-item/color-item";
 import SizeItem from "../../size-item/size-item";
@@ -12,7 +11,7 @@ import ShopIcon from "@/app/icons/shop-icon";
 import Price from "../../price/price";
 import Button from "../../button/button";
 import Stock from "../../stock/stock";
-import { getSizesForColor, getUniqueColors } from "@/app/lib/functions";
+import { getUniqueColors } from "@/app/lib/get-unique-colors";
 import { CartItem, Color, Product } from "../../../../../next-type-models";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks/hook";
 import {
@@ -34,7 +33,7 @@ import {
 } from "@/app/redux/slices/favoritesSlice";
 import HeartFillIcon from "@/app/icons/heart-fill-icon";
 import ProductShare from "../../product-share/product-share";
-
+import { getSizesForColor } from "@/app/lib/get-sizes-of-color";
 
 type Props = {
   product: Product;

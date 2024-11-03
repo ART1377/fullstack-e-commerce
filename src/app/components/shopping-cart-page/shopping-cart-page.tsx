@@ -5,12 +5,12 @@ import ShoppingCartPageHeader from "./shopping-cart-page-header/shopping-cart-pa
 import Checkout from "./checkout/checkout";
 import ShoppingCartPageItem from "./shopping-cart-page-item/shopping-cart-page-item";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks/hook";
-import { calculateDiscountedPrice } from "@/app/lib/functions";
 import Button from "../button/button";
 import Link from "next/link";
 import { fetchCart } from "@/app/redux/slices/cartSlice";
 import { useSessionContext } from "@/app/context/useSessionContext";
 import Breadcrumb from "../breadcrumb/breadcrumb";
+import { calculateDiscountedPrice } from "@/app/lib/calculate-discount-price";
 
 type Props = {};
 

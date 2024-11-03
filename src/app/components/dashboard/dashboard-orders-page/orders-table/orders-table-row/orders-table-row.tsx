@@ -5,7 +5,7 @@ import OperationIcon from "@/app/components/operation-icon/operation-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import CloseIcon from "@/app/icons/close-icon";
 import DeleteOrderModal from "./delete-order-modal/delete-order-modal";
-import { formatPrice } from "@/app/lib/functions";
+import { formatPrice } from "@/app/lib/format-price";
 import { OrderWithName } from "@/app/actions/order-actions/get-all-orders";
 import { formatToJalali } from "@/app/lib/date-format";
 import { updateOrderStatus } from "@/app/actions/order-actions/change-order-status";
@@ -67,7 +67,9 @@ const OrdersTableRow = ({ order, index }: Props) => {
             : "bg-white hover:bg-customGray-200"
         }`}
       >
-        <td className="p-2 whitespace-nowrap flex items-center gap-2">{userName}</td>
+        <td className="p-2 whitespace-nowrap flex items-center gap-2">
+          {userName}
+        </td>
         <td className="p-2 whitespace-nowrap">{totalItems}</td>
         <td className="p-2 whitespace-nowrap">{formatPrice(price)}</td>
         <td className="p-2 whitespace-nowrap">

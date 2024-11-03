@@ -6,7 +6,7 @@ import OperationIcon from "@/app/components/operation-icon/operation-icon";
 import DeleteIcon from "@/app/icons/delete-icon";
 import PersonIcon from "@/app/icons/person-icon";
 import DeleteUserModal from "./delete-user-modal/delete-user-modal";
-import { formatPrice } from "@/app/lib/functions";
+import { formatPrice } from "@/app/lib/format-price";
 import { User } from "../../../../../../../next-type-models";
 import { formatToJalali } from "@/app/lib/date-format";
 import Tooltip from "@/app/components/tooltip/tooltip";
@@ -27,8 +27,6 @@ const UsersTableRow = ({ user, index }: Props) => {
     (a, b) =>
       new Date(b?.createdAt).getTime() - new Date(a?.createdAt).getTime()
   );
-
-
 
   return (
     <>
@@ -64,9 +62,13 @@ const UsersTableRow = ({ user, index }: Props) => {
           {firstName} {lastName}
         </td>
         <td className="p-2 whitespace-nowrap">{email}</td>
-        <td className="p-2 whitespace-nowrap">{createdAt ? formatToJalali(createdAt) : "-"}</td>
+        <td className="p-2 whitespace-nowrap">
+          {createdAt ? formatToJalali(createdAt) : "-"}
+        </td>
         <td className="p-2 whitespace-nowrap">{orders?.length}</td>
-        <td className="p-2 whitespace-nowrap">{formatPrice(totalOrdersPrice!)}</td>
+        <td className="p-2 whitespace-nowrap">
+          {formatPrice(totalOrdersPrice!)}
+        </td>
         <td className="p-2 whitespace-nowrap">
           {sortedOrders?.[0]
             ? formatToJalali(sortedOrders?.[0].createdAt)
