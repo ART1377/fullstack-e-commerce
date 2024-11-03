@@ -59,12 +59,12 @@ const ProductPage = async ({ params: { id }, searchParams }: Props) => {
 
 export default ProductPage;
 
-// Generate static paths (using the list of product IDs)
-export async function generateStaticParams() {
-  // Fetch all product IDs to generate paths for each
-  const { products } = await actions.getAllProducts();
+// // Generate static paths (using the list of product IDs)
+// export async function generateStaticParams() {
+//   // Fetch all product IDs to generate paths for each
+//   const { products } = await actions.getAllProducts();
 
-  return products.map((product: Product) => ({
-    id: product.id,
-  }));
-}
+//   return products.map((product: Product) => ({
+//     id: product.id,
+//   }));
+// }

@@ -233,3 +233,26 @@ export interface Notification {
     image: string;
   };
 }
+
+// Define TypeScript interfaces for dashboard
+export interface SalesData {
+  date: string;
+  sales: number;
+}
+
+export interface StatusPercentage {
+  status: string;
+  count: number;
+  percentage: number;
+}
+
+export interface DashboardData {
+  totalSales: number;
+  totalOrders: number;
+  totalUsers: number;
+  productsInStock: number;
+  salesData: SalesData[];
+  recentOrders: Partial<Order>[];
+  lowStockProducts: Product[];
+  statusPercentages: StatusPercentage[]; // Add this line
+}

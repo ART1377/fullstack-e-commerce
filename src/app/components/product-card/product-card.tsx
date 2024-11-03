@@ -130,7 +130,7 @@ const ProductCard = ({ product }: Props) => {
                 <HeartEmptyIcon styles="size-6" />
               )}
             </OperationIcon>
-          </div>
+          </div>  
         </div>
         {/* second row */}
         <div className="flex gap-1">

@@ -24,8 +24,27 @@ export async function loadDashboardData() {
     });
 
     // Low stock products
+    // Step 1: Aggregate stock quantities by product and filter for totals less than 10
+    const lowStockProductIds = await db.stock.groupBy({
+      by: ["productId"],
+      _sum: {
+        quantity: true,
+      },
+      having: {
+        quantity: {
+          _sum: { lt: 10 },
+        },
+      },
+    });
+
+    // Extract product IDs from the aggregation result
+    const productIds = lowStockProductIds.map((item) => item.productId);
+
+    // Step 2: Fetch the product details using the filtered product IDs
     const lowStockProducts = await db.product.findMany({
-      where: { stock: { some: { quantity: { lt: 10 } } } },
+      where: {
+        id: { in: productIds },
+      },
       include: {
         stock: true,
         images: true,
@@ -39,6 +58,21 @@ export async function loadDashboardData() {
       include: { user: true },
     });
 
+    // Order status counts
+    const statusCounts = await db.order.groupBy({
+      by: ["status"],
+      _count: { status: true },
+    });
+
+    // Calculate percentages for each status
+    const statusPercentages = statusCounts.map((status) => ({
+      status: status.status,
+      count: status._count.status,
+      percentage: Number(
+        ((status._count.status / totalOrders) * 100).toFixed(2)
+      ),
+    }));
+
     return {
       totalSales: totalSales._sum.price || 0,
       totalOrders,
@@ -50,8 +84,9 @@ export async function loadDashboardData() {
       })),
       recentOrders,
       lowStockProducts,
+      statusPercentages,
     };
   } catch (error) {
-    throw new Error("خطایی رخ داده");
+    throw new Error("خطایی رخ داده است");
   }
 }
