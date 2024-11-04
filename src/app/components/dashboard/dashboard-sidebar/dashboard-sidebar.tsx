@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { NavbarItemType } from "../../../../../next-type-d";
 import CloseIcon from "@/app/icons/close-icon";
 import LogoutIcon from "@/app/icons/logout-icon";
 import DashboardIcon from "@/app/icons/dashboard-icon";
@@ -10,6 +9,7 @@ import UsersIcon from "@/app/icons/users-icon";
 import AddShoppingCartIcon from "@/app/icons/add-shopping-cart-icon";
 import NotificationIcon from "@/app/icons/notification-icon";
 import DashboardSidebarItem from "./dashboard-sidebar-item/dashboard-sidebar-item";
+import { NavbarItemType } from "../../../../../next-type-models";
 
 const sidebarItems: NavbarItemType[] = [
   {

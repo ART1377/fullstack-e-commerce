@@ -1,7 +1,7 @@
 import React from 'react'
-import { SocialItemType } from '../../../../../next-type-d';
 import SocialMediaItem from '../../social-media-item/social-media-item';
 import { socialMediaItems } from '../../footer/footer';
+import { SocialItemType } from '../../../../../next-type-models';
 
 type Props = {}
 

@@ -14,10 +14,10 @@ const productSchema = z.object({
   model: z.string().min(1, "مدل الزامی است"),
   price: z.number().gt(0, "قیمت باید عددی بیشتر از 0 باشد"),
   category: z.string().min(1, "دسته‌بندی الزامی است"),
-  rating: z.number().optional(), // Optional rating
-  discount: z.number().optional(), // Optional discount
-  isInDiscountSection: z.boolean().optional().default(false), // Optional hero section flag
-  isInHeroSection: z.boolean().optional().default(false), // Optional discount section flag
+  rating: z.number().optional(),
+  discount: z.number().optional(),
+  isInDiscountSection: z.boolean().optional().default(false),
+  isInHeroSection: z.boolean().optional().default(false),
 
   // Features validation: array of objects (id, title, description)
   features: z
