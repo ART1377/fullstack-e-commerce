@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { FooterItemLinkType, FooterItemType } from "../../../../../next-type-models";
-=
+
+
 type Props = {
   footerItems: FooterItemType[];
 };

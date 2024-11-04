@@ -1,5 +1,5 @@
 import React from "react";
-=import ShoeIcon from "@/app/icons/shoe-icon"
+import ShoeIcon from "@/app/icons/shoe-icon"
 import BackpackIcon from "@/app/icons/backpack-icon";
 import ClothesIcon from "@/app/icons/clothes-icon";
 import TentIcon from "@/app/icons/tent-icon";
@@ -7,6 +7,7 @@ import CookIcon from "@/app/icons/cook-icon";
 import Image from "next/image";
 import CategoryItem from "./category-item/category-item";
 import { CategoryItemType } from "../../../../../next-type-models";
+
 
 export const categoryItems: CategoryItemType[] = [
   {
