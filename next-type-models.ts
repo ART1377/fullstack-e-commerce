@@ -59,8 +59,8 @@ export type Feature = {
   id: string;
   title: string;
   description: string;
-  product: Product; // Relation to product
-  productId: string;
+  product?: Product; // Relation to product
+  productId?: string;
 };
 
 export type Favorite = {
