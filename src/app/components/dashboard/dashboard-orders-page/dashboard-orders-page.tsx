@@ -5,6 +5,9 @@ import { SearchQueries } from "../../../../../next-type-models";
 import { PAGE_LIMIT } from "@/app/lib/values";
 import * as actions from "@/app/actions/order-actions/order-actions";
 
+
+export const revalidate = 60 * 10;
+
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };

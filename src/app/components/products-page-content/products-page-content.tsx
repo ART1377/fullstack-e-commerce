@@ -7,9 +7,12 @@ import { db } from "@/app/db/db";
 import { PAGE_LIMIT } from "@/app/lib/values";
 import Breadcrumb from "../breadcrumb/breadcrumb";
 
+export const revalidate = 60 * 10;
+
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
+
 const ProductsPageContent = async ({ searchParams }: Props) => {
   const {
     selectedCategory,

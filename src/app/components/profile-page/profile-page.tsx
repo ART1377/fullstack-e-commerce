@@ -7,6 +7,10 @@ import * as actions from "@/app/actions/user-actions/user-actions";
 import Spinner from "../spinner/spinner";
 import Breadcrumb from "../breadcrumb/breadcrumb";
 
+
+export const revalidate = 60 * 10;
+
+
 type Props = {};
 
 const ProfilePage = async (props: Props) => {
