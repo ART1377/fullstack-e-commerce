@@ -1,5 +1,6 @@
 import React from 'react'
-import { Feature } from '../../../../../../next-type-d';
+import { Feature } from '../../../../../../next-type-models';
+
 
 type Props = {
   features:Feature[];

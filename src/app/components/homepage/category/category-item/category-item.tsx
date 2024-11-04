@@ -1,6 +1,6 @@
 import React from "react";
-import { CategoryItemType } from "../../../../../../next-type-d";
 import Link from "next/link";
+import { CategoryItemType } from "../../../../../../next-type-models";
 
 type Props = {
   category: CategoryItemType;

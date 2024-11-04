@@ -1,5 +1,4 @@
 import React from "react";
-import { SizeCategory } from "../../../../next-type-d";
 
 type Props = {
   size: string;

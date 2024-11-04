@@ -1,6 +1,6 @@
 import React from "react";
-import { OptionItemType } from "../../../../../../next-type-d";
-import SupportIcon from "@/app/icons/support-icon";
+import { OptionItemType } from "../../../../../../next-type-models";
+
 
 type Props = {
   option: OptionItemType;

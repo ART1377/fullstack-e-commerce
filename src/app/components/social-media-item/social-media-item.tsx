@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { SocialItemType } from "../../../../next-type-d";
+import { SocialItemType } from "../../../../next-type-models";
 
 type Props = {
   media: SocialItemType;

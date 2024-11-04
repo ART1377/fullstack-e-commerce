@@ -1,11 +1,5 @@
 import React from "react";
 import Logo from "../logo/logo";
-import {
-  FooterItemLinkType,
-  FooterItemType,
-  SocialItemType,
-} from "../../../../next-type-d";
-import Link from "next/link";
 import InstagramIcon from "@/app/icons/instagram-icon";
 import TelegramIcon from "@/app/icons/telegram-icon";
 import Whatsapp from "@/app/icons/whatsapp-icon";
@@ -13,6 +7,7 @@ import FooterCopyright from "./footer-copyright/footer-copyright";
 import FooterLinks from "./footer-links/footer-links";
 import FooterLocation from "./footer-location/footer-location";
 import FooterSocialMedia from "./footer-social-media/footer-social-media";
+import { FooterItemType, SocialItemType } from "../../../../next-type-models";
 
 type Props = {};
 

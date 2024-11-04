@@ -1,12 +1,12 @@
 import React from "react";
 import Image from "next/image";
-import { OptionItemType } from "../../../../../next-type-d";
 import SupportIcon from "@/app/icons/support-icon";
 import PaymentIcon from "@/app/icons/payment-icon";
 import QualityIcon from "@/app/icons/quality-icon";
 import OptionItem from "./option-item/option-item";
 import SevenIcon from "@/app/icons/seven-icon";
 import Title from "../../title/title";
+import { OptionItemType } from "../../../../../next-type-models";
 
 type Props = {};
 

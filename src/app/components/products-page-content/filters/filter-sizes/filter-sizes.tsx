@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { SizeCategory } from "../../../../../../next-type-d";
 import SizeItem from "@/app/components/size-item/size-item";
+import { SizeCategory } from "../../../../../../next-type-models";
 
 type Props = {
   sizes: SizeCategory[];

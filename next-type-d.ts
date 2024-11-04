@@ -1,9 +1,3 @@
-// navbar
-export type NavbarItemType = {
-  title: string;
-  path: string;
-  icon: React.ReactNode;
-};
 
 // Define a type for Color
 export type Color = {
@@ -40,20 +34,6 @@ export type Stock = {
   size: string;
 };
 
-// category
-export type CategoryItemType = {
-  title: string;
-  icon: React.ReactNode;
-};
-
-// option
-export type OptionItemType = {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-};
-
 // footer
 export type FooterItemLinkType = {
   title: string;
@@ -62,19 +42,6 @@ export type FooterItemLinkType = {
 export type FooterItemType = {
   header: string;
   links: FooterItemLinkType[];
-};
-
-export type SocialItemType = {
-  title: string;
-  path: string;
-  icon: React.ReactNode;
-};
-
-// shoe
-export type SizeCategory = {
-  category: string;
-  persian: string;
-  sizes: string[];
 };
 
 // feature

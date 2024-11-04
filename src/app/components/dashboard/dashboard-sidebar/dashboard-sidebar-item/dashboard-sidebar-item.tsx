@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { NavbarItemType } from "../../../../../../next-type-d";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { NavbarItemType } from "../../../../../../next-type-models";
 
 type Props = {
   sidebarItem: NavbarItemType;

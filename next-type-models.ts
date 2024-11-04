@@ -256,3 +256,47 @@ export interface DashboardData {
   lowStockProducts: Product[];
   statusPercentages: StatusPercentage[]; // Add this line
 }
+
+
+export type SocialItemType = {
+  title: string;
+  path: string;
+  icon: React.ReactNode;
+};
+
+export type SizeCategory = {
+  category: string;
+  persian: string;
+  sizes: string[];
+};
+
+// option
+export type OptionItemType = {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+};
+
+// category
+export type CategoryItemType = {
+  title: string;
+  icon: React.ReactNode;
+};
+
+// navbar
+export type NavbarItemType = {
+  title: string;
+  path: string;
+  icon: React.ReactNode;
+};
+
+// footer 
+export type FooterItemLinkType = {
+  title: string;
+  path: string;
+};
+export type FooterItemType = {
+  header: string;
+  links: FooterItemLinkType[];
+};
