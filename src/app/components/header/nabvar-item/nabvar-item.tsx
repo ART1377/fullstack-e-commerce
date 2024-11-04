@@ -10,7 +10,6 @@ type Props = {
 
 const NavbarItem = ({ navbarItem, onCloseNavbar }: Props) => {
   return (
-    <li>
       <Link
         onClick={() => onCloseNavbar(false)}
         href={navbarItem.path}
@@ -20,7 +19,6 @@ const NavbarItem = ({ navbarItem, onCloseNavbar }: Props) => {
         <div className="mb-1">{navbarItem.icon}</div>
         {navbarItem.title}
       </Link>
-    </li>
   );
 };
 

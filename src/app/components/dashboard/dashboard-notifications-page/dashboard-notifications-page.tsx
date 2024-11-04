@@ -5,8 +5,7 @@ import { SearchQueries } from "../../../../../next-type-models";
 import { PAGE_LIMIT } from "@/app/lib/values";
 import * as actions from "@/app/actions/notification-actions/notification-actions";
 
-
-export const revalidate = 60 * 10;
+export const revalidate = 3600;
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };

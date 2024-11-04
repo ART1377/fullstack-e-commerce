@@ -7,9 +7,7 @@ import * as actions from "@/app/actions/user-actions/user-actions";
 import Spinner from "../spinner/spinner";
 import Breadcrumb from "../breadcrumb/breadcrumb";
 
-
-export const revalidate = 60 * 10;
-
+export const revalidate = 3600;
 
 type Props = {};
 
@@ -18,7 +16,7 @@ const ProfilePage = async (props: Props) => {
 
   const { user } = await actions.getUserProfileInformation(session?.user?.id!);
 
-  // await db.order.deleteMany()  
+  // await db.order.deleteMany()
 
   return (
     <>

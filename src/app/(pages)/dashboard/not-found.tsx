@@ -5,10 +5,9 @@ import HomeIcon from "../../icons/home-icon";
 import Button from "../../components/button/button";
 
 export default function NotFound() {
-  
   return (
     <div className="w-screen h-screen flex-center flex-col gap-5">
-      <div className="relative w-full max-w-[600px] aspect-video">
+      <div className="relative w-full max-w-[500px] aspect-video">
         <Image src={"/images/error-image.png"} alt={"error-image"} fill />
       </div>
       <p>صفحه ی موردنطر یافت نشد</p>

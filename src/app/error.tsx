@@ -15,7 +15,7 @@ export default function Error({
 }) {
   return (
     <div className="w-full h-full flex-center flex-col gap-5 my-10">
-      <div className="relative w-full max-w-[600px] aspect-video">
+      <div className="relative w-full max-w-[500px] aspect-video">
         <Image src={"/images/error-image.png"} alt={"error-image"} fill />
       </div>
       <div className="flex gap-3">
