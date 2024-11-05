@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import * as actions from "@/app/actions/product-actions/product-action";
 import { Product } from "../../../../../../../next-type-models";
 
-
 type Props = {
   params: {
     id: string;
@@ -46,7 +45,9 @@ export async function generateStaticParams() {
   // Fetch all product IDs to generate paths for each
   const { products } = await actions.getAllProducts();
 
-  return products.map((product: Product) => ({
-    id: product.id,
-  }));
+  if (products) {
+    return products.map((product: Product) => ({
+      id: product.id,
+    }));
+  }
 }
