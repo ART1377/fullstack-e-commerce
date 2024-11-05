@@ -18,7 +18,7 @@ type Filters = {
 interface GetNotificationsState {
   success: boolean;
   error?: string;
-  notifications?: any;
+  notifications?: Notification[];
   totalPages?: number;
   currentPage?: number;
   totalCount?: number;

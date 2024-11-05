@@ -61,31 +61,3 @@ const DiscountSlider = ({products}: Props) => {
 
 export default DiscountSlider;
 
-{
-  /* <SwiperSlide
-  slidesPerView={3}
-  spaceBetween={30}
-  navigation={{
-    nextEl: ".discount-next",
-    prevEl: ".discount-prev",
-  }}
-  modules={[Navigation]}
-  className="discount-swiper"
->
-  <SwiperSlide>Slide 1</SwiperSlide>
-  <SwiperSlide>Slide 2</SwiperSlide>
-  <SwiperSlide>Slide 3</SwiperSlide>
-  <SwiperSlide>Slide 4</SwiperSlide>
-  <SwiperSlide>Slide 5</SwiperSlide>
-  <SwiperSlide>Slide 6</SwiperSlide>
-  <SwiperSlide>Slide 7</SwiperSlide>
-  <SwiperSlide>Slide 8</SwiperSlide>
-  <SwiperSlide>Slide 9</SwiperSlide>
-</Swiper>
-
-<div className="flex justify-between mt-4">
-  <button className={`discount-prev ${discountButtonStyle}`}>Prev</button>
-  <button className={`discount-next ${discountButtonStyle}`}>Next</button>
-</div> */
-}
-

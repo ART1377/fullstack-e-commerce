@@ -8,12 +8,14 @@ import Options from "@/app/components/homepage/options/options";
 import Spinner from "@/app/components/spinner/spinner";
 import { Suspense } from "react";
 
+
 export const metadata: Metadata = {
   title: "هامتوسیتی - صفحه اصلی",
   description: "صفحه اصلی فروشگاه هامتوسیتی",
 };
 
 export default function Home() {
+
 
   return (
     <>

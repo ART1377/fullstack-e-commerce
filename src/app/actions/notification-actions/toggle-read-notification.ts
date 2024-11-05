@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from "@/app/auth";
 import { db } from "@/app/db/db";
 import { revalidatePath } from "next/cache";
 
@@ -11,6 +12,11 @@ interface ToggleNotificationState {
 export async function toggleNotificationReadStatus(
   notificationId: string
 ): Promise<ToggleNotificationState> {
+  const session = await auth();
+  // role check
+  if (session?.user?.role !== "admin") {
+    return { success: false, error: "به عنوان ادمین وارد نشدید" };
+  }
   try {
     const notification = await db.notification.findUnique({
       where: { id: notificationId },

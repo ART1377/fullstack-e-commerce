@@ -29,7 +29,7 @@ const footerItems: FooterItemType[] = [
     links: [
       { title: "تماس با ما", path: "/contact-us" },
       { title: "قوانین و مقررات", path: "/" },
-      { title: "سوالات متداول", path: "/" },
+      { title: "ارتباط با ما", path: "/contact-us" },
     ],
   },
   {

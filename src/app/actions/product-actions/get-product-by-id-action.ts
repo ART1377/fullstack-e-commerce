@@ -1,11 +1,12 @@
 "use server";
 
+import { Product } from "../../../../next-type-models";
 import { db } from "../../db/db";
 
 interface GetProductByIdState {
   success: boolean;
   error?: string;
-  product?: any; //need change
+  product?: Product; //need change
 }
 // Define a function to fetch a product by its ID
 export async function getProductById(

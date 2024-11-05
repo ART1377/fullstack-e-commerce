@@ -7,15 +7,27 @@ interface GetProductsState {
   success: boolean;
   error?: string;
   products?: Product[];
-  totalPages?: number;
-  currentPage?: number;
-  totalCount?: number;
 }
 
-export async function getAllProducts(): Promise<GetProductsState> {
+export async function getRelatedProducts(
+  productId: string
+): Promise<GetProductsState> {
   try {
+    const product = await db.product.findUnique({
+      where: { id: productId },
+      select: {
+        category: true,
+      },
+    });
+
     // Fetch the actual products (with pagination and sorting)
     const products = await db.product.findMany({
+      where: {
+        category: product?.category,
+        id: {
+          not: productId,
+        },
+      },
       include: {
         images: true, // Include all fields from the ProductImage model
         stock: {

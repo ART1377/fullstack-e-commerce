@@ -1,11 +1,12 @@
 "use server";
 
+import { Product } from "../../../../next-type-models";
 import { db } from "../../db/db";
 
 interface GetProductsState {
   success: boolean;
   error?: string;
-  products?: any;
+  products?: Product[];
 }
 
 export async function getNewestDiscountProducts(): Promise<GetProductsState> {

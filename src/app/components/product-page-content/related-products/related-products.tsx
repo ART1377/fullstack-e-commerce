@@ -1,22 +1,27 @@
 import React from "react";
 import Title from "../../title/title";
 import ProductPageContentRelatedProductsSlider from "./related-products-slider/related-products-slider";
-import { Product } from "../../../../../next-type-models";
-import { getFilteredProducts } from "@/app/actions/product-actions/product-action";
+import * as actions from "@/app/actions/product-actions/product-action";
 
 type Props = {
-  relatedProducts: Product[];
+  productId: string;
 };
-const RelatedProducts = ({ relatedProducts }: Props) => {
+const RelatedProducts = async ({ productId }: Props) => {
+  const { products } = await actions.getRelatedProducts(productId);
+
   return (
-    <section className="mt-28 md:mt-32 w-full">
-      {/* title */}
-      <Title>
-        <h3>محصولات مرتبط</h3>
-      </Title>
-      {/* slider */}
-      <ProductPageContentRelatedProductsSlider products={relatedProducts} />
-    </section>
+    <>
+      {products && products.length > 0 && (
+        <section className="mt-28 md:mt-32 w-full">
+          {/* title */}
+          <Title>
+            <h3>محصولات مرتبط</h3>
+          </Title>
+          {/* slider */}
+          <ProductPageContentRelatedProductsSlider products={products} />
+        </section>
+      )}
+    </>
   );
 };
 

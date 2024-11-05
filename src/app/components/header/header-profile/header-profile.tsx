@@ -11,6 +11,7 @@ import LogoutIcon from "@/app/icons/logout-icon";
 import DashboardIcon from "@/app/icons/dashboard-icon";
 import * as actions from "@/app/actions/auth-actions/auth-actions";
 import { useSessionContext } from "@/app/context/useSessionContext";
+import CartIcon from "@/app/icons/cart-icon";
 
 // dropdown animation
 const dropdownVariants = {
@@ -42,6 +43,8 @@ const HeaderProfile = (props: Props) => {
   const { session, status } = useSessionContext();
 
   const user: any = session && session?.user ? session.user : undefined;
+
+  const isAdmin = user?.role === "admin";
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -150,19 +153,35 @@ const HeaderProfile = (props: Props) => {
                           پروفایل
                         </Link>
                       </li>
-                      <li
-                        className={`p-2 text-dark rounded-lg custom-transition hover:bg-primary-200 hover:text-primary-main cursor-pointer text-bodyMain`}
-                      >
-                        <Link
-                          href={"/dashboard"}
-                          className="flex items-center gap-1"
+                      {user && isAdmin ? (
+                        <li
+                          className={`p-2 text-dark rounded-lg custom-transition hover:bg-primary-200 hover:text-primary-main cursor-pointer text-bodyMain`}
                         >
-                          <div className="size-6">
-                            <DashboardIcon />
-                          </div>
-                          داشبورد
-                        </Link>
-                      </li>
+                          <Link
+                            href={"/dashboard"}
+                            className="flex items-center gap-1"
+                          >
+                            <div className="size-6">
+                              <DashboardIcon />
+                            </div>
+                            داشبورد
+                          </Link>
+                        </li>
+                      ) : (
+                        <li
+                          className={`p-2 text-dark rounded-lg custom-transition hover:bg-primary-200 hover:text-primary-main cursor-pointer text-bodyMain`}
+                        >
+                          <Link
+                            href={"/shopping-cart"}
+                            className="flex items-center gap-1"
+                          >
+                            <div className="size-6">
+                              <CartIcon />
+                            </div>
+                            سبد خرید
+                          </Link>
+                        </li>
+                      )}
                     </ul>
                     {/* logout */}
                     <div

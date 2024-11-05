@@ -45,8 +45,6 @@ const productSchema = z.object({
     .nonempty("حداقل یک تنوع موجودی باید وجود داشته باشد"),
 });
 
-
-
 // Server action to update a product
 export async function updateProduct(
   oldImages: string[],
@@ -87,6 +85,18 @@ export async function updateProduct(
       state: {
         errors: {
           _form: ["ابتدا وارد سایت شوید"],
+        },
+        success: false,
+      },
+    };
+  }
+
+  // role check
+  if (session?.user?.role !== "admin") {
+    return {
+      state: {
+        errors: {
+          _form: ["به عنوان ادمین وارد نشدید"],
         },
         success: false,
       },

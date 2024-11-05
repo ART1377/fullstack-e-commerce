@@ -1,5 +1,6 @@
 "use server";
 
+import { Product } from "../../../../next-type-models";
 import { db } from "../../db/db";
 import { MAX_PRICE, MIN_PRICE } from "../../lib/values";
 
@@ -20,7 +21,7 @@ type Filters = {
 interface GetProductsState {
   success: boolean;
   error?: string;
-  products?: any;
+  products?: Product[];
   totalPages?: number;
   currentPage?: number;
   totalCount?: number;

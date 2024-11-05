@@ -20,10 +20,10 @@ export async function deleteUserByAdmin(
     return { success: false, error: "ابتدا وارد شوید" };
   }
 
-  // need change for role check
-  // if (!session?.user?.role) {
-  //   return { success: false, error: "به عنوان ادمین وارد نشدید" };
-  // }
+  // role check
+  if (session?.user?.role !== "admin") {
+    return { success: false, error: "به عنوان ادمین وارد نشدید" };
+  }
 
   try {
     // Use Prisma to delete the user by email (from the session)

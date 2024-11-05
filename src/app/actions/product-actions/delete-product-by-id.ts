@@ -19,6 +19,11 @@ export async function deleteProductById(
     return { success: false, error: "ابتدا وارد سایت شوید" };
   }
 
+  // role check
+  if (session?.user?.role !== "admin") {
+    return { success: false, error: "به عنوان ادمین وارد نشدید" };
+  }
+
   try {
     // Query the product by ID, including related features, stock, and images
     await db.product.delete({

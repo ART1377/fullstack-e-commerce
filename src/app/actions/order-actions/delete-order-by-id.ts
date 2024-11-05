@@ -19,12 +19,16 @@ export async function deleteOrderById(
     return { success: false, error: "ابتدا وارد سایت شوید" };
   }
 
+  // role check
+  if (session?.user?.role !== "admin") {
+    return { success: false, error: "به عنوان ادمین وارد نشدید" };
+  }
+
   try {
     // Query the order by ID, including related features, stock, and images
     await db.order.delete({
       where: { id: orderId },
     });
-
 
     revalidatePath("/dashboard");
     revalidatePath("/profile");

@@ -35,11 +35,10 @@ const Testimonial = ({ comment, depth = 0 }: Props) => {
   return (
     <>
       <div
-        className={`rounded-xl shadow bg-white flex flex-col justify-center pt-2 pb-3 custom-transition hover:shadow-none`}
+        className={`rounded-xl shadow bg-white flex flex-col justify-center pt-2 pb-3 mb-4 custom-transition hover:shadow-none`}
         style={{ marginRight: depth < 3 ? depth * 20 : 40 }}
       >
         {/* rating */}
-        {userId && userId === user.id && (
           <div className="w-full flex-center gap-3">
             <div className="bg-customGray-200 h-px min-w-14 w-[calc(40%-100px)]"></div>
             <div className="text-primary-main">
@@ -47,7 +46,6 @@ const Testimonial = ({ comment, depth = 0 }: Props) => {
             </div>
             <div className="bg-customGray-200 h-px min-w-14 w-[calc(40%-100px)]"></div>
           </div>
-        )}
         {/* image and comment content */}
         <div className="flex flex-col items-center gap-y-8 mt-8 sm:flex-row sm:gap-x-10">
           {/* images */}

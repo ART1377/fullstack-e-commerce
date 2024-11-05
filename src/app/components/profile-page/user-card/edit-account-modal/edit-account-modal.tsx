@@ -221,5 +221,4 @@ const EditAccountModal = ({
 
 export default EditAccountModal;
 
-// need change
-// user image show before upload any image
+

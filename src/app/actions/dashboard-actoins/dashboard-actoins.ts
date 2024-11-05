@@ -3,6 +3,7 @@
 import { db } from "@/app/db/db";
 
 export async function loadDashboardData() {
+  
   try {
     // Key metrics
     const totalSales = await db.order.aggregate({

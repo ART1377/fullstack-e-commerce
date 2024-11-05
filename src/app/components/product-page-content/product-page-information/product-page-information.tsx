@@ -37,22 +37,27 @@ import { getSizesForColor } from "@/app/lib/get-sizes-of-color";
 
 type Props = {
   product: Product;
-  selectedColor: string;
-  selectedSize: string;
-  handleColorSelection: (color: string) => void;
-  handleSizeSelection: (size: string) => void;
   commentsCount: number;
 };
 
-const ProductPageInformation = ({
-  product,
-  selectedColor,
-  selectedSize,
-  handleColorSelection,
-  handleSizeSelection,
-  commentsCount,
-}: Props) => {
+const ProductPageInformation = ({ product, commentsCount }: Props) => {
   const { stock, description, price, rating, title, discount, id } = product;
+
+  const uniqueColors = getUniqueColors(stock!);
+
+  const [selectedColor, setSelectedColor] = useState<string>(
+    uniqueColors?.[0].persian!
+  );
+  const [selectedSize, setSelectedSize] = useState<string>(stock?.[0].size!);
+
+  const handleColorSelection = (colorName: string) => {
+    const sizes = getSizesForColor(stock!, colorName);
+    setSelectedSize(sizes[0]);
+    setSelectedColor(colorName);
+  };
+  const handleSizeSelection = (size: string) => {
+    setSelectedSize(size);
+  };
 
   const dispatch = useAppDispatch();
 
@@ -66,7 +71,6 @@ const ProductPageInformation = ({
   const { session } = useSessionContext();
   const userId = session?.user?.id;
 
-  const uniqueColors = getUniqueColors(stock!);
   const sizes = getSizesForColor(stock!, selectedColor);
 
   const [quantityOfStock, setQuantityOfStock] = useState<number | null>(null);

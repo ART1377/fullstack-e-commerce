@@ -9,15 +9,18 @@ const NewestClothes = async (props: Props) => {
   const { products } = await actions.getNewestClothes();
 
   return (
-    <section className="mt-20 md:mt-28 w-full">
-      {/* title */}
-      {/* need change */}
-      <Title link="/products?selectedCategory=پوشاک">
-        <h4>جدیدترین پوشاک</h4>
-      </Title>
-      {/* slider */}
-      <NewestClothesSlider products={products} />
-    </section>
+    <>
+      {products && products?.length > 0 && (
+        <section className="mt-20 md:mt-28 w-full">
+          {/* title */}
+          <Title link="/products?selectedCategory=پوشاک&sort=جدید ترین">
+            <h4>جدیدترین پوشاک</h4>
+          </Title>
+          {/* slider */}
+          <NewestClothesSlider products={products!} />
+        </section>
+      )}
+    </>
   );
 };
 

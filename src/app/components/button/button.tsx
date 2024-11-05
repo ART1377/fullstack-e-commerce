@@ -33,7 +33,7 @@ const Button = ({
   const sizeStyles =
     size === "small"
       ? "px-3 py-2 text-buttonSmall rounded-xl sm:px-4 sm:py-3 sm:text-base sm:rounded-2xl"
-      : "px-4 py-3 text-buttonMain rounded-2xl";
+      : "px-4 py-2 text-buttonMain rounded-2xl";
   const baseColorStyles = outline
     ? `outline-2 outline-${color} text-${color} bg-transparent `
     : `bg-${color} text-light outline-2 outline-${color}`;

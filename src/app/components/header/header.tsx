@@ -17,7 +17,7 @@ const Header = (props: Props) => {
 
   // Define animation variants with rotation and staggered delay
   const rollingFromLeftVariants = {
-    hidden: { opacity: 0, x: -20, rotate: -180 }, // Start off-screen and rotated
+    hidden: { opacity: 0, x: -10, rotate: -180 }, // Start off-screen and rotated
     visible: (i: number) => ({
       opacity: 1,
       x: 0,
@@ -30,7 +30,7 @@ const Header = (props: Props) => {
     }),
   };
   const rollingFromRightVariants = {
-    hidden: { opacity: 0, x: 20, rotate: 180 }, // Start off-screen and rotated
+    hidden: { opacity: 0, x: 10, rotate: 180 }, // Start off-screen and rotated
     visible: {
       opacity: 1,
       x: 0,

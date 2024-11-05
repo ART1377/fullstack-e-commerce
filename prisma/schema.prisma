@@ -30,6 +30,7 @@ model User {
   sessions      Session[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
+  role          String          @default("user") // Default role is "USER"
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -12,6 +12,11 @@ export async function updateOrderStatus(orderId: string, newStatus: string) {
     return { success: false, error: "ابتدا وارد سایت شوید" };
   }
 
+  // role check
+  if (session?.user?.role !== "admin") {
+    return { success: false, error: "به عنوان ادمین وارد نشدید" };
+  }
+
   try {
     // Update the order status in the database
     await db.order.update({

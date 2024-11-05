@@ -1,8 +1,5 @@
-import {
-  Color,
-} from "../../../next-type-d";
+import { Color } from "../../../next-type-d";
 import { SizeCategory } from "../../../next-type-models";
-
 
 export const colors: Color[] = [
   {

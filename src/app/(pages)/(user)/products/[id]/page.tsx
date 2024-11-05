@@ -33,9 +33,6 @@ export async function generateMetadata({
 }
 
 const ProductPage = async ({ params: { id }, searchParams }: Props) => {
-  // await db.cart.deleteMany()
-  // need change - get related products
-  const { products } = await actions.getAllProducts();
 
   const { product } = await actions.getProductById(id);
 
@@ -51,7 +48,7 @@ const ProductPage = async ({ params: { id }, searchParams }: Props) => {
   return (
     <ProductPageContent
       product={product}
-      relatedProducts={products}
+      productId={id}
       comments={comments ? comments : undefined}
     />
   );

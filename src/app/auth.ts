@@ -3,9 +3,11 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/app/db/db";
 import { comparePassword } from "@/app/lib/bcrypt";
 import Credentials from "next-auth/providers/credentials";
+import type { Adapter } from "next-auth/adapters";
+
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(db),
+  adapter: PrismaAdapter(db) as Adapter,
   providers: [
     Credentials({
       name: "Credentials",
@@ -41,6 +43,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.id = user.id;
         token.name = user.name;
+        token.role = user.role;
       }
       return token;
     },
@@ -53,7 +56,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           session.user.firstName = user?.firstName;
           session.user.lastName = user?.lastName;
         }
+
         session.user.id = token.id;
+        session.user.role = token.role;
       }
       return session;
     },

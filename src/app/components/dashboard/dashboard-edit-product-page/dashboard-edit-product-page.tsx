@@ -5,7 +5,7 @@ import { db } from "@/app/db/db";
 import Spinner from "../../spinner/spinner";
 
 type Props = {
-  product: Product; //need change
+  product: Product;
 };
 
 const DashboardEditProductPage = async ({ product }: Props) => {
@@ -24,3 +24,5 @@ const DashboardEditProductPage = async ({ product }: Props) => {
 };
 
 export default DashboardEditProductPage;
+
+
