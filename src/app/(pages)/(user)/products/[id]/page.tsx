@@ -33,6 +33,7 @@ export async function generateMetadata({
 }
 
 const ProductPage = async ({ params: { id }, searchParams }: Props) => {
+
   const { product } = await actions.getProductById(id);
 
   // Get comments based on the selected sort option
@@ -60,9 +61,7 @@ export async function generateStaticParams() {
   // Fetch all product IDs to generate paths for each
   const { products } = await actions.getAllProducts();
 
-  if (products) {
-    return products.map((product: Product) => ({
-      id: product.id,
-    }));
-  }
+  return products?.map((product: any) => ({
+    id: product.id,
+  }));
 }
