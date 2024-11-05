@@ -46,7 +46,7 @@ export async function generateStaticParams() {
   // Fetch all product IDs to generate paths for each
   const { products } = await actions.getAllProducts();
 
-  return products?.map((product: any) => ({
+  return products?.map((product: Product) => ({
     id: product.id,
   }));
 }

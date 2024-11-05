@@ -6,7 +6,7 @@ import { db } from "../../db/db";
 interface GetProductsState {
   success: boolean;
   error?: string;
-  products?: Product[];
+  products?: any;
   totalPages?: number;
   currentPage?: number;
   totalCount?: number;
