@@ -14,10 +14,10 @@ export async function handleSighOut(): Promise<SignOutFormState> {
   try {
     await auth.signOut();
     revalidatePath("/");
-    redirect("/");
-    // return { state: { success: true } };
+    return { state: { success: true } };
     // You can add additional logic here, like redirecting
   } catch (error) {
     return { state: { success: false, error: "خطایی رخ داده است" } };
   }
+  // redirect("/");
 }

@@ -10,6 +10,9 @@ import AddShoppingCartIcon from "@/app/icons/add-shopping-cart-icon";
 import NotificationIcon from "@/app/icons/notification-icon";
 import DashboardSidebarItem from "./dashboard-sidebar-item/dashboard-sidebar-item";
 import { NavbarItemType } from "../../../../../next-type-models";
+import * as actions from "@/app/actions/auth-actions/auth-actions";
+
+
 
 const sidebarItems: NavbarItemType[] = [
   {
@@ -45,10 +48,18 @@ type Props = {
 };
 
 const DashboardSidebar = ({ isSidebarOpen, setIsSidebarOpen }: Props) => {
+
+
   const closeToggle = () => {
     if (setIsSidebarOpen) {
       setIsSidebarOpen(false);
     }
+  };
+
+  // Custom signOut and refresh page
+  const handleSignOut = async () => {
+    await actions.handleSighOut();
+    window.location.reload();
   };
 
   return (
@@ -73,6 +84,7 @@ const DashboardSidebar = ({ isSidebarOpen, setIsSidebarOpen }: Props) => {
       <div className="w-full cursor-pointer mt-auto mr-auto max-w-[80%]">
         <div
           className={`flex items-center gap-1 py-3 px-2 rounded-r-xl w-full text-customGray-700 text-h6 font-medium custom-transition hover:text-primary-main`}
+          onClick={handleSignOut}
         >
           <div className="mb-1">
             <LogoutIcon styles="size-6" />

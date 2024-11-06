@@ -84,7 +84,7 @@ const LoginForm = (props: Props) => {
         styles="w-full mt-2"
         size="large"
         disabled={loading}
-        loading={loading && <Spinner size={20} color="white" />}
+        loading={loading && <Spinner size={24} color="white" />}
       >
         ورود
       </Button>
