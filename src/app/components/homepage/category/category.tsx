@@ -56,6 +56,7 @@ const Category = (props: Props) => {
             style={{
               objectFit: "cover",
             }}
+            loading="lazy"
           />
         </div>
       </section>
