@@ -153,7 +153,7 @@ const HeaderProfile = (props: Props) => {
                           پروفایل
                         </Link>
                       </li>
-                      {user && isAdmin ? (
+                      {isAdmin && (
                         <li
                           className={`p-2 text-dark rounded-lg custom-transition hover:bg-primary-200 hover:text-primary-main cursor-pointer text-bodyMain`}
                         >
@@ -167,21 +167,20 @@ const HeaderProfile = (props: Props) => {
                             داشبورد
                           </Link>
                         </li>
-                      ) : (
-                        <li
-                          className={`p-2 text-dark rounded-lg custom-transition hover:bg-primary-200 hover:text-primary-main cursor-pointer text-bodyMain`}
-                        >
-                          <Link
-                            href={"/shopping-cart"}
-                            className="flex items-center gap-1"
-                          >
-                            <div className="size-6">
-                              <CartIcon />
-                            </div>
-                            سبد خرید
-                          </Link>
-                        </li>
                       )}
+                      <li
+                        className={`p-2 text-dark rounded-lg custom-transition hover:bg-primary-200 hover:text-primary-main cursor-pointer text-bodyMain`}
+                      >
+                        <Link
+                          href={"/shopping-cart"}
+                          className="flex items-center gap-1"
+                        >
+                          <div className="size-6">
+                            <CartIcon />
+                          </div>
+                          سبد خرید
+                        </Link>
+                      </li>
                     </ul>
                     {/* logout */}
                     <div

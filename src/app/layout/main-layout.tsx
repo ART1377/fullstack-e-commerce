@@ -16,7 +16,6 @@ const MainLayout = ({ children }: Props) => {
     <SessionProvider>
       <Provider store={store}>{children}</Provider>
       <Toaster position="top-center" reverseOrder={false} />
-      <div className="extra-classes hover:bg-dark hidden"></div>
     </SessionProvider>
   );
 };

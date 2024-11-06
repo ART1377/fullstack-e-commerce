@@ -336,3 +336,12 @@ input[type="range"].range-max::-moz-range-thumb {
 }
 
 
+.hover\:bg-dark:hover {
+    background-color: var(--dark);
+}
+.hover\:bg-state-error:hover {
+    background-color: var(--state-error);
+}
+.hover\:bg-state-warning-200:hover {
+    background-color: var(--state-warning-200);
+}
