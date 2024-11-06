@@ -28,6 +28,7 @@ const Breadcrumb = () => {
         <li>
           <Link
             href="/"
+            aria-label="homepage"
             className="text-customGray-700 custom-transition hover:text-dark"
           >
             <HomeIcon styles="size-6" />
@@ -50,6 +51,7 @@ const Breadcrumb = () => {
                   <>
                     <Link
                       href={url}
+                      aria-label={persianTitle}
                       className="text-customGray-700 custom-transition hover:text-dark"
                     >
                       {persianTitle}

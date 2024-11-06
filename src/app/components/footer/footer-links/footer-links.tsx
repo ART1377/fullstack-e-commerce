@@ -25,9 +25,13 @@ const FooterLinks = ({ footerItems }: Props) => (
                 className="text-dark text-bodyMain custom-transition hover:text-primary-main mt-1"
               >
                 {isTel || isMailto ? (
-                  <a href={footerLink.path}>{footerLink.title}</a>
+                  <a href={footerLink.path} aria-label={footerLink.title}>
+                    {footerLink.title}
+                  </a>
                 ) : (
-                  <Link href={footerLink.path}>{footerLink.title}</Link>
+                  <Link href={footerLink.path} aria-label={footerLink.title}>
+                    {footerLink.title}
+                  </Link>
                 )}
               </li>
             );

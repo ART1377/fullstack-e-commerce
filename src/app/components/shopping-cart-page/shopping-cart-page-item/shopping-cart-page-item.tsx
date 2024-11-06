@@ -166,6 +166,7 @@ const ShoppingCartPageItem = ({ cartItem }: Props) => {
       <div className="flex gap-4">
         <Link
           href={`products/${productId!}`}
+          aria-label="product"
           className="relative w-32 aspect-square shadow rounded-xl overflow-hidden cursor-pointer custom-transition hover:opacity-60 xs:w-40"
         >
           <Image
@@ -230,6 +231,7 @@ const ShoppingCartPageItem = ({ cartItem }: Props) => {
         {/* title */}
         <Link
           href={`products/${productId!}`}
+          aria-label="product"
           className="text-dark text-bodyMain cursor-pointer custom-transition hover:text-primary-main"
         >
           {product?.title}

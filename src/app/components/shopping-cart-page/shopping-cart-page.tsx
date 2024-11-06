@@ -61,7 +61,9 @@ const ShoppingCartPage = (props: Props) => {
             <div className="w-full px-4 py-8 bg-state-error-200 text-state-error rounded-xl flex-center flex-col gap-4 text-center text-bodyMain">
               <p>سبد خرید شما خالی است</p>
               <Button color="state-error" outline>
-                <Link href={"/products?page=1"}>صفحه محصولات</Link>
+                <Link href={"/products?page=1"} aria-label="products">
+                  صفحه محصولات
+                </Link>
               </Button>
             </div>
           )}

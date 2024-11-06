@@ -91,6 +91,7 @@ const ProductCard = ({ product }: Props) => {
       {/* card image */}
       <Link
         href={`/products/${id}`}
+        aria-label="product"
         className="overflow-hidden rounded-lg aspect-square w-full relative custom-transition group-hover:scale-[1.02]"
       >
         <Image
@@ -109,6 +110,7 @@ const ProductCard = ({ product }: Props) => {
           <div className="flex flex-col gap-1 w-[calc(100%-40px)]">
             <Link
               href={`/products/${id}`}
+              aria-label="product"
               className="text-bodyMain text-dark line-clamp-1 custom-transition  group-hover:text-primary-main"
             >
               {title}

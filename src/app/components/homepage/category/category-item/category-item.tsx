@@ -12,6 +12,7 @@ const CategoryItem = ({ category }: Props) => {
   return (
     <Link
       href={`products?page=1&selectedCategory=${title}`}
+      aria-label="product-category"
       className="size-28 rounded-full flex-center flex-col gap-1 bg-primary-100 text-primary-main text-center cursor-pointer custom-transition hover:bg-primary-300 bmlg:size-32 lg:size-40"
     >
       <div className="size-14 lg:size-20 text-primary-main">{icon}</div>

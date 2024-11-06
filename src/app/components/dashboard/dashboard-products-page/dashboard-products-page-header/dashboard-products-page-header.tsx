@@ -107,7 +107,10 @@ const DashboardProductsPageHeader = ({ totalItems, filterColors }: Props) => {
             </button>
           </Tooltip> */}
           <Tooltip content="افزودن محصول">
-            <Link href={"/dashboard/products/add-product"}>
+            <Link
+              href={"/dashboard/products/add-product"}
+              aria-label="add-product"
+            >
               <Button icon={<PlusIcon styles="size-6" />}>
                 <span className="hidden md:block">افزودن محصول</span>
               </Button>

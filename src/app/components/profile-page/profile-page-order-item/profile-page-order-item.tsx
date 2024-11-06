@@ -63,6 +63,7 @@ const ProfilePageOrderItem = ({ order }: Props) => {
             <Link
               key={product.id}
               href={`/products/${product.id}`}
+              aria-label="product"
               className="relative size-32 min-w-32 cursor-pointer custom-transition hover:opacity-60"
             >
               <Image

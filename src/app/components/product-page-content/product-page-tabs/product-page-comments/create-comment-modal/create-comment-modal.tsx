@@ -31,15 +31,14 @@ const CreateCommentModal = ({
   const sessionExist = !!session && !!session?.user;
 
   const [loading, setLoading] = useState(false);
-  
+
   const params = useParams();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   const productId = params.id as string;
-  
-  
+
   const [formState, setFormState] = useState<CreateCommentFormState>();
 
   // const [formState, action, isPending] = useActionState(
@@ -74,7 +73,7 @@ const CreateCommentModal = ({
         setDescription("");
         setIsModalOpen(false);
       } else {
-        setFormState(response)
+        setFormState(response);
         toast.error(response.state.errors?._form?.[0] || "خطایی رخ داده است");
       }
     } catch (error) {
@@ -191,6 +190,7 @@ const CreateCommentModal = ({
               برای ایجاد پیام ابتدا
               <Link
                 href={"/auth/login"}
+                aria-label="login"
                 className="text-bodyMainBold mx-1 hover:underline underline-offset-8"
               >
                 وارد

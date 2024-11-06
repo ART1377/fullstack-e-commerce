@@ -36,6 +36,7 @@ const HeroInformation = ({ product }: Props) => {
       <div>
         <Link
           href={`products/${id}`}
+          aria-label="product"
           className="h6 text-dark custom-transition hover:text-primary-main md:font-bold md:text-[24px] lg:text-[40px]"
         >
           {title}

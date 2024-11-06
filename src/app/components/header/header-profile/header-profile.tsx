@@ -145,6 +145,7 @@ const HeaderProfile = (props: Props) => {
                       >
                         <Link
                           href={"/profile"}
+                          aria-label="profile"
                           className="flex items-center gap-1"
                         >
                           <div className="size-6">
@@ -159,6 +160,7 @@ const HeaderProfile = (props: Props) => {
                         >
                           <Link
                             href={"/dashboard"}
+                            aria-label="dashboard"
                             className="flex items-center gap-1"
                           >
                             <div className="size-6">
@@ -173,6 +175,7 @@ const HeaderProfile = (props: Props) => {
                       >
                         <Link
                           href={"/shopping-cart"}
+                          aria-label="cart"
                           className="flex items-center gap-1"
                         >
                           <div className="size-6">
@@ -199,6 +202,7 @@ const HeaderProfile = (props: Props) => {
           ) : (
             <Link
               href={"/auth/login"}
+              aria-label="login"
               className="relative overflow-hidden flex-center bg-customGray-100 rounded-full size-10 cursor-pointer hover:bg-customGray-200 custom-transition"
             >
               <PersonIcon styles="size-6" />

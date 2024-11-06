@@ -85,6 +85,7 @@ const LowStockAlert = ({data}: Props) => {
                     >
                       <Link
                         href={`/dashboard/products/edit-product/${product.id}`}
+                        aria-label="edit-product"
                       >
                         <OperationIcon color={"primary"}>
                           <EditIcon styles="size-6" />

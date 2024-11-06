@@ -169,6 +169,7 @@ const SignUpForm = (props: Props) => {
         </small>
         <Link
           href={"/auth/login"}
+          aria-label="login"
           className="text-primary-main text-bodySmallBold underline-offset-8 cursor-pointer custom-transition hover:underline"
         >
           وارد شوید

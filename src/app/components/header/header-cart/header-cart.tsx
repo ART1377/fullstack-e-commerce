@@ -37,6 +37,7 @@ const HeaderCart = (props: Props) => {
     <>
       {isAdmin ? (
         <Link
+          aria-label="dashboard-login"
           href={session && session.user ? "/dashboard" : "/auth/login"}
           className="relative flex-center bg-customGray-100 rounded-full size-10 cursor-pointer hover:bg-customGray-200 custom-transition"
         >
@@ -45,6 +46,7 @@ const HeaderCart = (props: Props) => {
       ) : (
         <Link
           href={session && session.user ? "/shopping-cart" : "/auth/login"}
+          aria-label="cart-login"
           className="relative flex-center bg-customGray-100 rounded-full size-10 cursor-pointer hover:bg-customGray-200 custom-transition"
         >
           <CartIcon styles="size-6" />

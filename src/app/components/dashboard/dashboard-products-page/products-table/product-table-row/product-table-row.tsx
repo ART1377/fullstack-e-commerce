@@ -121,7 +121,10 @@ const ProductTableRow = ({ product, index }: Props) => {
               position="right"
               color="primary-main"
             >
-              <Link href={`/dashboard/products/edit-product/${id}`}>
+              <Link
+                href={`/dashboard/products/edit-product/${id}`}
+                aria-label="edit-product"
+              >
                 <OperationIcon color={"primary"}>
                   <EditIcon styles="size-6" />
                 </OperationIcon>

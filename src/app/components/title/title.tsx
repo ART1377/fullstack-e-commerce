@@ -28,7 +28,7 @@ const Title = ({ children, link }: Props) => {
         </div>
       </div>
       {link && (
-        <Link href={link} className="mx-auto mt-2">
+        <Link href={link} aria-label="title" className="mx-auto mt-2">
           <Button color="primary-light">مشاهده همه</Button>
         </Link>
       )}

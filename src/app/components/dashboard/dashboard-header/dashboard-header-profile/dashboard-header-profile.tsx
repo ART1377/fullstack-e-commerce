@@ -42,6 +42,7 @@ const DashboardHeaderProfile = (props: Props) => {
           ) : (
             <Link
               href={"/auth/login"}
+              aria-label="login"
               className="relative overflow-hidden flex-center bg-customGray-100 rounded-full size-10 cursor-pointer hover:bg-customGray-200 custom-transition"
             >
               <PersonIcon styles="size-6" />

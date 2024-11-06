@@ -76,7 +76,8 @@ const HeroButtons = ({ productId }: Props) => {
 
   return (
     <div className="flex flex-col gap-3 w-full blgxl:gap-4">
-      <Link href={`/products/${productId}`}>
+      <Link href={`/products/${productId}`}
+      aria-label="product">
         <Button
           color="primary-main"
           styles="w-full"

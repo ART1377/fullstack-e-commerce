@@ -29,7 +29,9 @@ export default function Error({
           تلاش مجدد
         </Button>
         <Button outline icon={<HomeIcon styles="size-6" />}>
-          <Link href={"/"}>بازگشت به خانه</Link>
+          <Link href={"/"} aria-label="homepage">
+            بازگشت به خانه
+          </Link>
         </Button>
       </div>
     </div>

@@ -77,20 +77,12 @@ const LoginForm = (props: Props) => {
             </small>
             <div className="mt-4 flex flex-col gap-2">
               <div className="flex items-center gap-1 text-bodyMain">
-                <small>
-                  ایمیل : 
-                </small>
-                <small className="text-primary-main">
-                  admin@gmail.com
-                </small>
+                <small>ایمیل :</small>
+                <small className="text-primary-main">admin@gmail.com</small>
               </div>
               <div className="flex items-center gap-1 text-bodyMain">
-                <small>
-                  رمز عبور : 
-                </small>
-                <small className="text-primary-main">
-                  123456
-                </small>
+                <small>رمز عبور :</small>
+                <small className="text-primary-main">123456</small>
               </div>
             </div>
           </div>
@@ -145,6 +137,7 @@ const LoginForm = (props: Props) => {
           <small className="text-bodySmall text-dark">کاربر جدید هستید؟ </small>
           <Link
             href={"/auth/sign-up"}
+            aria-label="sign-up"
             className="text-primary-main text-bodySmallBold underline-offset-8 cursor-pointer custom-transition hover:underline"
           >
             ثبت نام

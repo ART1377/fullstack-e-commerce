@@ -9,9 +9,10 @@ type Props = {
 const SocialMediaItem = ({ media }: Props) => {
   return (
     <Link
-      className="size-10 flex-center rounded-full text-white custom-transition hover:bg-white hover:text-primary-main"
       href={media.path}
+      aria-label={media.title}
       target="_blank"
+      className="size-10 flex-center rounded-full text-white custom-transition hover:bg-white hover:text-primary-main"
     >
       {media.icon}
     </Link>

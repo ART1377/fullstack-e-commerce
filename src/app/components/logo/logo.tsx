@@ -10,7 +10,11 @@ type Props = {
 const Logo = ({ styles, white }: Props) => {
   return (
     <>
-      <Link href="/" className={`${styles} custom-transition hover:opacity-60`}>
+      <Link
+        href="/"
+        aria-label="homepage"
+        className={`${styles} custom-transition hover:opacity-60`}
+      >
         <Image
           alt="هامتو سیتی"
           src={white ? "/images/logo-white.png" : "/images/logo.png"}

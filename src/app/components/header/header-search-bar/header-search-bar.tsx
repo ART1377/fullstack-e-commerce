@@ -20,6 +20,7 @@ const HeaderSearchBar = ({ searchInput, setSearchInput }: Props) => {
       />
       <Link
         href={`/products?page=1&searchInput=${searchInput}`}
+        aria-label="search-result"
         className="h-full aspect-square rounded-full bg-customGray-300 flex-center absolute right-0 top-0 custom-transition hover:bg-customGray-400 cursor-pointer"
       >
         <SearchIcon />

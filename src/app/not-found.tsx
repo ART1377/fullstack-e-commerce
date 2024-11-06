@@ -14,7 +14,9 @@ export default function NotFound() {
 
       <div className="flex gap-3">
         <Button icon={<HomeIcon styles="size-6" />}>
-          <Link href={"/"}>بازگشت به خانه</Link>
+          <Link href={"/"} aria-label="homepage">
+            بازگشت به خانه
+          </Link>
         </Button>
       </div>
     </div>
