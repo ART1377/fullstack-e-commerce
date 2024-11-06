@@ -14,14 +14,14 @@ export async function middleware(req: NextRequest) {
 
   // Redirect to login if user is not logged in and tries to access profile or shopping-cart
   if (profilePaths.includes(path)) {
-    if (!token?.sub) {
+    if (!token) {
       return NextResponse.redirect(new URL("/auth/login", req.url));
     }
   }
 
   // Redirect to login if non-admin user tries to access admin routes
   if (adminPaths.includes(path)) {
-    if (!token?.sub || token.role !== "admin") {
+    if (!token || token.role !== "admin") {
       return NextResponse.redirect(new URL("/auth/login", req.url));
     }
   }
