@@ -157,7 +157,9 @@ export async function addProduct(
       // get image url form cloudinary
       const uploadedImageUrl = await uploadImage(image);
       uploadedImageUrls.push(uploadedImageUrl); // Store the uploaded image URL
+   
     }
+    
 
     await db.product.create({
       data: {

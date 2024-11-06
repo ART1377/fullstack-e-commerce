@@ -14,7 +14,7 @@ const HeroContent = ({ products }: Props) => {
   useEffect(() => {
     const setSlider = setInterval(() => {
       setCurrent((prev) => {
-        if (prev == 2) {
+        if (prev == 2 || prev == products.length - 1) {
           return 0;
         } else {
           return prev + 1;
@@ -24,7 +24,7 @@ const HeroContent = ({ products }: Props) => {
     return () => {
       clearInterval(setSlider);
     };
-  }, [current]);
+  }, [current, products.length]);
 
   const changeSlide = useCallback((value: number) => {
     setCurrent(value);

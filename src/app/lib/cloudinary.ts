@@ -31,3 +31,4 @@ export async function uploadImage(image: File) {
 
   return result.url;
 }
+

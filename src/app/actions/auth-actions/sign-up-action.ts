@@ -146,3 +146,4 @@ export async function handleSignUp(
     // redirect("/auth/login");
   }
 }
+

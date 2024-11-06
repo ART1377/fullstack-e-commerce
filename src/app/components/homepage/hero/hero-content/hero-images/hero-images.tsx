@@ -153,7 +153,7 @@ const HeroImages = ({ products, current, changeSlide }: Props) => {
     <div className="flex justify-between w-[95%] mx-auto sm:max-w-[500px] md:w-6/12 md:mr-0 md:max-w-none">
       <Link
         href={`products/${products[current].id}`}
-        className="w-1/2 aspect-square relative bg-primary-light rounded-full h-fit my-auto overflow-hidden border-4 border-primary-main"
+        className="w-1/2 aspect-square relative bg-primary-light rounded-full h-fit my-auto overflow-hidden border border-primary-main"
       >
         <motion.div
           key={products[current].id}
@@ -178,10 +178,10 @@ const HeroImages = ({ products, current, changeSlide }: Props) => {
         {products.map((product, index) => (
           <div
             key={product.id}
-            onClick={() => changeSlide(index)}
+            onMouseEnter={() => changeSlide(index)}
             className={`${
               current === index ? "bg-primary-main" : "bg-primary-light"
-            } overflow-hidden border-4 border-primary-main aspect-square cursor-pointer rounded-2xl custom-transition hover:opacity-60 w-6/12 absolute 
+            } overflow-hidden border border-primary-main aspect-square cursor-pointer rounded-2xl custom-transition hover:opacity-60 w-6/12 absolute 
                ${
                  index === 0
                    ? "-top-[30%] md:top-[5%] bmlg:top-0 blgxl:-top-[12%]"
