@@ -1,15 +1,9 @@
 import React, { PureComponent } from "react";
-import {
-  PieChart,
-  Pie,
-  Sector,
-  ResponsiveContainer,
-  Cell,
-} from "recharts";
+import { PieChart, Pie, Sector, ResponsiveContainer, Cell } from "recharts";
 import { orderStatusColor } from "../dashboard-page-content";
 import { StatusPercentage } from "../../../../../../../next-type-models";
 
-const renderActiveShape = (props:any) => {
+const renderActiveShape = (props: any) => {
   const RADIAN = Math.PI / 180;
   const {
     cx,
@@ -35,7 +29,7 @@ const renderActiveShape = (props:any) => {
   const textAnchor = cos >= 0 ? "start" : "end";
 
   return (
-    <g direction={'ltr'}>
+    <g direction={"ltr"}>
       <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
         {payload.name}
       </text>
@@ -99,7 +93,7 @@ class OrdersStatusPieChart extends PureComponent<
     };
   }
 
-  onPieEnter = (_:any, index: number) => {
+  onPieEnter = (_: any, index: number) => {
     this.setState({
       activeIndex: index,
     });
@@ -110,54 +104,62 @@ class OrdersStatusPieChart extends PureComponent<
     return (
       <div className="p-3 mb-8">
         <h3 className="text-bodyMain mb-2">وضعیت سفارش‌ها</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <PieChart>
-            <Pie
-              activeIndex={this.state.activeIndex}
-              activeShape={renderActiveShape}
-              data={data}
-              cx="50%"
-              cy="50%"
-              innerRadius={60}
-              outerRadius={80}
-              fill="#8884d8"
-              dataKey="percentage"
-              onMouseEnter={this.onPieEnter}
-            >
-              {data.map((entry, index) => {
-                // Determine the fill color based on the status
-                const fillColor = (() => {
-                  switch (entry.status) {
-                    case "جاری":
-                      return "#f59e0b"; // Yellow for "جاری"
-                    case "تحویل شده":
-                      return "#10b981"; // Green for "تحویل شده"
-                    case "مرجوع شده":
-                      return "#ef4444"; // Red for "مرجوع شده"
-                    default:
-                      return "#8884d8"; // Default color
-                  }
-                })();
+        {data.length > 0 ? (
+          <>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  activeIndex={this.state.activeIndex}
+                  activeShape={renderActiveShape}
+                  data={data}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="percentage"
+                  onMouseEnter={this.onPieEnter}
+                >
+                  {data.map((entry, index) => {
+                    // Determine the fill color based on the status
+                    const fillColor = (() => {
+                      switch (entry.status) {
+                        case "جاری":
+                          return "#f59e0b"; // Yellow for "جاری"
+                        case "تحویل شده":
+                          return "#10b981"; // Green for "تحویل شده"
+                        case "مرجوع شده":
+                          return "#ef4444"; // Red for "مرجوع شده"
+                        default:
+                          return "#8884d8"; // Default color
+                      }
+                    })();
 
-                return <Cell key={`cell-${index}`} fill={fillColor} />;
-              })}
-            </Pie>
-          </PieChart>
-        </ResponsiveContainer>
-        <div className="flex justify-between text-sm text-customGray-500">
-          {data.map((status) => (
-            <div key={status.status} className="flex items-center gap-1">
-              <span
-                className={`w-3 h-3 inline-block rounded-full bg-state-${orderStatusColor(
-                  status.status
-                )}`}
-              />
-              <span className="text-customGray-500 text-bodySmall">
-                {status.status}
-              </span>
+                    return <Cell key={`cell-${index}`} fill={fillColor} />;
+                  })}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="flex justify-between text-sm text-customGray-500">
+              {data.map((status) => (
+                <div key={status.status} className="flex items-center gap-1">
+                  <span
+                    className={`w-3 h-3 inline-block rounded-full bg-state-${orderStatusColor(
+                      status.status
+                    )}`}
+                  />
+                  <span className="text-customGray-500 text-bodySmall">
+                    {status.status}
+                  </span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        ) : (
+          <div className="flex-center bg-state-error-200 rounded-xl text-center text-bodySmall text-state-error py-5 px-3">
+            سفارشی موجود نیست.
+          </div>
+        )}
       </div>
     );
   }
