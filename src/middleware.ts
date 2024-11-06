@@ -2,9 +2,12 @@ import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(req: NextRequest) {
-
   // Get the token from the request
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET,secureCookie: true });
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+    secureCookie: true,
+  });
 
   // Define paths that need to be protected
   const profilePaths = ["/profile", "/shopping-cart"];
