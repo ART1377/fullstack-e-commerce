@@ -14,20 +14,6 @@ import { Color, Product } from "../../../../../../../next-type-models";
 import Tooltip from "@/app/components/tooltip/tooltip";
 import CloseIcon from "@/app/icons/close-icon";
 import CheckIcon from "@/app/icons/check-icon";
-import { motion } from "framer-motion";
-
-// Animation variants for left and right slide-in effects
-export const rowVariants = {
-  hidden: (isEven: boolean) => ({
-    opacity: 0,
-    x: isEven ? 50 : -50, // slide from right if even, from left if odd
-  }),
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.5 },
-  },
-};
 
 type Props = {
   product: Product;
@@ -63,11 +49,7 @@ const ProductTableRow = ({ product, index }: Props) => {
         selectedProductId={id}
         selectedProductName={title}
       />
-      <motion.tr
-        initial="hidden"
-        animate="visible"
-        variants={rowVariants}
-        custom={index % 2 === 0} 
+      <tr
         key={id}
         className={`border-b border-customGray-300 custom-transition ${
           index % 2 !== 0
@@ -157,7 +139,7 @@ const ProductTableRow = ({ product, index }: Props) => {
             </Tooltip>
           </div>
         </td>
-      </motion.tr>
+      </tr>
     </>
   );
 };

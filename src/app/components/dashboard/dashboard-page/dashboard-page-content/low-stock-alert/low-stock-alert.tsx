@@ -102,7 +102,7 @@ const LowStockAlert = ({ data }: Props) => {
           </table>
         </div>
       ) : (
-        <div className="flex-center bg-state-error-200 rounded-xl text-center text-bodySmall text-state-error py-5 px-3">
+        <div className="flex-center bg-state-error-200 rounded-xl text-center text-bodySmall text-state-error py-5 px-3 mx-3">
           محصولی با تعداد زیر 10 موجود نیست.
         </div>
       )}
