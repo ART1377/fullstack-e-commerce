@@ -143,7 +143,7 @@ export async function updateProduct(
       }
     }
 
-    const allImages: string[] = [...oldImages, ...uploadedImageUrls];
+    const allImages: string[] = [...uploadedImageUrls,...oldImages];
 
     // Update the product in the database
     const product = await db.product.update({
