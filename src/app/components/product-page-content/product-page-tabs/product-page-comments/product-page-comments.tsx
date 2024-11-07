@@ -1,20 +1,42 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Testimonial from "@/app/components/testimonial/testimonial";
 import ProductPageCommentsHeader from "./product-page-comments-header/product-page-comments-header";
 import CreateCommentModal from "./create-comment-modal/create-comment-modal";
-import { CommentWithAuthor } from "@/app/actions/comment-actions/get-comments-action";
+import {
+  CommentWithAuthor,
+  getComments,
+} from "@/app/actions/comment-actions/get-comments-action";
 import { COMMENTS_PER_PAGE } from "@/app/lib/values";
 import Button from "@/app/components/button/button";
 import { motion, AnimatePresence } from "framer-motion";
+import { getSortOptionValue } from "@/app/lib/get-sort-option-value";
+import { useSearchParams } from "next/navigation";
 
 type Props = {
-  comments: CommentWithAuthor[] | undefined;
-  commentsCount: number;
+  productId: string;
 };
 
-const ProductPageComments = ({ comments, commentsCount }: Props) => {
+const ProductPageComments = ({ productId }: Props) => {
+  const [comments, setComments] = useState<CommentWithAuthor[] | undefined>();
+
+  const searchParams = useSearchParams();
+
+  const sort = searchParams.get("sort");
+
+  useEffect(() => {
+    const sortOption = (sort && getSortOptionValue(sort)) || "newest"; // Default to "newest" if not provided
+
+    const getCommentsData = async () => {
+      const { comments } = await getComments(productId, sortOption);
+
+      setComments(comments);
+    };
+
+    getCommentsData();
+  }, [productId, sort]);
+
   const [visibleComments, setVisibleComments] = useState(COMMENTS_PER_PAGE);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -35,14 +57,16 @@ const ProductPageComments = ({ comments, commentsCount }: Props) => {
     }
   };
 
-  const hasMoreComments = commentsCount > visibleComments;
+  const hasMoreComments = comments?.length && comments.length > visibleComments;
 
   return (
     <>
       <CreateCommentModal />
-      {commentsCount > 0 && comments ? (
+      {comments?.length && comments.length > 0 && comments ? (
         <>
-          <ProductPageCommentsHeader commentsCount={commentsCount} />
+          <ProductPageCommentsHeader
+            commentsCount={comments?.length && comments.length}
+          />
           <div id="comments" ref={commentsRef} className="flex flex-col gap-4">
             <AnimatePresence>
               {comments.slice(0, visibleComments).map((comment) => (

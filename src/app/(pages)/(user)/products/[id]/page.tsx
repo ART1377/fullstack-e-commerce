@@ -33,13 +33,13 @@ export async function generateMetadata({
 }
 
 const ProductPage = async ({ params: { id } }: Props) => {
-
-  const { product } = await actions.getProductById(id);
+  const { product, commentsCount } = await actions.getProductById(id);
 
   // Get comments based on the selected sort option
-  const sortOption = "newest"; // Default to "newest" if not provided
+  // const sortOption =
+  //   (searchParams.sort && getSortOptionValue(searchParams.sort)) || "newest"; // Default to "newest" if not provided
 
-  const { comments } = await getComments(id, sortOption);
+  // const { comments } = await getComments(id, sortOption);
 
   if (!product) {
     notFound();
@@ -48,7 +48,7 @@ const ProductPage = async ({ params: { id } }: Props) => {
     <ProductPageContent
       product={product}
       productId={id}
-      comments={comments ? comments : undefined}
+      commentsCount={commentsCount ? commentsCount : 0}
     />
   );
 };

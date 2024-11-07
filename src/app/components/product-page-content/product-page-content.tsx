@@ -4,19 +4,16 @@ import ProductPageContentInformation from "./product-page-information/product-pa
 import ProductPageContentTabs from "./product-page-tabs/product-page-tabs";
 import ProductPageContentRelatedProducts from "./related-products/related-products";
 import { Product } from "../../../../next-type-models";
-import { CommentWithAuthor } from "@/app/actions/comment-actions/get-comments-action";
 import Spinner from "../spinner/spinner";
 
 type Props = {
   product: Product;
   productId: string;
-  comments: CommentWithAuthor[] | undefined;
+  commentsCount: number;
 };
 
-const ProductPageContent = ({ product, productId, comments }: Props) => {
+const ProductPageContent = ({ product, productId, commentsCount }: Props) => {
   const { images, title, description, features } = product;
-
-
 
   return (
     <section className="w-full mt-4 sm:mt-10">
@@ -26,17 +23,13 @@ const ProductPageContent = ({ product, productId, comments }: Props) => {
         {/* content - information */}
         <ProductPageContentInformation
           product={product!}
-          commentsCount={
-            comments?.length != undefined && comments?.length > 0
-              ? comments?.length
-              : 0
-          }
+          commentsCount={commentsCount}
         />
       </div>
       <ProductPageContentTabs
         description={description}
-        comments={comments!}
         features={features!}
+        productId={productId}
       />
       <Suspense
         fallback={
