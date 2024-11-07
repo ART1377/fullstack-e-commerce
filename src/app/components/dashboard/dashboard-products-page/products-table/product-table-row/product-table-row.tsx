@@ -20,11 +20,11 @@ import { motion } from "framer-motion";
 export const rowVariants = {
   hidden: (isEven: boolean) => ({
     opacity: 0,
-    y: isEven ? 20 : -20, // slide from right if even, from left if odd
+    x: isEven ? 50 : -50, // slide from right if even, from left if odd
   }),
   visible: {
     opacity: 1,
-    y: 0,
+    x: 0,
     transition: { duration: 0.5 },
   },
 };
