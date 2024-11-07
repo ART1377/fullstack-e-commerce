@@ -9,49 +9,51 @@ import Navbar from "./navbar/navbar";
 import HeaderSearchBar from "./header-search-bar/header-search-bar";
 import { motion } from "framer-motion";
 
+// Define animation variants with rotation and staggered delay
+export const rollingFromLeftVariants = {
+  hidden: { opacity: 0, x: -10, rotate: -180 }, // Start off-screen and rotated
+  visible: (i: number) => ({
+    opacity: 1,
+    x: 0,
+    rotate: 0, // Rotate to 0 degrees
+    transition: {
+      delay: i * 0.2, // Delay based on index
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  }),
+};
+
+export const rollingFromRightVariants = {
+  hidden: { opacity: 0, x: 10, rotate: 180 }, // Start off-screen and rotated
+  visible: {
+    opacity: 1,
+    x: 0,
+    rotate: 0, // Rotate to 0 degrees
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+
+export const topToBottomVariants = {
+  hidden: { opacity: 0, y: -40 }, // Start off-screen and rotated
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+
 type Props = {};
 
 const Header = (props: Props) => {
   const [isNavbarOpen, setIsNavbarOpen] = useState<boolean>(false);
   const [searchInput, setSearchInput] = useState<string>("");
-
-  // Define animation variants with rotation and staggered delay
-  const rollingFromLeftVariants = {
-    hidden: { opacity: 0, x: -10, rotate: -180 }, // Start off-screen and rotated
-    visible: (i: number) => ({
-      opacity: 1,
-      x: 0,
-      rotate: 0, // Rotate to 0 degrees
-      transition: {
-        delay: i * 0.2, // Delay based on index
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    }),
-  };
-  const rollingFromRightVariants = {
-    hidden: { opacity: 0, x: 10, rotate: 180 }, // Start off-screen and rotated
-    visible: {
-      opacity: 1,
-      x: 0,
-      rotate: 0, // Rotate to 0 degrees
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    },
-  };
-  const topToBottomVariants = {
-    hidden: { opacity: 0, y: -40 }, // Start off-screen and rotated
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    },
-  };
 
   return (
     <>

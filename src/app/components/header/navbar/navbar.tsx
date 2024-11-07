@@ -49,32 +49,35 @@ const navbarItems: NavbarItemType[] = [
   },
 ];
 
+export const navItemVariants = {
+  hidden: { opacity: 0, y: -20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.2,
+      duration: 0.3,
+    },
+  }),
+};
+
+// Define animation variants for the navbar container
+export const navVariants = {
+  hidden: { x: "100%" }, // Start off-screen to the left
+  visible: {
+    x: 0, // Slide in from left
+    transition: { duration: 0.3 },
+  },
+  exit: { x: "100%", transition: { duration: 0.3 } }, // Slide out to left
+};
+
 const Navbar = ({ isNavbarOpen, setIsNavbarOpen }: Props) => {
   // Define animation variants for individual items
-  const itemVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.2,
-        duration: 0.3,
-      },
-    }),
-  };
-
-  // Define animation variants for the navbar container
-  const navVariants = {
-    hidden: { x: "100%" }, // Start off-screen to the left
-    visible: {
-      x: 0, // Slide in from left
-      transition: { duration: 0.3 },
-    },
-    exit: { x: "100%", transition: { duration: 0.3 } }, // Slide out to left
-  };
 
   return (
     <>
+      {/* mobile size */}
+
       <AnimatePresence>
         {isNavbarOpen && (
           <motion.nav
@@ -95,7 +98,7 @@ const Navbar = ({ isNavbarOpen, setIsNavbarOpen }: Props) => {
                       initial="hidden"
                       animate="visible"
                       exit="hidden"
-                      variants={itemVariants}
+                      variants={navItemVariants}
                     >
                       <NavbarItem
                         key={nav.title}
@@ -117,6 +120,7 @@ const Navbar = ({ isNavbarOpen, setIsNavbarOpen }: Props) => {
         )}
       </AnimatePresence>
 
+      {/* desktop size */}
       <AnimatePresence>
         <motion.nav
           key="navbar"
@@ -136,7 +140,7 @@ const Navbar = ({ isNavbarOpen, setIsNavbarOpen }: Props) => {
                     initial="hidden"
                     animate="visible"
                     exit="hidden"
-                    variants={itemVariants}
+                    variants={navItemVariants}
                   >
                     <NavbarItem
                       key={nav.title}

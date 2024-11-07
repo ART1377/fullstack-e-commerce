@@ -10,6 +10,8 @@ import { formatPrice } from "@/app/lib/format-price";
 import { User } from "../../../../../../../next-type-models";
 import { formatToJalali } from "@/app/lib/date-format";
 import Tooltip from "@/app/components/tooltip/tooltip";
+import { motion } from "framer-motion";
+import { rowVariants } from "../../../dashboard-products-page/products-table/product-table-row/product-table-row";
 
 type Props = {
   user: User;
@@ -36,7 +38,11 @@ const UsersTableRow = ({ user, index }: Props) => {
         selectedUserId={id}
         selectedUserName={`${firstName} ${lastName}`}
       />
-      <tr
+      <motion.tr
+        initial="hidden"
+        animate="visible"
+        variants={rowVariants}
+        custom={index % 2 === 0}
         key={id}
         className={`border-b border-customGray-300 custom-transition ${
           index % 2 !== 0
@@ -83,7 +89,7 @@ const UsersTableRow = ({ user, index }: Props) => {
             </div>
           </Tooltip>
         </td>
-      </tr>
+      </motion.tr>
     </>
   );
 };
