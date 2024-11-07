@@ -32,13 +32,12 @@ export async function generateMetadata({
   };
 }
 
-const ProductPage = async ({ params: { id }, searchParams }: Props) => {
+const ProductPage = async ({ params: { id } }: Props) => {
 
   const { product } = await actions.getProductById(id);
 
   // Get comments based on the selected sort option
-  const sortOption =
-    (searchParams.sort && getSortOptionValue(searchParams.sort)) || "newest"; // Default to "newest" if not provided
+  const sortOption = "newest"; // Default to "newest" if not provided
 
   const { comments } = await getComments(id, sortOption);
 
