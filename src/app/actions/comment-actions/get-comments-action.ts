@@ -18,6 +18,9 @@ export type CommentWithAuthor = {
     firstName: string;
     lastName: string;
   };
+  product: {
+    id: string;
+  };
   likeCount: number;
   dislikeCount: number;
   children?: CommentWithAuthor[]; // For recursive comments
@@ -39,6 +42,11 @@ async function fetchCommentsWithChildren(
           image: true,
           firstName: true,
           lastName: true,
+        },
+      },
+      product: {
+        select: {
+          id: true,
         },
       },
       likes: {
@@ -79,12 +87,10 @@ async function fetchCommentsWithChildren(
   return processedComments;
 }
 
-
 export const getComments = async (
   productId: string,
   sort?: string
 ): Promise<GetCommentsResponse> => {
-
   try {
     const comments = await fetchCommentsWithChildren(
       productId,

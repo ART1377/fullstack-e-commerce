@@ -8,6 +8,11 @@ import PersonIcon from "@/app/icons/person-icon";
 import { useSessionContext } from "@/app/context/useSessionContext";
 import LikeDislikeOperations from "./like-dislike-operations/like-dislike-operations";
 import CreateCommentModal from "../product-page-content/product-page-tabs/product-page-comments/create-comment-modal/create-comment-modal";
+import * as actions from "@/app/actions/comment-actions/comment-actions";
+import toast from "react-hot-toast";
+import DeleteIcon from "@/app/icons/delete-icon";
+import OperationIcon from "../operation-icon/operation-icon";
+import Tooltip from "../tooltip/tooltip";
 
 type Props = {
   comment: CommentWithAuthor;
@@ -31,21 +36,62 @@ const Testimonial = ({ comment, depth = 0 }: Props) => {
   const { session } = useSessionContext();
 
   const userId = session && session.user ? session.user.id : undefined;
+  const isAdmin =
+    session && session.user && session.user.role === "admin"
+      ? session.user.role
+      : undefined;
+
+  const handleDelete = async () => {
+    if (!isAdmin) {
+      toast.error("ابتدا به عنوان ادمین وارد سایت شوید");
+      return;
+    }
+    // Show loading toast
+    const loadingToastId = toast.loading("در حال حذف پیام...");
+
+    try {
+      const response = await actions.deleteCommentById(id, comment.product.id);
+      // Dismiss the loading toast
+      toast.dismiss(loadingToastId);
+
+      if (response.success) {
+        // Show success toast
+        toast.success("پیام با موفقیت حذف شد.");
+      } else {
+        // Show error toast
+        toast.error(`خطا: ${response.error}`);
+      }
+    } catch (error) {
+      // Dismiss loading toast on error
+      toast.dismiss(loadingToastId);
+      toast.error("خطا در حذف پیام. لطفا دوباره تلاش کنید.");
+    }
+  };
 
   return (
     <>
       <div
-        className={`rounded-xl shadow bg-white flex flex-col justify-center pt-2 pb-3 mb-4 custom-transition hover:shadow-none`}
+        className={`relative rounded-xl shadow bg-white flex flex-col justify-center pt-2 pb-3 mb-4 custom-transition hover:shadow-none`}
         style={{ marginRight: depth < 3 ? depth * 20 : 40 }}
       >
-        {/* rating */}
-          <div className="w-full flex-center gap-3">
-            <div className="bg-customGray-200 h-px min-w-14 w-[calc(40%-100px)]"></div>
-            <div className="text-primary-main">
-              {user.firstName} {user.lastName}
-            </div>
-            <div className="bg-customGray-200 h-px min-w-14 w-[calc(40%-100px)]"></div>
+        {/* delete */}
+        {isAdmin && (
+          <div onClick={handleDelete} className="absolute -top-3 -left-1 z-[2]">
+            <Tooltip color="state-error" position="right" content="حذف پیام">
+              <OperationIcon color="error">
+                <DeleteIcon styles="size-6" />
+              </OperationIcon>
+            </Tooltip>
           </div>
+        )}
+        {/* author */}
+        <div className="w-full flex-center gap-3">
+          <div className="bg-customGray-200 h-px min-w-14 w-[calc(40%-100px)]"></div>
+          <div className="text-primary-main">
+            {user.firstName} {user.lastName}
+          </div>
+          <div className="bg-customGray-200 h-px min-w-14 w-[calc(40%-100px)]"></div>
+        </div>
         {/* image and comment content */}
         <div className="flex flex-col items-center gap-y-8 mt-8 sm:flex-row sm:gap-x-10">
           {/* images */}

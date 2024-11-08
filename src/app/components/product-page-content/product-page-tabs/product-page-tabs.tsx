@@ -7,13 +7,15 @@ import ProductPageContentFeatures from "./product-page-features/product-page-fea
 import TabItems from "../../tab-items/tab-items";
 import ProductPageContentLongDescription from "./product-page-long-description/product-page-long-description";
 import { Feature } from "../../../../../next-type-models";
+import { CommentWithAuthor } from "@/app/actions/comment-actions/get-comments-action";
+
 
 const tabItems: string[] = ["معرفی", "مشخصات", "دیدگاه ها"];
 
 type Props = {
   description: string;
   features: Feature[];
-  productId: string;
+  comments: CommentWithAuthor[] | undefined;
 };
 
 // Define unique variants for each tab
@@ -35,7 +37,7 @@ const tabVariants = {
   },
 };
 
-const ProductPageTabs = ({ description, features, productId }: Props) => {
+const ProductPageTabs = ({ description, features, comments }: Props) => {
   const [currentTab, setCurrentTab] = useState<string>(tabItems[0]);
 
   // Determine the variant based on the current tab
@@ -95,7 +97,14 @@ const ProductPageTabs = ({ description, features, productId }: Props) => {
             exit="exit"
             transition={{ duration: 0.3 }}
           >
-            <ProductPageContentComments productId={productId} />
+            <ProductPageContentComments
+              comments={comments}
+              commentsCount={
+                comments?.length != undefined && comments?.length > 0
+                  ? comments?.length
+                  : 0
+              }
+            />{" "}
           </motion.div>
         )}
       </AnimatePresence>

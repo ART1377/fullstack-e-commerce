@@ -345,3 +345,6 @@ input[type="range"].range-max::-moz-range-thumb {
 .hover\:bg-state-warning-200:hover {
     background-color: var(--state-warning-200);
 }
+.hover\:text-primary-light:hover {
+    color: var(--primary-light);
+}

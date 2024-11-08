@@ -4,15 +4,16 @@ import { db } from "../../db/db";
 import { revalidatePath } from "next/cache";
 import { auth } from "../../auth";
 
-// delete notification by id
-interface DeleteNotificationByIdState {
+// delete comment by id
+interface DeleteCommentByIdState {
   error?: string;
   success?: boolean;
 }
 
-export async function deleteNotificationById(
-  notificationId: string
-): Promise<DeleteNotificationByIdState> {
+export async function deleteCommentById(
+  commentId: string,
+  productId: string,
+): Promise<DeleteCommentByIdState> {
   // check if user is logged in
   const session = await auth();
   if (!session || !session.user) {
@@ -25,12 +26,12 @@ export async function deleteNotificationById(
   }
 
   try {
-    // Query the notification by ID, including related features, stock, and images
-    await db.notification.delete({
-      where: { id: notificationId },
+    // delete the comment by ID
+    await db.comment.delete({
+      where: { id: commentId },
     });
 
-    revalidatePath("/dashboard/notifications");
+    revalidatePath(`/products/${productId}`);
 
     return {
       success: true,

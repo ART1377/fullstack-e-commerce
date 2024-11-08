@@ -5,14 +5,15 @@ import ProductPageContentTabs from "./product-page-tabs/product-page-tabs";
 import ProductPageContentRelatedProducts from "./related-products/related-products";
 import { Product } from "../../../../next-type-models";
 import Spinner from "../spinner/spinner";
+import { CommentWithAuthor } from "@/app/actions/comment-actions/get-comments-action";
 
 type Props = {
   product: Product;
   productId: string;
-  commentsCount: number;
+  comments: CommentWithAuthor[] | undefined;
 };
 
-const ProductPageContent = ({ product, productId, commentsCount }: Props) => {
+const ProductPageContent = ({ product, productId, comments }: Props) => {
   const { images, title, description, features } = product;
 
   return (
@@ -23,13 +24,17 @@ const ProductPageContent = ({ product, productId, commentsCount }: Props) => {
         {/* content - information */}
         <ProductPageContentInformation
           product={product!}
-          commentsCount={commentsCount}
+          commentsCount={
+            comments?.length != undefined && comments?.length > 0
+              ? comments?.length
+              : 0
+          }
         />
       </div>
       <ProductPageContentTabs
         description={description}
         features={features!}
-        productId={productId}
+        comments={comments!}
       />
       <Suspense
         fallback={

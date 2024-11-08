@@ -5,7 +5,10 @@ import type { Metadata } from "next";
 import * as actions from "@/app/actions/product-actions/product-action";
 import { getComments } from "@/app/actions/comment-actions/comment-actions";
 import { getSortOptionValue } from "@/app/lib/get-sort-option-value";
-import { Product } from "../../../../../../next-type-models";
+
+
+export const revalidate = 3600;
+
 
 type Props = {
   params: {
@@ -32,14 +35,14 @@ export async function generateMetadata({
   };
 }
 
-const ProductPage = async ({ params: { id } }: Props) => {
-  const { product, commentsCount } = await actions.getProductById(id);
+const ProductPage = async ({ params: { id } ,searchParams}: Props) => {
+  const { product } = await actions.getProductById(id);
 
   // Get comments based on the selected sort option
-  // const sortOption =
-  //   (searchParams.sort && getSortOptionValue(searchParams.sort)) || "newest"; // Default to "newest" if not provided
+  const sortOption =
+    (searchParams.sort && getSortOptionValue(searchParams.sort)) || "newest"; // Default to "newest" if not provided
 
-  // const { comments } = await getComments(id, sortOption);
+  const { comments } = await getComments(id, sortOption);
 
   if (!product) {
     notFound();
@@ -48,19 +51,19 @@ const ProductPage = async ({ params: { id } }: Props) => {
     <ProductPageContent
       product={product}
       productId={id}
-      commentsCount={commentsCount ? commentsCount : 0}
+      comments={comments ? comments : undefined}
     />
   );
 };
 
 export default ProductPage;
 
-// Generate static paths (using the list of product IDs)
-export async function generateStaticParams() {
-  // Fetch all product IDs to generate paths for each
-  const { products } = await actions.getAllProducts();
+// // Generate static paths (using the list of product IDs)
+// export async function generateStaticParams() {
+//   // Fetch all product IDs to generate paths for each
+//   const { products } = await actions.getAllProducts();
 
-  return products?.map((product: Product) => ({
-    id: product.id,
-  }));
-}
+//   return products?.map((product: Product) => ({
+//     id: product.id,
+//   }));
+// }

@@ -91,7 +91,7 @@ const DashboardProductsPageHeader = ({ totalItems, filterColors }: Props) => {
         </div>
         {/* buttons */}
         <div className="flex flex-wrap gap-2 my-4">
-          <Tooltip color="primary-light" content="فیلترها">
+          <Tooltip color="primary-light" content="فیلترها" position="right">
             <button
               onClick={() => setIsModalOpen((prev) => !prev)}
               className="h-full bg-primary-200 rounded-xl px-3 py-1.5 flex-center text-center text-bodyMain text-primary-main custom-transition hover:bg-primary-300"
@@ -106,7 +106,7 @@ const DashboardProductsPageHeader = ({ totalItems, filterColors }: Props) => {
               <span className="hidden md:block">حذف فیلترها</span>
             </button>
           </Tooltip> */}
-          <Tooltip content="افزودن محصول">
+          <Tooltip content="افزودن محصول" position="right">
             <Link
               href={"/dashboard/products/add-product"}
               aria-label="add-product"

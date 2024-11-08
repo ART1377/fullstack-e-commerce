@@ -7,7 +7,6 @@ interface GetProductByIdState {
   success: boolean;
   error?: string;
   product?: Product; //need change
-  commentsCount?: number;
 }
 // Define a function to fetch a product by its ID
 export async function getProductById(
@@ -36,16 +35,10 @@ export async function getProductById(
       }; // Or you can throw an error or return a custom message
     }
 
-    // Fetch comments count separately
-    const commentsCount = await db.comment.count({
-      where: { productId },
-    });
-
     // Return the product data
     return {
       success: true,
       product,
-      commentsCount,
     };
   } catch (error) {
     // Handle any errors that occur during the query
