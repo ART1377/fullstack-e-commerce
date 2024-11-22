@@ -9,11 +9,11 @@ import { createAdminNotification } from "../notification-actions/create-notifica
 const createCommentSchema = z.object({
   title: z
     .string()
-    .min(3, "عنوان باید حداقل ۳ حرف باشد")
+    .min(1, "عنوان باید وارد شود")
     .max(50, "عنوان نمی‌تواند بیشتر از ۵۰ حرف باشد"),
   description: z
     .string()
-    .min(10, "توضیحات باید حداقل ۱۰ حرف باشد")
+    .min(1, "توضیحات باید وارد شود")
     .max(500, "توضیحات نمی‌تواند بیشتر از ۵۰۰ حرف باشد"),
   productId: z.string().uuid("شناسه محصول نامعتبر است"),
   parentId: z.string().uuid("شناسه والد نامعتبر است").optional(),
