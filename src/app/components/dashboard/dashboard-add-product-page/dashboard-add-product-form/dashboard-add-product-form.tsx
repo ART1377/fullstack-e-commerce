@@ -87,7 +87,7 @@ const DashboardAddProductForm = ({ colors }: Props) => {
   const [description, setDescription] = useState<string>("");
 
   const [stockItems, setStockItems] = useState<Stock[]>([]);
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string>("");
 
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
@@ -143,7 +143,7 @@ const DashboardAddProductForm = ({ colors }: Props) => {
 
   const handleColorSelection = (color: string) => {
     if (selectedColor === color) {
-      setSelectedColor(null);
+      setSelectedColor("");
     } else {
       setSelectedColor(color);
     }
@@ -184,7 +184,7 @@ const DashboardAddProductForm = ({ colors }: Props) => {
         errors: {},
       }); // Clear any errors
       // Clear inputs after adding/updating stock
-      setSelectedColor(null);
+      setSelectedColor("");
       setSelectedSize("");
       setQuantity(1);
     } else {
@@ -203,7 +203,7 @@ const DashboardAddProductForm = ({ colors }: Props) => {
           errors: {},
         }); // Clear any errors
         // Clear inputs after adding/updating stock
-        setSelectedColor(null);
+        setSelectedColor("");
         setSelectedSize("");
         setQuantity(1);
       }
@@ -221,7 +221,7 @@ const DashboardAddProductForm = ({ colors }: Props) => {
 
   const handleCategoryChange = (selectedSort: string | null) => {
     setCategory(selectedSort);
-    setSelectedColor(null);
+    setSelectedColor("");
     setSelectedSize("");
     setQuantity(1);
     setStockError({
