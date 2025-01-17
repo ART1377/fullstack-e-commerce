@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Fullstack E-Commerce",
-    short_name: "E-Commerce",
-    description: "A Progressive Web App built with Next.js",
+    name: "هامتو سیتی",
+    short_name: "هامتو سیتی",
+    description: "فروشگاه لوازم کوهنوردی هامتو",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",
