@@ -92,28 +92,43 @@ const ProductPageInformation = ({ product, commentsCount }: Props) => {
 
   const [quantity, setQuantity] = useState(cartItem?.quantity || 1);
 
-  useEffect(() => {
-    if (session && session.user && userId) {
-      const cartItemData = cartItems.find(
-        (item) => item.productId === id && item.stockId === selectedStockId
-      );
+//  useEffect(() => {
+//    if (session && session.user && userId) {
+//      const cartItemData = cartItems.find(
+//        (item) => item.productId === id && item.stockId === selectedStockId
+//      );
 
-      if (cartItemData) {
-        setCartItem(cartItemData);
-        setQuantity(cartItemData.quantity!);
-      } else {
-        setCartItem(null);
-      }
-    }
-  }, [
-    cartItems,
-    id,
-    selectedColor,
-    selectedSize,
-    selectedStockId,
-    session,
-    userId,
-  ]);
+//      if (cartItemData) {
+//        setCartItem(cartItemData);
+//        setQuantity(cartItemData.quantity!);
+//      } else {
+//        setCartItem(null);
+//      }
+//    }
+//  }, [
+//    cartItems,
+//    id,
+//    selectedColor,
+//    selectedSize,
+//    selectedStockId,
+//    session,
+//    userId,
+//  ]);
+
+  // M FIXED: Delay cartItem lookup until selectedstockId is available
+useEffect(() =>
+if (userId &8 selectedstockId)
+const cartItemData = cartItens.find(
+(item) => item.productid == id && item.stockId == selectedstockId
+)
+if (cartItemData) f
+setCartItem(cartItemData):
+setQuantity(cartItemData.quantity!);
+else
+setCartItem(null):
+setQuantity(1):
+F
+J, [cartItems, selectedStockId, id, userId]); // updated dependencies
 
   useEffect(() => {
     if (session && session.user && userId) {
