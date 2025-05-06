@@ -120,15 +120,15 @@ useEffect(() =>
 if (userId &8 selectedstockId)
 const cartItemData = cartItens.find(
 (item) => item.productid == id && item.stockId == selectedstockId
-)
-if (cartItemData) f
+);
+if (cartItemData) {
 setCartItem(cartItemData):
 setQuantity(cartItemData.quantity!);
-else
+} else {
 setCartItem(null):
 setQuantity(1):
-F
-J, [cartItems, selectedStockId, id, userId]); // updated dependencies
+}
+}, [cartItems, selectedStockId, id, userId]); // updated dependencies
 
   useEffect(() => {
     if (session && session.user && userId) {
