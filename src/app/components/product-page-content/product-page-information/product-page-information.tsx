@@ -115,20 +115,22 @@ const ProductPageInformation = ({ product, commentsCount }: Props) => {
 //    userId,
 //  ]);
 
-  // M FIXED: Delay cartItem lookup until selectedstockId is available
-useEffect(() =>
-if (userId &8 selectedstockId)
-const cartItemData = cartItens.find(
-(item) => item.productid == id && item.stockId == selectedstockId
-);
-if (cartItemData) {
-setCartItem(cartItemData):
-setQuantity(cartItemData.quantity!);
-} else {
-setCartItem(null):
-setQuantity(1):
-}
-}, [cartItems, selectedStockId, id, userId]); // updated dependencies
+// ✅ FIXED: Delay cartItem lookup until selectedStockId is available
+useEffect(() => {
+  if (userId && selectedStockId) {
+    const cartItemData = cartItems.find(
+      (item) => item.productId === id && item.stockId === selectedStockId
+    );
+    if (cartItemData) {
+      setCartItem(cartItemData);
+      setQuantity(cartItemData.quantity!);
+    } else {
+      setCartItem(null);
+      // setQuantity(1);
+    }
+  }
+}, [cartItems, selectedStockId, id, userId]); // ✅ updated dependencies
+
 
   useEffect(() => {
     if (session && session.user && userId) {
